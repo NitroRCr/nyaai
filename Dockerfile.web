@@ -5,10 +5,11 @@ ARG OAUTH_PROVIDERS
 WORKDIR /app
 
 COPY bun.lock package.json ./
-RUN bun install && bun quasar prepare
+RUN bun install
 
 COPY . .
 
+RUN bun quasar prepare
 RUN bun run build:front
 RUN bun run build:admin
 
