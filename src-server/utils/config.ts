@@ -1,7 +1,7 @@
 export const FRONTEND_URL = process.env.FRONTEND_URL!
 export const DATABASE_URL = process.env.DATABASE_URL!
-export const OPENAI_BASE_URL = process.env.OPENAI_BASE_URL!
-export const OPENAI_API_KEY = process.env.OPENAI_API_KEY!
+export const OPENAI_BASE_URL = process.env.OPENAI_BASE_URL
+export const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 export const S3_ENDPOINT = process.env.S3_ENDPOINT!
 export const S3_REGION = process.env.S3_REGION!
 export const S3_BUCKET = process.env.S3_BUCKET!

@@ -10,7 +10,7 @@
 
 	@api path /api/*
 	handle @api {
-		reverse_proxy {env.BACKEND_URL}
+		reverse_proxy {env.SERVER_URL}
 	}
 
 	@zero_cache path /zero-cache
@@ -41,7 +41,7 @@
 
 	@api path /api/*
 	handle @api {
-		reverse_proxy {env.BACKEND_URL}
+		reverse_proxy {env.SERVER_URL}
 	}
 
 	@zero_cache path /zero-cache

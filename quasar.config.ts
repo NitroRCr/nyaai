@@ -6,7 +6,6 @@ import { fileURLToPath } from 'node:url'
 import { compression } from 'vite-plugin-compression2'
 import dotenv from 'dotenv'
 
-dotenv.config({ path: '.env.local' })
 dotenv.config()
 
 export default defineConfig((/* ctx */) => {
@@ -102,7 +101,7 @@ export default defineConfig((/* ctx */) => {
       port: 9015,
       proxy: {
         '/api': {
-          target: process.env.BACKEND_URL,
+          target: process.env.SERVER_URL,
         },
         '/zero-cache': {
           target: process.env.ZERO_CACHE_URL,

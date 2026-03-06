@@ -12,8 +12,6 @@ RUN bun run build:admin
 
 FROM caddy:2-alpine AS runner
 
-ENV BACKEND_URL=backend:3000
-
 WORKDIR /srv
 
 COPY --from=builder /app/dist/pwa   ./front

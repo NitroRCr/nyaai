@@ -58,11 +58,11 @@ async function logUsage({ workspaceId, userId, model, inputTokens, outputTokens 
 }
 
 function fetchUpstream(body: object) {
-  return fetch(`${OPENAI_BASE_URL}/chat/completions`, {
+  return fetch(`${OPENAI_BASE_URL!}/chat/completions`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${OPENAI_API_KEY}`,
+      Authorization: `Bearer ${OPENAI_API_KEY!}`,
     },
     body: JSON.stringify(body),
   })
