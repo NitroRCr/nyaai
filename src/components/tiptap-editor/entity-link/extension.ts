@@ -1,5 +1,4 @@
-import { Node } from '@tiptap/core'
-import { VueNodeViewRenderer } from '@tiptap/vue-3'
+import { Node, VueNodeViewRenderer } from '@tiptap/vue-3'
 import EntityLinkWrapper from './EntityLinkWrapper.vue'
 
 export const EntityLink = Node.create({
