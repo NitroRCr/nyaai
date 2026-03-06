@@ -90,7 +90,6 @@ export default defineConfig((/* ctx */) => {
       },
       env: {
         OAUTH_PROVIDERS: process.env.OAUTH_PROVIDERS,
-        MAX_WORKSPACES_PER_USER: process.env.MAX_WORKSPACES_PER_USER,
       },
     },
 

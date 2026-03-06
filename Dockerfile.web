@@ -1,5 +1,7 @@
 FROM oven/bun:1-slim AS builder
 
+ARG OAUTH_PROVIDERS
+
 WORKDIR /app
 
 COPY bun.lock package.json ./
