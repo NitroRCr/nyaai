@@ -175,7 +175,7 @@ import { mutators } from 'app/src-shared/mutators'
 import { useWorkspaceStore } from 'src/stores/workspace'
 import { entityAvatar, entityName } from 'src/utils/defaults'
 import { useActiveEntitiesStore } from 'src/stores/active-entities'
-import type { EntityListOptions, EntityStart } from 'app/src-shared/utils/validators'
+import type { Avatar, EntityListOptions, EntityStart } from 'app/src-shared/utils/validators'
 import EntityListOptionsBtn from './EntityListOptionsBtn.vue'
 import SelectDirDialog from './SelectDirDialog.vue'
 import PickAvatarDialog from './PickAvatarDialog.vue'
@@ -399,13 +399,19 @@ function editShortcut(id: string) {
   })
 }
 function changeIcon() {
+  const entity = selectedOne.value!
   $q.dialog({
     component: PickAvatarDialog,
     componentProps: {
       defaultTab: 'icon',
-      model: entityAvatar(selectedOne.value),
-      parentId: selectedOne.value!.id,
+      model: entityAvatar(entity),
+      parentId: entity.id,
     },
+  }).onOk((avatar: Avatar) => {
+    mutate(mutators.updateEntity({
+      id: entity.id,
+      avatar,
+    }))
   })
 }
 </script>

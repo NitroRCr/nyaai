@@ -1,13 +1,12 @@
 <template>
   <q-select
-    v-model="modelId"
+    :model-value="options.find(x => x.value === modelId) ?? modelId"
+    @update:model-value="modelId = $event.value"
     :options="filteredOptions"
     @filter="filterFn"
     use-input
     hide-selected
     fill-input
-    emit-value
-    map-options
     :input-debounce="0"
   >
     <template #option="{ opt: { label, caption, avatar }, itemProps }">

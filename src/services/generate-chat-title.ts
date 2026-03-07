@@ -16,12 +16,21 @@ export async function generateChatTitle({ chat, model }: {
   const chain = getChatChain(chat)
   const messages = chain.slice(1, -1).map(id => messageMap[id])
   const prompt = await engine.parseAndRender(ChatTitlePrompt, { messages })
-  const { text: name } = await generateText({
+  const { text } = await generateText({
     model: toSdkModel(model),
     prompt,
   })
-  await mutate(mutators.updateEntity({
-    id: chat.id,
-    name,
-  })).client
+  const [emoji, title] = text.split(' ', 2)
+  if (emoji.length === 2) {
+    await mutate(mutators.updateEntity({
+      id: chat.id,
+      name: title,
+      avatar: { type: 'text', text: emoji },
+    })).client
+  } else {
+    await mutate(mutators.updateEntity({
+      id: chat.id,
+      name: text,
+    })).client
+  }
 }

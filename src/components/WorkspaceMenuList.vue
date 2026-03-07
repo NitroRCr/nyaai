@@ -136,6 +136,7 @@ function signOut() {
     },
   }).onOk(() => {
     authClient.signOut()
+    workspaceStore.id = null
     router.push('/auth/sign-in')
   })
 }
