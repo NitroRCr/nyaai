@@ -62,7 +62,8 @@ CREATE TABLE "globalSettings" (
 	"defaultSearchChatModel" varchar(16),
 	"freeModelReqLimit" integer NOT NULL,
 	"freeModelLimitWindow" integer NOT NULL,
-	"maxWorkspacesPerUser" integer NOT NULL
+	"maxWorkspacesPerUser" integer NOT NULL,
+	"oauthProviders" jsonb NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "item" (

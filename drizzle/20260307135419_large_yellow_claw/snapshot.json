@@ -1,7 +1,7 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "0b533e16-4b74-4f56-998d-47514c9f3a17",
+  "id": "6a2bb6af-6598-4b68-8010-89164744a70a",
   "prevIds": [
     "00000000-0000-0000-0000-000000000000"
   ],
@@ -771,6 +771,19 @@
       "generated": null,
       "identity": null,
       "name": "maxWorkspacesPerUser",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "globalSettings"
+    },
+    {
+      "type": "jsonb",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "oauthProviders",
       "entityType": "columns",
       "schema": "public",
       "table": "globalSettings"
