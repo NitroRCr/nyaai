@@ -16,7 +16,8 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 COPY --from=builder /app/dist/server .
+COPY ./drizzle ./drizzle
 
 EXPOSE 3000
 
-CMD ["bun", "index.js"]
+CMD ["bun", "index.js", "--migrate"]

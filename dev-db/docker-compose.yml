@@ -24,6 +24,7 @@ services:
       -c hot_standby_feedback=on
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ../initdb.d:/docker-entrypoint-initdb.d
   
 volumes:
   pgdata:

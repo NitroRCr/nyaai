@@ -1,4 +1,4 @@
-FROM imbios/bun-node:1-22-slim AS builder
+FROM imbios/bun-node:22-slim AS builder
 
 ARG OAUTH_PROVIDERS
 
