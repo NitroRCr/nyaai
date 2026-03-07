@@ -26,12 +26,12 @@ export const DefaultPerfs = {
   mdNoMermaid: false,
   mdAutoFoldThreshold: null as number | null,
   showWarnings: false,
-  expandReasoningContent: true,
+  expandReasoningContent: false,
   codePasteOptimize: true,
   sendMessageKey: { key: 'Enter', withCtrl: true } as ShortcutKey,
   navigationPanelShortcut: { key: 'KeyP', withCtrl: true } as ShortcutKey,
   autoFocusChatInput: true,
-  streamingLockBottom: true,
+  streamingLockBottom: false,
 }
 
 export type Perfs = typeof DefaultPerfs

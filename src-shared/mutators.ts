@@ -1318,6 +1318,11 @@ const createWorkspace = defineMutator(
         name: t('Default Assistant'),
       },
     })
+    tx.mutate.entityAccess.insert({
+      entityId: chatAssistantId,
+      userId: ctx.userId,
+      time: Date.now(),
+    })
   },
 )
 const joinWorkspace = defineMutator(

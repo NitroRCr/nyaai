@@ -131,7 +131,7 @@
         <div
           v-if="usage"
           my-2
-          ml-2
+          mx-2
         >
           <q-icon
             name="sym_o_generating_tokens"
@@ -335,6 +335,24 @@ const perfsStore = usePerfsStore()
 function lockBottom() {
   lockingBottom.value && scroll('bottom', 'auto')
 }
+let lastScrollTop: number | null
+function scrollListener() {
+  const container = scrollContainer.value!
+  if (container.scrollTop < lastScrollTop!) {
+    lockingBottom.value = false
+  }
+  lastScrollTop = container.scrollTop
+}
+watch(lockingBottom, val => {
+  if (!scrollContainer.value) return
+  if (val) {
+    lastScrollTop = scrollContainer.value.scrollTop
+    scrollContainer.value.addEventListener('scroll', scrollListener)
+  } else {
+    lastScrollTop = null
+    scrollContainer.value.removeEventListener('scroll', scrollListener)
+  }
+})
 function stream(params: {
   model: FullModel
   config: CompletionConfig
