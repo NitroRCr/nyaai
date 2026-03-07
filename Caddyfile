@@ -13,8 +13,7 @@
 		reverse_proxy {env.SERVER_URL}
 	}
 
-	@zero_cache path /zero-cache
-	handle_path @zero_cache {
+	handle_path /zero-cache {
 		reverse_proxy {env.ZERO_CACHE_URL}
 	}
 
@@ -44,8 +43,7 @@
 		reverse_proxy {env.SERVER_URL}
 	}
 
-	@zero_cache path /zero-cache
-	handle @zero_cache {
+	handle_path /zero-cache {
 		reverse_proxy {env.ZERO_CACHE_URL}
 	}
 
