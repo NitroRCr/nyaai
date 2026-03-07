@@ -29,7 +29,8 @@ services:
       dockerfile: Dockerfile.server
     environment:
       SITE_NAME: 'Nya AI'
-      FRONTEND_URL: update-this
+      FRONT_URL: update-this
+      ADMIN_URL: update-this
       BETTER_AUTH_SECRET: update-this
       DATABASE_URL: postgres://postgres:pass@pgbouncer:5432/app
       S3_ACCESS_KEY_ID: update-this

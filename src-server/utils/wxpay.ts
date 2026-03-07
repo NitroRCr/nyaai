@@ -1,5 +1,5 @@
 import ky from 'ky'
-import { FRONTEND_URL, WXPAY_KEY, WXPAY_PID, WXPAY_URL } from './config'
+import { FRONT_URL, WXPAY_KEY, WXPAY_PID, WXPAY_URL } from './config'
 
 export function getSign(paraList: Record<string, string>): string {
   const paraFilter: Record<string, string> = {}
@@ -34,7 +34,7 @@ export async function wxpayCheckout(params: PayParams): Promise<string> {
   const requestParams = {
     ...params,
     pid: WXPAY_PID!,
-    notify_url: `${FRONTEND_URL}/api/webhooks/wxpay`,
+    notify_url: `${FRONT_URL}/api/webhooks/wxpay`,
     device: 'jump',
     clientip: '192.168.1.100',
   }

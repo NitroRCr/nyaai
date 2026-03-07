@@ -11,7 +11,8 @@ import {
   GITHUB_CLIENT_SECRET,
   REQUIRE_EMAIL_VERIFICATION,
   SITE_NAME,
-  FRONTEND_URL,
+  FRONT_URL,
+  ADMIN_URL,
 } from '../utils/config'
 import { sendResetPassword, sendVerificationEmail } from './smtp'
 import { genId } from 'app/src-shared/utils/id'
@@ -32,7 +33,8 @@ if (GITHUB_CLIENT_ID && GITHUB_CLIENT_SECRET) {
 
 export const auth = betterAuth({
   appName: SITE_NAME,
-  baseURL: FRONTEND_URL,
+  baseURL: FRONT_URL,
+  trustedOrigins: [FRONT_URL, ADMIN_URL],
   database: drizzleAdapter(db, {
     provider: 'pg',
   }),

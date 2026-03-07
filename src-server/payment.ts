@@ -8,7 +8,7 @@ import { DEFAULT_PLAN_ID } from 'app/src-shared/utils/config'
 import { eq, type InferSelectModel } from 'drizzle-orm'
 import { order, workspace } from './schema'
 import { paymentProviderSchema, planIntervalSchema } from 'app/src-shared/utils/validators'
-import { FRONTEND_URL } from './utils/config'
+import { FRONT_URL } from './utils/config'
 import { genId } from 'app/src-shared/utils/id'
 import { wxpayCheckout } from './utils/wxpay'
 
@@ -27,8 +27,8 @@ async function requireCustomerId(ws: Workspace) {
   return customer.id
 }
 
-const successUrl = `${FRONTEND_URL}/workspace`
-const cancelUrl = `${FRONTEND_URL}/workspace/plans`
+const successUrl = `${FRONT_URL}/workspace`
+const cancelUrl = `${FRONT_URL}/workspace/plans`
 
 const app = new Hono()
   .post('/checkout',
@@ -119,7 +119,7 @@ const app = new Hono()
       const customerId = await requireCustomerId(workspace)
       const { url } = await stripe.billingPortal.sessions.create({
         customer: customerId,
-        return_url: `${FRONTEND_URL}/workspace`,
+        return_url: `${FRONT_URL}/workspace`,
       })
       return c.json({ url })
     },
