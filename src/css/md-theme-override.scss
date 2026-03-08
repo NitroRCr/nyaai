@@ -12,6 +12,9 @@ body {
       margin-bottom: 12px;
     }
 
+    --md-theme-color: var(--a-on-sur) !important;
+    --md-theme-heading-color: var(--a-on-sur) !important;
+
     --md-theme-quote-border: 4px solid var(--a-pri) !important;
     --md-theme-link-color: var(--a-pri) !important;
     --md-theme-link-hover-color: var(--a-pri-var) !important;

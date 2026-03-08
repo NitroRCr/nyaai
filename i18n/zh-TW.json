@@ -524,5 +524,19 @@
   "Learn more about features and usage tips": "了解更多功能和使用技巧",
   "GitHub": "GitHub",
   "View source code & report issues & star us": "查看原始程式碼並報告問題並為我們加註星標",
-  "Search the web...": "網上搜尋..."
+  "Search the web...": "網上搜尋...",
+  "MCP": "MCP",
+  "There are no published items. Right-click on the items in the right sidebar to publish it to the public internet.": "沒有已發布的項目。 右鍵單擊右側邊欄中的項目將其發佈到公共互聯網。",
+  "No items": "沒有商品",
+  "An error has occurred in the current connection.": "當前連線發生錯誤。",
+  "Global Settings": "全域設定",
+  "Default chat model": "預設聊天模式",
+  "Default chat title model": "預設聊天標題模型",
+  "Default translation model": "預設翻譯模型",
+  "Default search chat model": "預設搜尋聊天模型",
+  "Free model requests limit": "免費模型請求限制",
+  "Free model limit window": "自由模型限制窗口",
+  "Max workspaces per user": "每個使用者的最大工作空間",
+  "OAuth Providers": "OAuth 提供者",
+  "Failed to update settings: {0}": "無法更新設定：{0}"
 }
