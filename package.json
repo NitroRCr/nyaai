@@ -15,7 +15,7 @@
     "build:front": "TARGET_APP=front bun quasar build -m pwa",
     "build:admin": "TARGET_APP=admin bun quasar build",
     "build:server": "bun build src-server/index.ts --target bun --minify --sourcemap --outdir ./dist/server",
-    "dev:db-up": "sudo docker compose -f ./dev-db/docker-compose.yml up -d && sleep 3 && drizzle-kit push",
+    "dev:db-up": "sudo docker compose -f ./dev-db/docker-compose.yml up -d",
     "dev:db-down": "sudo docker compose -f ./dev-db/docker-compose.yml down",
     "dev:db-rm": "source .env && bun dev:db-down && sudo docker volume rm -f dev-db_pgdata && rm -rf \"${ZERO_REPLICA_FILE}\"*",
     "generate:auth": "bunx --bun auth@latest generate --config src-server/auth/auth.ts --output src-server/schema/auth.gen.ts -y",

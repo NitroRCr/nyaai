@@ -1,10 +1,10 @@
 {
+  "id": "9a3aa250-48a5-489c-838a-8f0f3f5ef9a7",
+  "prevIds": [
+    "2dc6343f-99cd-4f60-b00a-a4b7900f2608"
+  ],
   "version": "8",
   "dialect": "postgres",
-  "id": "6a2bb6af-6598-4b68-8010-89164744a70a",
-  "prevIds": [
-    "00000000-0000-0000-0000-000000000000"
-  ],
   "ddl": [
     {
       "isRlsEnabled": false,
@@ -3210,6 +3210,48 @@
       "nameExplicit": false,
       "columns": [
         {
+          "value": "sha256",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "blob_sha256_index",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "blob"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        {
+          "value": "refCount",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "blob_refCount_index",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "blob"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        {
           "value": "parentId",
           "isExpression": false,
           "asc": true,
@@ -3511,6 +3553,27 @@
       "nameExplicit": false,
       "columns": [
         {
+          "value": "planId",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "workspace_planId_index",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "workspace"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        {
           "value": "trashId",
           "isExpression": false,
           "asc": true,
@@ -3524,6 +3587,27 @@
       "method": "btree",
       "concurrently": false,
       "name": "workspace_trashId_index",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "workspace"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        {
+          "value": "resetAt",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "workspace_resetAt_index",
       "entityType": "indexes",
       "schema": "public",
       "table": "workspace"
@@ -4908,19 +4992,6 @@
       "schema": "public",
       "table": "verification",
       "entityType": "pks"
-    },
-    {
-      "nameExplicit": false,
-      "columns": [
-        "sha256",
-        "sha256Proof",
-        "size"
-      ],
-      "nullsNotDistinct": false,
-      "name": "blob_sha256_sha256Proof_size_unique",
-      "entityType": "uniques",
-      "schema": "public",
-      "table": "blob"
     },
     {
       "nameExplicit": false,

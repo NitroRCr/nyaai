@@ -15,8 +15,7 @@ CREATE TABLE "blob" (
 	"sha256" text NOT NULL,
 	"sha256Proof" text NOT NULL,
 	"size" bigint NOT NULL,
-	"refCount" integer NOT NULL,
-	CONSTRAINT "blob_sha256_sha256Proof_size_unique" UNIQUE("sha256","sha256Proof","size")
+	"refCount" integer NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "channel" (
@@ -338,6 +337,8 @@ CREATE TABLE "verification" (
 	"updated_at" timestamp NOT NULL
 );
 --> statement-breakpoint
+CREATE INDEX "blob_sha256_index" ON "blob" ("sha256");--> statement-breakpoint
+CREATE INDEX "blob_refCount_index" ON "blob" ("refCount");--> statement-breakpoint
 CREATE INDEX "entity_parentId_index" ON "entity" ("parentId");--> statement-breakpoint
 CREATE INDEX "entity_hidden_index" ON "entity" ("hidden");--> statement-breakpoint
 CREATE INDEX "entityAccess_userId_time_index" ON "entityAccess" ("userId","time" DESC NULLS LAST);--> statement-breakpoint
@@ -352,7 +353,9 @@ CREATE INDEX "toolCall_messageId_index" ON "toolCall" ("messageId");--> statemen
 CREATE INDEX "translationRecord_entityId_index" ON "translationRecord" ("entityId");--> statement-breakpoint
 CREATE INDEX "usage_workspaceId_index" ON "usage" ("workspaceId");--> statement-breakpoint
 CREATE INDEX "workspace_ownerId_index" ON "workspace" ("ownerId");--> statement-breakpoint
+CREATE INDEX "workspace_planId_index" ON "workspace" ("planId");--> statement-breakpoint
 CREATE INDEX "workspace_trashId_index" ON "workspace" ("trashId");--> statement-breakpoint
+CREATE INDEX "workspace_resetAt_index" ON "workspace" ("resetAt");--> statement-breakpoint
 CREATE INDEX "workspaceInvitation_workspaceId_index" ON "workspaceInvitation" ("workspaceId");--> statement-breakpoint
 CREATE INDEX "account_userId_idx" ON "account" ("user_id");--> statement-breakpoint
 CREATE INDEX "session_userId_idx" ON "session" ("user_id");--> statement-breakpoint

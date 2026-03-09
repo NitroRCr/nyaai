@@ -20,4 +20,4 @@ COPY ./drizzle ./drizzle
 
 EXPOSE 3000
 
-CMD ["bun", "index.js", "--migrate"]
+CMD ["bun", "index.js"]

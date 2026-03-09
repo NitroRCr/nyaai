@@ -6,8 +6,6 @@ import * as schema from '../schema'
 
 export const db = drizzle(DATABASE_URL, { schema, relations })
 
-if (process.argv.slice(2).includes('--migrate')) {
-  await migrate(db, {
-    migrationsFolder: 'drizzle',
-  })
-}
+await migrate(db, {
+  migrationsFolder: 'drizzle',
+})

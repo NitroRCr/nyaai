@@ -36,25 +36,4 @@ export async function seed() {
       baseURL: '/api/v1',
     },
   }).onConflictDoNothing()
-  // TODO: move to migrations
-  /* await db.insert(mergePatchesRule).values([
-    {
-      offset: timeMs('2h'),
-      period: timeMs('10m'),
-      gap: timeMs('1m'),
-      lastTime: Date.now(),
-    },
-    {
-      offset: timeMs('2d'),
-      period: timeMs('1d'),
-      gap: timeMs('1h'),
-      lastTime: Date.now(),
-    },
-    {
-      offset: timeMs('1M'),
-      period: timeMs('1w'),
-      gap: timeMs('1d'),
-      lastTime: Date.now(),
-    },
-  ]) */
 }
