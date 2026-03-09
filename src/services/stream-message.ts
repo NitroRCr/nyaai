@@ -16,6 +16,7 @@ import { base64ToUint8Array } from 'app/src-shared/utils/functions'
 import { t } from 'src/utils/i18n'
 import { modelInputTypes } from 'src/utils/defaults'
 import { parseText } from 'src/utils/file-parse'
+import { Notify } from 'quasar'
 
 export async function streamMessage(entityId: string, id: string, ...params: Parameters<typeof streamText>) {
   const result = streamText(...params)
@@ -49,6 +50,19 @@ export async function streamMessage(entityId: string, id: string, ...params: Par
       upload(itemId, blob, name)
     } else if (part.type === 'error') {
       mutate(mutators.updateAssistantMessage({ id, error: String(part.error) }))
+      if ((part.error as any).responseBody.includes('Quota exceeded')) {
+        Notify.create({
+          message: t('AI Quota Exceeded. Please upgrade your plan or switch to free models.'),
+          color: 'err-c',
+          textColor: 'on-err-c',
+          actions: [{
+            label: t('Upgrade Plan'),
+            noCaps: true,
+            to: '/workspace/plans',
+            color: 'on-sur',
+          }],
+        })
+      }
       throw part.error
     }
   }

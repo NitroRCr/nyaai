@@ -29,6 +29,7 @@ export const DefaultPerfs = {
   expandReasoningContent: false,
   codePasteOptimize: true,
   sendMessageKey: { key: 'Enter', withCtrl: true } as ShortcutKey,
+  translateKey: { key: 'Enter', withCtrl: true } as ShortcutKey,
   navigationPanelShortcut: { key: 'KeyP', withCtrl: true } as ShortcutKey,
   autoFocusChatInput: true,
   streamingLockBottom: false,

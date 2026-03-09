@@ -55,6 +55,7 @@
         class="flex-1"
         field-sizing-content
         important:min-h="200px"
+        @keydown.enter="onEnter"
       />
       <div
         flex-1
@@ -95,6 +96,8 @@ import { toSdkModel } from 'src/utils/model'
 import { engine } from 'src/utils/template-engine'
 import { computed, ref } from 'vue'
 import { z } from 'zod'
+import { usePerfsStore } from 'src/stores/perfs'
+import { shortcutKeyMatch } from 'src/utils/functions'
 
 const props = defineProps<{
   translation: FullTranslation
@@ -206,4 +209,14 @@ function update(updates: Partial<Row['translationRecord']>) {
     ...updates,
   }))
 }
+
+const perfsStore = usePerfsStore()
+function onEnter(ev: KeyboardEvent) {
+  if (currentRecord.value.output) return
+  if (shortcutKeyMatch(perfsStore.perfs.translateKey, ev)) {
+    ev.preventDefault()
+    translate()
+  }
+}
+
 </script>

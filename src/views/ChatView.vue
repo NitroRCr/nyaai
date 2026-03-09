@@ -316,6 +316,9 @@ async function send() {
     aProps: { id: genId(), assistantId: assistant.value?.id, sentAt: Date.now() },
     uProps: { id: genId() },
   })).client
+  nextTick(() => {
+    scroll('bottom')
+  })
   const { promise } = stream(params)
   if (chain.value.length === 4) {
     promise.then(generateTitle)

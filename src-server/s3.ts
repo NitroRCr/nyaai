@@ -120,7 +120,7 @@ const app = new Hono()
         sha256,
         sha256Proof,
         size: contentLength,
-        refCount: 1,
+        refCount: 0,
       })
       await tx.update(schema.item).set({
         blobId,

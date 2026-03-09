@@ -9,6 +9,7 @@ import admin from './admin'
 import payment from './payment'
 import searxng from './searxng'
 import { initJobs } from './jobs'
+import { sizeBytes } from 'app/src-shared/utils/functions'
 
 seed()
 initJobs()
@@ -23,6 +24,9 @@ export const app = new Hono().basePath('/api')
   .route('/payment', payment)
   .route('/searxng', searxng)
 
-export default app
+export default {
+  fetch: app.fetch,
+  maxRequestBodySize: sizeBytes('5G'),
+}
 
 export type AppType = typeof app
