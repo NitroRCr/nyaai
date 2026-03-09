@@ -8,8 +8,10 @@ import { base64ToUint8Array, uint8ArrayToBase64 } from '../../src-shared/utils/f
 export async function mergePatches() {
   const rules = await db.select().from(mergePatchesRule)
   for (const { id, offset, interval, gap, lastTime } of rules) {
-    const time = lastTime + interval
-    if (Date.now() > time) {
+    let time = lastTime
+    while (true) {
+      time += interval
+      if (Date.now() <= time) break
       await runMerge({ offset, interval, gap, time })
       await db.update(mergePatchesRule)
         .set({ lastTime: time })

@@ -272,7 +272,20 @@ export const queries = defineQueries({
     z.string(),
     ({ ctx, args: workspaceId }) => {
       return withReadable(
-        zql.translation.where('rootId', workspaceId).orderBy('id', 'desc').limit(20),
+        zql.translation.where('rootId', workspaceId).related('records').orderBy('id', 'desc').limit(20),
+        ctx.userId,
+      )
+    },
+  ),
+  recentItems: defineQuery(
+    z.string(),
+    ({ ctx, args: workspaceId }) => {
+      return withReadable(
+        zql.item
+          .where('rootId', workspaceId)
+          .related('blob')
+          .orderBy('id', 'desc')
+          .limit(20),
         ctx.userId,
       )
     },

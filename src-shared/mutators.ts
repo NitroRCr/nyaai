@@ -987,7 +987,6 @@ const updateModel = defineMutator(
 const updateChat = defineMutator(
   updateSchema(tables.chat).pick({
     id: true,
-    assistantId: true,
     modelId: true,
   }).extend({
     plugins: z.array(z.string()).optional(),
@@ -1105,7 +1104,7 @@ const deleteMessageEntity = defineMutator(
 
 const createWorkspace = defineMutator(
   z.object({
-    ids: z.array(z.string()).length(21),
+    ids: z.array(z.string()).length(23),
     name: z.string(),
   }),
   async ({ tx, ctx, args: { ids, name } }) => {
@@ -1140,21 +1139,23 @@ const createWorkspace = defineMutator(
     })
 
     const [
-      searchFolderId,
       chatFolderId,
-      providersFolderId,
+      searchFolderId,
       pagesFolderId,
       translationsFolderId,
       channelsFolderId,
+      filesFolderId,
       assistantsFolderId,
+      providersFolderId,
       pluginsFolderId,
       shortcutsFolderId,
-    ] = ids.slice(3, 12)
+    ] = ids.slice(3, 13)
     const folderProps = {
       ...entityDefaultProps,
       parentId: id,
       rootId: id,
       type: 'folder' as const,
+      sortPriority: 10,
     }
     const t = withLocale(ctx.locale)
     await tx.mutate.entity.insert({
@@ -1192,6 +1193,11 @@ const createWorkspace = defineMutator(
     })
     await tx.mutate.entity.insert({
       ...folderProps,
+      id: filesFolderId,
+      name: t('Files'),
+    })
+    await tx.mutate.entity.insert({
+      ...folderProps,
       id: assistantsFolderId,
       name: t('Assistants'),
     })
@@ -1212,10 +1218,11 @@ const createWorkspace = defineMutator(
       pageShortcutId,
       translationShortcutId,
       channelShortcutId,
+      fileShortcutId,
       assistantShortcutId,
       pluginShortcutId,
       providersShortcutId,
-    ] = ids.slice(12, 20)
+    ] = ids.slice(13, 22)
     await createShortcutBase(tx, id, null, {
       id: chatShortcutId,
       parentId: shortcutsFolderId,
@@ -1262,6 +1269,15 @@ const createWorkspace = defineMutator(
       action: 'openLast',
     })
     await createShortcutBase(tx, id, null, {
+      id: fileShortcutId,
+      parentId: shortcutsFolderId,
+      name: t('Files'),
+      dirId: filesFolderId,
+      avatar: { type: 'icon', icon: 'sym_o_files' },
+      type: 'item',
+      action: 'createNew',
+    })
+    await createShortcutBase(tx, id, null, {
       id: assistantShortcutId,
       parentId: shortcutsFolderId,
       name: t('Assistants'),
@@ -1300,7 +1316,7 @@ const createWorkspace = defineMutator(
       perfs: {},
       defaultLeftDirId: shortcutsFolderId,
     })
-    const [memberId] = ids.slice(20, 21)
+    const [memberId] = ids.slice(22, 23)
     await tx.mutate.member.insert({
       id: memberId,
       workspaceId: id,

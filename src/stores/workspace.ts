@@ -25,11 +25,13 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     if (!id.value) return
     z.preload(queries.models(id.value))
     z.preload(queries.entity({ id: id.value, children: { depth: 3 } }))
+    z.preload(queries.entityAccesses(id.value))
     z.preload(queries.recentChats(id.value))
     z.preload(queries.recentChannels(id.value))
     z.preload(queries.recentPages(id.value))
     z.preload(queries.recentTranslations(id.value))
     z.preload(queries.recentSearches(id.value))
+    z.preload(queries.recentItems(id.value))
   })
 
   async function updateData(updates: Partial<MemberData>) {

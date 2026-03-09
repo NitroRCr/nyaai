@@ -73,9 +73,13 @@ import type { Row } from '@rocicorp/zero'
 import { useLocalEntitiesStore } from 'src/stores/local-entities'
 import { useRouter } from 'vue-router'
 
+const props = defineProps<{
+  defaultType?: EntityType
+}>()
+
 const args = reactive({
   query: '',
-  type: null as EntityType | null,
+  type: props.defaultType ?? null,
 })
 
 const workspaceStore = useWorkspaceStore()

@@ -215,10 +215,7 @@ async function download() {
   if (cached) {
     exportFile(name, cached)
   } else {
-    const a = document.createElement('a')
-    a.href = getItemUrl(props.item.id)
-    a.download = name
-    a.click()
+    window.open(getItemUrl(props.item.id), '_blank')
   }
 }
 const $q = useQuasar()

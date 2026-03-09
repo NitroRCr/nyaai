@@ -91,5 +91,7 @@ export async function createEntity(parentId: string, type: EntityType) {
     })
   } else if (type === 'search') {
     router.push('/search')
+  } else if (type === 'item') {
+    router.push('/item')
   }
 }

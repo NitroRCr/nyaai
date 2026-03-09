@@ -538,5 +538,22 @@
   "Free model limit window": "免费模型限制窗口",
   "Max workspaces per user": "每个用户最多工作区数量",
   "OAuth Providers": "OAuth 提供商",
-  "Failed to update settings: {0}": "无法更新设置：{0}"
+  "Failed to update settings: {0}": "更新设置失败：{0}",
+  "Upload Files": "上传文件",
+  "Drag / paste /": "拖拽、粘贴 或",
+  "click here": "点击这里",
+  "to upload files": "来上传文件",
+  "Or, filter existing files below:": "或者，在下方查找现有文件：",
+  "Added {p0 file}; you can view the upload progress by clicking \"Tasks\" at the bottom right.": "已添加{p0个文件}； 您可以通过点击右下角的“任务”查看上传进度。",
+  "Files": "文件",
+  "Nya AI can also be your cloud drive. Uploading files here brings the following benefits:": "Nya AI 也可以是你的网盘。将文件上传至这里有以下好处：",
+  "Access anytime from any device": "随时可从任意设备访问",
+  "Ready to use in chat/pages at any time": "随时可在对话/页面中使用",
+  "Full-text search of file content (for parseable types)": "可全文搜索文件内容（对于可解析的类型）",
+  "Share publicly or share using download links": "可公开分享或使用下载链接分享",
+  "This feature is mainly designed for document-type files, but we do not limit the file types you can upload, as long as a single file does not exceed 5GB.": "此功能主要为文档类型文件设计，但我们并没有限制上传的文件类型，只要单个文件不超过 5GB 即可。",
+  "Click <strong>\"Upload Files\"</strong> in the right sidebar to get started.": "点击右侧边栏中的<strong>“上传文件”</strong>以开始。",
+  "Sort Priority": "排序优先级",
+  "Hidden": "隐藏",
+  "Directory Settings": "目录设置"
 }

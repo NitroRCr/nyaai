@@ -180,6 +180,9 @@ import EntityListOptionsBtn from './EntityListOptionsBtn.vue'
 import SelectDirDialog from './SelectDirDialog.vue'
 import PickAvatarDialog from './PickAvatarDialog.vue'
 import UpdateShortcutDialog from './UpdateShortcutDialog.vue'
+import { parseText } from 'src/utils/file-parse'
+import { genId } from 'app/src-shared/utils/id'
+import { upload } from 'src/utils/blob-cache'
 
 const emit = defineEmits<{
   entityClick: [entity: FullEntity]
@@ -277,8 +280,10 @@ function onDragstart({ dataTransfer }: DragEvent, id: string) {
   dataTransfer.setData('application/x-entity-id', id)
   dataTransfer.effectAllowed = 'move'
 }
-function onDrop(event: DragEvent, id: string) {
-  const sourceId = event.dataTransfer?.getData('application/x-entity-id')
+function onDrop({ dataTransfer }: DragEvent, id: string) {
+  if (!dataTransfer) return
+  handleFiles(Array.from(dataTransfer.files), id)
+  const sourceId = dataTransfer.getData('application/x-entity-id')
   if (!sourceId) return
   if (!selected.has(sourceId)) {
     if (sourceId === id) return
@@ -294,6 +299,19 @@ function onDrop(event: DragEvent, id: string) {
     }))
   }
   exitSelectMode()
+}
+async function handleFiles(files: File[], parentId: string) {
+  for (const file of files) {
+    const id = genId()
+    mutate(mutators.createItem({
+      id,
+      parentId,
+      name: file.name,
+      mimeType: file.type,
+      ...await parseText(file),
+    }))
+    upload(id, file, file.name)
+  }
 }
 
 const activeEntitiesStore = useActiveEntitiesStore()

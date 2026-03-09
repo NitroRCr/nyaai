@@ -8,7 +8,7 @@ import { useUserDataStore } from 'src/stores/user-data'
 import { useLocalEntitiesStore } from 'src/stores/local-entities'
 import { useRecentEntitiesStore } from 'src/stores/recent-entities'
 
-const welcomeTypes: EntityType[] = ['chat', 'translation', 'page', 'provider', 'channel']
+const welcomeTypes: EntityType[] = ['chat', 'translation', 'page', 'provider', 'channel', 'item']
 
 export function useRunShortcut() {
   const router = useRouter()

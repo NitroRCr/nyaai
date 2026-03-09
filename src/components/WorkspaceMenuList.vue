@@ -103,7 +103,7 @@ function createWorkspace() {
   }).onOk(async name => {
     const id = genId()
     await mutate(mutators.createWorkspace({
-      ids: [id, ...genIds(20)],
+      ids: [id, ...genIds(22)],
       name,
     })).client
     workspaceStore.switchWorkspace(id)

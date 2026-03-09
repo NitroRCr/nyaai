@@ -1,3 +1,4 @@
+import ky from 'ky'
 import { formatBytes, formatTime, getItemUrl } from 'src/utils/functions'
 import { hashBlob } from 'src/utils/hash'
 import { withTask } from 'src/utils/tasks'
@@ -80,11 +81,13 @@ export const uploadBlob = withTask(async (
   blob: Blob,
 ) => {
   const sha256 = await hashBlob(blob)
-  await putBlob(getItemUrl(id), blob, {
+  const headers = {
     'sha-256': sha256,
     'sha-256-proof': await hashBlob(blob, 'proof'),
-    'content-type': blob.type,
-  }, {
+  }
+  const precheck = await ky.put(getItemUrl(id), { headers, signal: abortSignal }).json<{ success?: boolean, error?: string }>()
+  if (precheck.success) return sha256
+  await putBlob(getItemUrl(id), blob, headers, {
     signal: abortSignal,
     onProgress: ({ uploaded, total, speed, eta }) => updateProgress({
       progress: uploaded / total,

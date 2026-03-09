@@ -37,6 +37,7 @@
       <q-btn
         v-if="task.status === 'running'"
         icon="sym_o_cancel"
+        :title="t('Abort Task')"
         hover:text-err
         @click="task.abort"
         flat

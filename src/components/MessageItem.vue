@@ -2,7 +2,6 @@
   <div
     flex
     :class="{ 'flex-row-reverse': align === 'right' }"
-    m-4
     gap-4
   >
     <div v-if="avatar && !(align === 'left' && dense)">

@@ -25,6 +25,7 @@
         :model-value="1"
         :scroll-container
         :dense="position !== 'full' || $q.screen.lt.md"
+        p-4
       />
     </div>
     <div pos-relative>

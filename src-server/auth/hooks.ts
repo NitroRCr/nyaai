@@ -1,4 +1,4 @@
-import { createAuthMiddleware } from 'better-auth/plugins'
+import { createAuthMiddleware } from 'better-auth/api'
 import { zdb } from '../zero/db'
 import { mutators } from 'app/src-shared/mutators'
 import { getLocaleFromHeaders } from '../utils/functions'
@@ -18,7 +18,7 @@ export const afterHooks = createAuthMiddleware(async (ctx) => {
         tx,
         ctx: mutatorCtx,
         args: {
-          ids: [id, ...genIds(20)],
+          ids: [id, ...genIds(22)],
           name: `${session.user.name}'s workspace`,
         },
       })

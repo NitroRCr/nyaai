@@ -9,17 +9,18 @@
 
 <script setup lang="ts">
 import type { EntityType } from 'app/src-shared/utils/validators'
+import { t } from 'src/utils/i18n'
 
 const model = defineModel<EntityType | null>()
 
 const options = [
-  { label: 'All', value: null },
-  { label: 'Chat', value: 'chat' },
-  { label: 'Search', value: 'search' },
-  { label: 'Page', value: 'page' },
-  { label: 'File', value: 'file' },
-  { label: 'Channel', value: 'channel' },
-  { label: 'Translation', value: 'translation' },
-  { label: 'Folder', value: 'folder' },
+  { label: t('All'), value: null },
+  { label: t('Chat'), value: 'chat' },
+  { label: t('Search'), value: 'search' },
+  { label: t('Page'), value: 'page' },
+  { label: t('File'), value: 'item' },
+  { label: t('Channel'), value: 'channel' },
+  { label: t('Translation'), value: 'translation' },
+  { label: t('Folder'), value: 'folder' },
 ]
 </script>

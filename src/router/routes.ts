@@ -21,6 +21,8 @@ import IndexPage from 'src/pages/IndexPage.vue'
 import ProviderWelcome from 'src/pages/ProviderWelcome.vue'
 import ChannelWelcome from 'src/pages/ChannelWelcome.vue'
 import IndexWelcome from 'src/pages/IndexWelcome.vue'
+import ItemWelcome from 'src/pages/ItemWelcome.vue'
+import ItemIndex from 'src/pages/ItemIndex.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -40,11 +42,13 @@ const routes: RouteRecordRaw[] = [
         component: MainLayout,
         children: [
           { path: '/:type(search)', component: SearchIndex },
+          { path: '/:type(item)', component: ItemIndex },
           { path: '/:type(chat)/welcome', component: ChatWelcome },
           { path: '/:type(translation)/welcome', component: TranslationWelcome },
           { path: '/:type(page)/welcome', component: PageWelcome },
           { path: '/:type(provider)/welcome', component: ProviderWelcome },
           { path: '/:type(channel)/welcome', component: ChannelWelcome },
+          { path: '/:type(item)/welcome', component: ItemWelcome },
           { path: ':id', component: DualViewPage },
         ],
       },

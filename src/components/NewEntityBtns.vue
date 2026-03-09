@@ -51,6 +51,11 @@
             @click="createEntity(rightDirStore.dirId!, 'channel')"
           />
           <menu-item
+            :label="t('Files')"
+            icon="sym_o_cloud_upload"
+            @click="createEntity(rightDirStore.dirId!, 'item')"
+          />
+          <menu-item
             :label="t('MCP')"
             icon="sym_o_extension"
             @click="createEntity(rightDirStore.dirId!, 'mcpPlugin')"
@@ -107,6 +112,12 @@ const mainBtnProps = computed<Partial<QBtnProps>>(() => {
     return {
       label: t('New Channel'),
       icon: 'sym_o_add',
+    }
+  } else if (type === 'item') {
+    return {
+      label: t('Upload Files'),
+      icon: 'sym_o_cloud_upload',
+      class: { 'important:route-active': route.path === '/item' },
     }
   } else if (type === 'provider') {
     return {

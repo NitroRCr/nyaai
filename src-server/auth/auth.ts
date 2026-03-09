@@ -33,8 +33,9 @@ if (GITHUB_CLIENT_ID && GITHUB_CLIENT_SECRET) {
 
 export const auth = betterAuth({
   appName: SITE_NAME,
-  baseURL: FRONT_URL,
-  trustedOrigins: [FRONT_URL, ADMIN_URL],
+  baseURL: {
+    allowedHosts: [FRONT_URL, ADMIN_URL],
+  },
   database: drizzleAdapter(db, {
     provider: 'pg',
   }),

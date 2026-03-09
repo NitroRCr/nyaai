@@ -25,7 +25,7 @@ export function typeAvatar(type: EntityType): Avatar | undefined {
   if (type === 'folder') return { type: 'icon', icon: 'sym_o_folder' }
   if (type === 'search') return { type: 'icon', icon: 'sym_o_search' }
   if (type === 'chat') return { type: 'icon', icon: 'sym_o_chat' }
-  if (type === 'page') return { type: 'icon', icon: 'sym_o_docs' }
+  if (type === 'page') return { type: 'icon', icon: 'sym_o_article' }
   if (type === 'translation') return { type: 'icon', icon: 'sym_o_translate' }
   if (type === 'channel') return { type: 'icon', icon: 'sym_o_tag' }
   if (type === 'provider') return { type: 'icon', icon: 'sym_o_dns' }

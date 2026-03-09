@@ -8,10 +8,13 @@ import { seed } from './utils/seed'
 import admin from './admin'
 import payment from './payment'
 import searxng from './searxng'
+import { initJobs } from './jobs'
 
 seed()
+initJobs()
 
 export const app = new Hono().basePath('/api')
+  .use(logger())
   .route('/auth', auth)
   .route('/zero', zero)
   .route('/s3', s3)
@@ -19,7 +22,6 @@ export const app = new Hono().basePath('/api')
   .route('/admin', admin)
   .route('/payment', payment)
   .route('/searxng', searxng)
-  .use(logger())
 
 export default app
 

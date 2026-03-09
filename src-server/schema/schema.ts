@@ -24,7 +24,9 @@ export const workspace = pgTable('workspace', {
   defaultLeftDirId: id().references(() => entity.id, { onDelete: 'set null' }),
 }, t => [
   index().on(t.ownerId),
+  index().on(t.planId),
   index().on(t.trashId),
+  index().on(t.resetAt),
 ])
 export const member = pgTable('member', {
   id: id().primaryKey(),
@@ -226,7 +228,8 @@ export const blob = pgTable('blob', {
   size: bigint({ mode: 'number' }).notNull(),
   refCount: integer().notNull(),
 }, t => [
-  unique().on(t.sha256, t.sha256Proof, t.size),
+  index().on(t.sha256),
+  index().on(t.refCount),
 ])
 export const shortcut = pgTable('shortcut', {
   id: id().primaryKey(),

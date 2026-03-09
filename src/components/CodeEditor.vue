@@ -11,10 +11,10 @@
 import { genId } from 'app/src-shared/utils/id'
 import { basicEditor } from 'prism-code-editor/setups'
 import { onBeforeUnmount, onMounted, watch } from 'vue'
-import type { PrismEditor } from 'prism-code-editor'
 import 'prism-code-editor/prism/languages/common'
 import 'prism-code-editor/prism/languages/vue'
 import 'prism-code-editor/languages'
+import { Dark } from 'quasar'
 
 const id = `editor-${genId()}`
 
@@ -27,19 +27,24 @@ const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
 
-let editor: PrismEditor | null = null
+let editor: ReturnType<typeof basicEditor> | null = null
 onMounted(() => {
   editor = basicEditor(
   `#${id}`,
   {
     language: props.language,
     value: props.modelValue,
-    theme: 'atom-one-dark',
+    theme: Dark.isActive ? 'atom-one-dark' : 'github-light',
     onUpdate(value) {
       emit('update:modelValue', value)
     },
   },
   )
+})
+watch(() => Dark.isActive, dark => {
+  editor?.setOptions({
+    theme: dark ? 'atom-one-dark' : 'github-light',
+  })
 })
 onBeforeUnmount(() => {
   editor?.remove()

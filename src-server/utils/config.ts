@@ -4,7 +4,6 @@ export const DATABASE_URL = process.env.DATABASE_URL!
 export const OPENAI_BASE_URL = process.env.OPENAI_BASE_URL
 export const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 export const S3_ENDPOINT = process.env.S3_ENDPOINT!
-export const S3_REGION = process.env.S3_REGION!
 export const S3_BUCKET = process.env.S3_BUCKET!
 export const S3_ACCESS_KEY_ID = process.env.S3_ACCESS_KEY_ID!
 export const S3_SECRET_ACCESS_KEY = process.env.S3_SECRET_ACCESS_KEY!

@@ -47,6 +47,7 @@ export function mutate(...params: Parameters<typeof z.mutate>) {
 }
 export const zRef = ref(z)
 export const connectionState = ref(z.connection.state.current)
+
 watch(session, s => {
   if (s.isPending || s.error) return
   const userId = s.data?.user.id

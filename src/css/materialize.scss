@@ -23,10 +23,6 @@ body.body--light {
     color: var(--a-sec);
   }
 
-  .q-item__label--caption {
-    color: var(--a-on-sur-var);
-  }
-
   .q-field--filled .q-field__control {
     background-color: var(--a-sur-c);
   }
@@ -143,4 +139,8 @@ body.body--light {
 
 .q-card {
   background-color: var(--a-sur-c);
+}
+
+.q-item__label--caption {
+  color: var(--a-on-sur-var);
 }

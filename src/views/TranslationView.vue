@@ -62,7 +62,7 @@
         px-3
         rd
       >
-        <pre>{{ record.output }}</pre>
+        <pre whitespace-pre-wrap>{{ record.output }}</pre>
       </div>
     </div>
     <q-pagination

@@ -19,12 +19,14 @@
       >
         {{ entityName(entity) }}
       </q-toolbar-title>
+      <q-space />
     </common-toolbar>
     <div
       grow
       bg-sur
       of-y-auto
       ref="scrollContainer"
+      pos-relative
       @scroll="onScroll"
     >
       <template
@@ -45,6 +47,7 @@
           @rendered="streamingTask && lockBottom()"
           :inputing="current === chain.at(-1)"
           :dense="position !== 'full' || $q.screen.lt.md"
+          p-4
         />
       </template>
     </div>
