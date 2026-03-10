@@ -38,7 +38,7 @@ const assistantTable = {
     },
     promptTemplate: {
       type: "string",
-      optional: false,
+      optional: true,
       customType: null as unknown as ZeroCustomType<
         typeof zeroSchema,
         "assistant",

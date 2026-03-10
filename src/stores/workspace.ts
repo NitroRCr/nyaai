@@ -23,6 +23,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
 
   z.preload(queries.globalSettings())
   z.preload(queries.publicModels())
+  z.preload(queries.userData())
   watchEffect(() => {
     if (!id.value) return
     z.preload(queries.models(id.value))
