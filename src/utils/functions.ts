@@ -204,3 +204,20 @@ export function shortcutKeyMatch(shortcut: ShortcutKey, ev: KeyboardEvent) {
     ev.altKey === withAlt &&
     ev.metaKey === withMeta
 }
+
+function isObject(item: any) {
+  return item instanceof Object && !Array.isArray(item)
+}
+export function mergeObjects(objects: object[], depth = 1) {
+  const merged = {}
+  for (const obj of objects) {
+    for (const key in obj) {
+      if (depth > 0 && isObject(obj[key]) && isObject(merged[key])) {
+        merged[key] = mergeObjects([merged[key], obj[key]], depth - 1)
+      } else {
+        merged[key] = obj[key]
+      }
+    }
+  }
+  return merged
+}

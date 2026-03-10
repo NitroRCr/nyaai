@@ -80,6 +80,7 @@ export type CompletionConfig = {
   vars: Record<string, any>
   tools: Record<string, PluginTool[]>
   sdkTools?: ToolSet
+  providerOptions?: Record<string, any>
 }
 export const streamChat = withTask(async (
   { abortSignal },
@@ -188,6 +189,7 @@ export const streamChat = withTask(async (
       ...tools,
       ...config.sdkTools,
     },
+    providerOptions: config.providerOptions,
     stopWhen: stepCountIs(config.streamSettings.maxSteps ?? 5),
     abortSignal,
   })

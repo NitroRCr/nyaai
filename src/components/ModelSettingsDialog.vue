@@ -108,6 +108,20 @@
             :model-value="model.settings"
             @update:model-value="update({ settings: $event })"
           />
+          <template v-if="schema">
+            <q-separator spaced />
+            <q-item-label
+              header
+              py-2
+            >
+              {{ t('Provider Options') }}
+            </q-item-label>
+            <object-input-items
+              :schema
+              :model-value="model.providerOptions ?? {}"
+              @update:model-value="update({ providerOptions: $event })"
+            />
+          </template>
         </q-list>
       </q-card-section>
     </q-card>
@@ -130,6 +144,8 @@ import { queries } from 'app/src-shared/queries'
 import ModelParamsInputItems from './ModelParamsInputItems.vue'
 import AAvatar from './AAvatar.vue'
 import PickAvatarDialog from './PickAvatarDialog.vue'
+import { useProviderOptionsSchema } from 'src/composables/provider-options-schema'
+import ObjectInputItems from './ObjectInputItems.vue'
 
 defineEmits([
   ...useDialogPluginComponent.emits,
@@ -165,4 +181,6 @@ function pickAvatar() {
     update({ avatar })
   })
 }
+
+const { schema } = useProviderOptionsSchema(model)
 </script>

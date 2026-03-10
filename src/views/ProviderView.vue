@@ -39,6 +39,7 @@
         @update:model-value="updateSettings"
         :schema="providerType.schema"
         lazy
+        filled
       />
       <q-separator spaced />
       <q-item-label header>

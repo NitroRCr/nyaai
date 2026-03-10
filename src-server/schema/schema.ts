@@ -144,10 +144,11 @@ export const model = pgTable('model', {
   settings: jsonb().notNull().$type<Record<string, any>>(),
   inputPrice: real(),
   outputPrice: real(),
+  providerOptions: jsonb().$type<Record<string, any>>(),
 }, t => [
   foreignKey({
     columns: [t.rootId, t.entityId],
-    foreignColumns: [entity.rootId, provider.id],
+    foreignColumns: [entity.rootId, entity.id],
   }).onDelete('cascade').onUpdate('cascade'),
   index().on(t.entityId),
 ])

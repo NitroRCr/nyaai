@@ -99,6 +99,14 @@
         @send="send"
         v-slot="{ empty }"
       >
+        <provider-options-btn
+          v-if="model"
+          :model
+          v-model:options="providerOptions"
+          v-model:tools="providerTools"
+          flat
+          round
+        />
         <q-btn
           icon="sym_o_add"
           :title="t('Add Item')"
@@ -200,6 +208,7 @@ import { usePerfsStore } from 'src/stores/perfs'
 import { useChatScroll } from 'src/composables/chat-scroll'
 import MessageItem from 'src/components/MessageItem.vue'
 import { flush } from 'src/composables/state-proxy'
+import ProviderOptionsBtn from 'src/components/ProviderOptionsBtn.vue'
 
 const props = defineProps<{
   chat: FullChat
@@ -399,6 +408,8 @@ async function getCompletionConfig(): Promise<CompletionConfig | undefined> {
           _rolePrompt: prompt,
         }, // TODO: add vars
         tools: tools.value,
+        sdkTools: providerTools.value,
+        providerOptions: providerOptions.value,
       }
     }
   }
@@ -462,4 +473,7 @@ const workspaceStore = useWorkspaceStore()
 const usage = computed(() => messageMap.value[chain.value.at(-2)!]?.usage)
 
 const { scroll } = useChatScroll(scrollContainer)
+
+const providerOptions = ref({})
+const providerTools = ref({})
 </script>

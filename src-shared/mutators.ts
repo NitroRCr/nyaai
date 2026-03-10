@@ -977,6 +977,7 @@ const updateModel = defineMutator(
     avatar: avatarSchema.nullish(),
     inputTypes: modelInputTypesSchema.nullish(),
     settings: z.record(z.string(), z.any()).optional(),
+    providerOptions: z.record(z.string(), z.any()).nullish(),
   }),
   async ({ tx, ctx, args: { id, ...updates } }) => {
     assertAuthorized(ctx.userId)

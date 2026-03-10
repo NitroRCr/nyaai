@@ -24,19 +24,25 @@ type NumberSchema = {
 type BooleanSchema = {
   type: 'boolean'
 } & MetaProps
+type EnumSchema = {
+  type: 'enum'
+  options: string[]
+  placeholder?: string
+} & MetaProps
 
-export type TypeSchema = StringSchema | NumberSchema | BooleanSchema
+export type TypeSchema = StringSchema | NumberSchema | BooleanSchema | EnumSchema
 export type ObjectSchema = Record<string, TypeSchema>
 
 type SchemaPrimitive<T extends TypeSchema> =
   T extends { type: 'string' } ? string :
     T extends { type: 'number' } ? number :
       T extends { type: 'boolean' } ? boolean :
-        never
+        T extends { type: 'enum', options: infer O } ? O extends string[] ? O[number] : never :
+          never
 
 export type InferSchema<S> =
-  S extends ObjectSchema ? { [K in keyof S]: InferSchema<S[K]> } :
-    S extends TypeSchema ? SchemaPrimitive<S> | undefined :
+  S extends ObjectSchema ? Partial<{ [K in keyof S]: InferSchema<S[K]> }> :
+    S extends TypeSchema ? SchemaPrimitive<S> :
       never
 
 export type LayoutPosition = 'full' | 'left' | 'right'

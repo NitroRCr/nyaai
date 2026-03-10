@@ -873,6 +873,15 @@ const modelTable = {
         "outputPrice"
       >,
     },
+    providerOptions: {
+      type: "json",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "model",
+        "providerOptions"
+      >,
+    },
   },
   primaryKey: ["id"],
 } as const;

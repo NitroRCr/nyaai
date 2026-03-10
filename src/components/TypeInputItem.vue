@@ -21,7 +21,7 @@
         @update:model-value="update"
         :placeholder="schema.placeholder"
         dense
-        filled
+        :filled
       />
       <component
         :is="Input"
@@ -31,14 +31,24 @@
         @update:model-value="update"
         :placeholder="schema.placeholder"
         dense
-        filled
+        :filled
       />
       <q-toggle
         v-else-if="schema.type === 'boolean'"
         :model-value="modelValue"
         @update:model-value="update"
         dense
-        filled
+        :filled
+      />
+      <q-select
+        v-else-if="schema.type === 'enum'"
+        :model-value="modelValue"
+        @update:model-value="update"
+        :options="schema.options"
+        :placeholder="schema.placeholder"
+        dense
+        :filled
+        class="min-w-80px"
       />
     </q-item-section>
   </q-item>
@@ -54,6 +64,7 @@ const props = defineProps<{
   schema: TypeSchema
   modelValue: any
   lazy?: boolean
+  filled?: boolean
 }>()
 
 const emit = defineEmits<{

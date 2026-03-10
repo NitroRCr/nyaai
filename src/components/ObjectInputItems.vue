@@ -6,6 +6,7 @@
     :model-value="modelValue[key]"
     @update:model-value="$emit('update:modelValue', { ...modelValue, [key]: $event })"
     :lazy
+    :filled
   />
 </template>
 
@@ -16,6 +17,7 @@ import TypeInputItem from './TypeInputItem.vue'
 defineProps<{
   schema: S
   lazy?: boolean
+  filled?: boolean
   modelValue: InferSchema<S>
 }>()
 defineEmits<{
