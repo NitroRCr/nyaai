@@ -38,7 +38,7 @@ export async function streamMessage(entityId: string, id: string, ...params: Par
     } else if (part.type === 'file') {
       const itemId = genId()
       const blob = new Blob([part.file.uint8Array as Uint8Array<ArrayBuffer>], { type: part.file.mediaType })
-      const name = 'generated_file'
+      const name = `generated.${part.file.mediaType.split('/').at(-1)}`
       mutate(mutators.createMessageItem({
         id: itemId,
         messageId: id,

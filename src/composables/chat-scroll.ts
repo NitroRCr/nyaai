@@ -41,7 +41,6 @@ export function useChatScroll(scrollContainer: Ref<HTMLElement | null>) {
         top = items[index + 1].offsetTop
       }
     }
-    console.log({ top })
     container.scrollTo({ top, behavior })
   }
 

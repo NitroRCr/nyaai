@@ -251,7 +251,6 @@ async function regenerate(parent: string) {
     aProps: { id: genId(), assistantId: assistant.value!.id, modelName: modelName(model.value), sentAt: Date.now() },
     uProps: { id: genId() },
   })).client
-  console.log(modelName(model.value))
   stream(params)
 }
 

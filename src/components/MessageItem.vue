@@ -234,6 +234,7 @@
           transition="opacity 250"
           whitespace-nowrap
           flex
+          gap-2
         >
           <span>{{ message.modelName }}</span>
           <span ml-a>{{ timeText(message) }}</span>

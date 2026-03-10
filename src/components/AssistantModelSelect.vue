@@ -23,7 +23,6 @@
   </div>
 
   <div
-    v-if="modelId"
     text-on-sur-var
     my-2
     of-hidden
@@ -40,7 +39,7 @@
       px="6px"
       py="3px"
       text="xs"
-    >{{ modelName(modelMap[modelId]) }}</code>
+    >{{ modelName(modelMap[modelId ?? assistant?.modelId ?? conf.chatModelId!]) }}</code>
     <q-menu important:max-w="300px">
       <q-list>
         <template v-if="assistant?.modelId">
@@ -71,7 +70,7 @@
             :label="modelName(modelMap[conf.chatModelId])"
             :avatar="modelAvatar(modelMap[conf.chatModelId])"
             :caption="modelMap[conf.chatModelId]?.caption"
-            @click="modelId = conf.chatModelId"
+            @click="modelId = null"
             :active="!modelId"
             clickable
             v-close-popup

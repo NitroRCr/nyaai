@@ -40,7 +40,6 @@ const app = new Hono()
     'sha-256-proof': z.base64(),
   })), async c => {
     const id = c.req.param('id')
-    console.log({ id })
     const session = await auth.api.getSession({ headers: c.req.raw.headers })
     const req = c.req.raw
     if (!session) return c.json({ error: 'Unauthorized' }, 401)
