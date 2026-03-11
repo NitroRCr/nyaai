@@ -8,7 +8,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-export default defineConfig((/* ctx */) => {
+export default defineConfig((ctx) => {
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
@@ -94,7 +94,7 @@ export default defineConfig((/* ctx */) => {
     devServer: {
       // https: true,
       open: false, // opens browser window automatically
-      port: 9015,
+      port: 'pwa' in ctx.mode ? 9016 : 9015,
       proxy: {
         '/api': {
           target: process.env.SERVER_URL,

@@ -156,6 +156,7 @@
       <div
         class="group"
         pos-relative
+        :class="{ 'message-sticky-offset': childNum > 1 || !inputing }"
       >
         <q-expansion-item
           v-if="message.reasoning"
@@ -181,7 +182,6 @@
           </q-card>
         </q-expansion-item>
         <md-preview
-          class="message-item-md-preview"
           :class="background ? 'bg-sur-c-low px-4' : 'bg-sur'"
           rd-lg
           :model-value="message.text"
@@ -457,9 +457,9 @@ function timeText(message: FullMessage) {
   }
 }
 
-.message-item-md-preview {
+.message-sticky-offset {
   .md-editor-code .md-editor-code-head {
-    top: '48px';
+    top: 40px;
     z-index: 10;
   }
 }
