@@ -332,7 +332,6 @@ const createAssistant = defineMutator(
     await tx.mutate.assistant.insert({
       id,
       rootId,
-      promptTemplate: '',
       promptRole: 'system',
       contextNum: 10,
       streamSettings: {},

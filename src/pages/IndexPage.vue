@@ -31,14 +31,14 @@ if (!user.id) {
 } else {
   const userDataStore = useUserDataStore()
 
-  if (!userDataStore.data?.welcomed) {
-    router.replace('/welcome')
-    until(() => userDataStore.data).toBeTruthy().then(() => {
+  until(() => userDataStore.data).toBeTruthy().then(data => {
+    if (!data.welcomed) {
+      router.replace('/welcome')
       userDataStore.updateData({
         welcomed: [],
       })
-    })
-  }
+    }
+  })
 }
 
 const workspaceStore = useWorkspaceStore()

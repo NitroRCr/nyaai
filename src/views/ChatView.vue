@@ -3,7 +3,10 @@
     flex="~ col"
     view-styles
   >
-    <common-toolbar>
+    <common-toolbar
+      bg-sur
+      px-0
+    >
       <assistant-model-select
         v-if="$route.params.type === 'chat' && workspaceStore.id"
         :assistant-id="conf.chatAssistantId"
