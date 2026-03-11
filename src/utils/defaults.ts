@@ -32,7 +32,7 @@ export function entityName(entity: PartialEntity | null | undefined) {
 
 export function modelName(model: Row['model'] | null | undefined) {
   if (!model) return ''
-  return model.label ?? model.name
+  return model.label || model.name
 }
 
 export function userAvatar(user: Row['user'] | null | undefined): Avatar {

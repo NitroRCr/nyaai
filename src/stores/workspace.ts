@@ -12,9 +12,7 @@ import { useUserDataStore } from './user-data'
 export const useWorkspaceStore = defineStore('workspace', () => {
   const userDataStore = useUserDataStore()
   const id = ref<string | null>(null)
-  const t = Date.now()
   until(() => userDataStore.lastWorkspaceId).toBeTruthy().then(val => {
-    console.log(`Workspace changed, new workspace id: ${val}`, `took ${Date.now() - t}ms`)
     id.value ??= val
   })
   const { data: workspace, status } = useQuery(() =>

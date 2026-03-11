@@ -2,7 +2,9 @@ import type { FullModel } from 'app/src-shared/queries'
 import { t } from 'src/utils/i18n'
 import type { InferSchema, ObjectSchema } from 'src/utils/types'
 import { computed, type Ref } from 'vue'
+import type { GoogleGenerativeAIProviderOptions } from '@ai-sdk/google'
 import { google } from '@ai-sdk/google'
+import type { AnthropicProviderOptions } from '@ai-sdk/anthropic'
 import { anthropic } from '@ai-sdk/anthropic'
 import { openai } from '@ai-sdk/openai'
 import { mergeObjects } from 'src/utils/functions'
@@ -68,7 +70,7 @@ const rules = [
   rule({
     match: ({ name, provider }) =>
       (provider?.type === 'openai' || provider?.type === 'openai-compatible') &&
-      (name.startsWith('o3') || name.startsWith('o4') || name.startsWith('gpt-5')),
+      /^gpt-5/.test(name),
     options: {
       reasoningEffort: {
         title: t('Reasoning Effort'),
@@ -87,7 +89,7 @@ const rules = [
     },
   }),
   rule({
-    match: ({ name, provider }) => provider?.type === 'google' && /^gemini-[23]\.[015]/.test(name),
+    match: ({ name, provider }) => provider?.type === 'google' && /^gemini-3/.test(name),
     options: {
       webSearch: {
         title: t('Web Search'),
@@ -101,9 +103,10 @@ const rules = [
         title: t('URL Context'),
         type: 'boolean',
       },
-      thinkingBudget: {
-        title: t('Thinking Budget'),
-        type: 'number',
+      thinkingLevel: {
+        title: t('Thinking Level'),
+        type: 'enum',
+        options: ['minimal', 'low', 'medium', 'high'] as const,
       },
     },
     exec: options => {
@@ -112,13 +115,11 @@ const rules = [
       if (options.codeExecution) tools.code_execution = google.tools.codeExecution({})
       if (options.urlContext) tools.url_context = google.tools.urlContext({})
 
-      const googleOptions: Record<string, any> = {
+      const googleOptions: GoogleGenerativeAIProviderOptions = {
         thinkingConfig: {
           includeThoughts: true,
+          thinkingLevel: options.thinkingLevel,
         },
-      }
-      if (options.thinkingBudget != null) {
-        googleOptions.thinkingConfig.thinkingBudget = options.thinkingBudget
       }
       return {
         providerOptions: {
@@ -131,10 +132,6 @@ const rules = [
   rule({
     match: ({ name, provider }) => provider?.type === 'anthropic' && /^claude-(opus|sonnet)-4/.test(name),
     options: {
-      webSearch: {
-        title: t('Web Search'),
-        type: 'boolean',
-      },
       codeExecution: {
         title: t('Code Execution'),
         type: 'boolean',
@@ -142,11 +139,42 @@ const rules = [
     },
     exec: options => {
       const tools: Record<string, any> = {}
-      if (options.webSearch) tools.web_search = anthropic.tools.webSearch_20250305()
-      if (options.codeExecution) tools.code_execution = anthropic.tools.codeExecution_20250522()
+      if (options.codeExecution) tools.code_execution = anthropic.tools.codeExecution_20250825()
 
       return {
         providerOptions: {},
+        tools,
+      }
+    },
+  }),
+  rule({
+    match: ({ name, provider }) => provider?.type === 'anthropic' && /^claude-(opus|sonnet)-4-6/.test(name),
+    options: {
+      webSearch: {
+        title: t('Web Search'),
+        type: 'boolean',
+      },
+      webFetch: {
+        title: t('Web Fetch'),
+        type: 'boolean',
+      },
+      thinkingEffort: {
+        title: t('Thinking Effort'),
+        type: 'enum',
+        options: ['low', 'medium', 'high', 'max'] as const,
+      },
+    },
+    exec: options => {
+      const tools: Record<string, any> = {}
+      if (options.webSearch) tools.web_search = anthropic.tools.webSearch_20260209()
+      if (options.webFetch) tools.web_fetch = anthropic.tools.webFetch_20260209()
+      return {
+        providerOptions: {
+          anthropic: {
+            thinking: { type: 'adaptive' },
+            effort: options.thinkingEffort,
+          } satisfies AnthropicProviderOptions,
+        },
         tools,
       }
     },

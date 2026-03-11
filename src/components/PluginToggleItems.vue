@@ -7,6 +7,8 @@
       'update:modelValue',
       modelValue.includes(id) ? modelValue.filter(x => x !== id) : [...modelValue, id]
     )"
+    py-1
+    important:min-h="48px"
   >
     <q-item-section
       avatar
@@ -39,6 +41,10 @@
     <q-item-section side>
       <q-checkbox
         :model-value="modelValue.includes(id)"
+        @update:model-value="$emit(
+          'update:modelValue',
+          $event ? [...modelValue, id] : modelValue.filter(x => x !== id)
+        )"
         dense
       />
     </q-item-section>

@@ -561,5 +561,22 @@
   "Edited At": "編輯於",
   "Edited at {0}": "編輯於 {0}",
   "AI Quota Exceeded. Please upgrade your plan or switch to free models.": "AI 超出配額。 請升級您的方案或切換到免費型號。",
-  "Upgrade Plan": "升級計劃"
+  "Upgrade Plan": "升級計劃",
+  "Provider Options": "提供者選項",
+  "Web Search": "網頁搜尋",
+  "Code Execution": "程式碼執行",
+  "Text Verbosity": "文字冗長",
+  "Reasoning Effort": "推理努力",
+  "URL Context": "URL上下文",
+  "Thinking Level": "思維層面",
+  "Web Fetch": "網頁抓取",
+  "Thinking Effort": "思考努力",
+  "Mermaid Diagram": "美人魚圖",
+  "Make AI use mermaid syntax to create diagrams in responses": "讓 AI 使用美人魚語法在回應中建立圖表",
+  "Web Search & Crawl": "網頁搜尋和爬行",
+  "Enable AI to use search engines and crawl web pages": "讓AI能夠使用搜尋引擎並抓取網頁",
+  "Tool Call": "工具調用",
+  "Tool Input": "工具輸入",
+  "Tool Result": "工具結果",
+  "Error Message": "錯誤訊息"
 }

@@ -206,6 +206,12 @@
             :entity
           />
         </div>
+        <toolcall-item
+          v-for="toolCall of message.toolCalls"
+          :key="toolCall.id"
+          :tool-call
+          my-2
+        />
         <div
           text-err
           break-word
@@ -300,6 +306,7 @@ import { genId } from 'app/src-shared/utils/id'
 import MessageImage from './MessageImage.vue'
 import MessageEntity from './MessageEntity.vue'
 import { usePerfsStore } from 'src/stores/perfs'
+import ToolcallItem from './ToolcallItem.vue'
 
 const props = defineProps<{
   message: FullMessage

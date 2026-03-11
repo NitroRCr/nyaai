@@ -9,6 +9,7 @@ import { Notify } from 'quasar'
 import { t } from 'src/utils/i18n'
 import type { PluginPrompt, PluginResource, PluginTool } from 'app/src-shared/utils/types'
 import { engine } from 'src/utils/template-engine'
+import { PluginsPromptTemplate } from 'src/utils/templates'
 
 export const DefaultKeepAliveTimeout = 300
 export const DefaultRequestTimeout = 60
@@ -146,7 +147,7 @@ export function usePlugins(ids: Ref<string[]>) {
   const pluginsPrompt = computed(() => {
     const builtin = manifests.value.filter(x => x.type === 'builtin')
     if (!builtin.length) return ''
-    return engine.parseAndRenderSync(pluginsPrompt, {
+    return engine.parseAndRenderSync(PluginsPromptTemplate, {
       plugins: builtin,
     })
   })
