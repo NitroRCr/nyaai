@@ -71,7 +71,7 @@ export function entityRoute(type: EntityType, id: string, position: 'left' | 'ri
 
 export function expandAncestors(entity: FullEntity, till?: string) {
   const res = [entity]
-  entity.id !== till && entity.parent && res.unshift(...expandAncestors(entity.parent))
+  entity.id !== till && entity.parent && res.unshift(...expandAncestors(entity.parent, till))
   return res
 }
 
@@ -95,6 +95,9 @@ export function mimeTypeMatch(mimeType: string, mimeTypes: string[]) {
 }
 
 const cjkReg = /[\u4e00-\u9fa5\u0800-\u4e00\uac00-\ud7ff]/
+export function displayLength(text: string) {
+  return Array.from(text).reduce((acc, char) => acc + (cjkReg.test(char) ? 2 : 1), 0)
+}
 export function textBeginning(text: string, length: number) {
   let res = ''
   for (const i of text) {
@@ -121,6 +124,10 @@ export async function isTextFile(file: Blob) {
   }
 
   return true
+}
+
+export function wrapQuote(text: string) {
+  return '> ' + text.replace(/\n/g, '\n> ')
 }
 
 /*

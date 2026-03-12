@@ -82,7 +82,7 @@ const rules = [
       return {
         providerOptions: {
           openai: { reasoningEffort },
-          'openai-compatible': { reasoningEffort },
+          openaiCompatible: { reasoningEffort },
         },
         tools: {},
       }

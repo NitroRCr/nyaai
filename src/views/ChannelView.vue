@@ -25,6 +25,7 @@
         :model-value="1"
         :scroll-container
         :dense="position !== 'full' || $q.screen.lt.md"
+        @quote="quote"
         p-4
       />
     </div>
@@ -93,7 +94,7 @@
 
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { inject, nextTick, reactive, ref, useTemplateRef, watch } from 'vue'
+import { computed, inject, nextTick, reactive, ref, useTemplateRef, watch } from 'vue'
 import type { SpliceListOptions } from 'src/utils/functions'
 import { spliceList } from 'src/utils/functions'
 import { queries, type FullChannel, type FullMessage } from 'app/src-shared/queries'
@@ -110,6 +111,7 @@ import { flush } from 'src/composables/state-proxy'
 import { t } from 'src/utils/i18n'
 import { useChatScroll } from 'src/composables/chat-scroll'
 import MessageItem from 'src/components/MessageItem.vue'
+import { useQuote } from 'src/composables/quote'
 
 const props = defineProps<{
   channel: FullChannel
@@ -173,4 +175,6 @@ async function send() {
   await nextTick()
   scroll('bottom')
 }
+
+const quote = useQuote(computed(() => props.channel.message))
 </script>

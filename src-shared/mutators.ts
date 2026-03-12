@@ -573,8 +573,9 @@ const createTranslation = defineMutator(
   z.object({
     id: z.string(),
     parentId: z.string(),
+    input: z.string().optional(),
   }),
-  async ({ tx, ctx, args: { id, parentId } }) => {
+  async ({ tx, ctx, args: { id, parentId, input } }) => {
     assertAuthorized(ctx.userId)
     const { rootId, pubRoot } = await requireWritable.entity(tx, ctx, parentId)
     await tx.mutate.entity.insert({
@@ -594,6 +595,7 @@ const createTranslation = defineMutator(
       id,
       rootId,
       entityId: id,
+      input,
     })
   },
 )

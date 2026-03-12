@@ -144,3 +144,8 @@ body.body--light {
 .q-item__label--caption {
   color: var(--a-on-sur-var);
 }
+
+.icon-sm .q-icon,
+[icon-sm] .q-icon {
+  font-size: 1.4em;
+}

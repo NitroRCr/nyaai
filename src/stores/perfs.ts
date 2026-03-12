@@ -33,6 +33,7 @@ export const DefaultPerfs = {
   navigationPanelShortcut: { key: 'KeyP', withCtrl: true } as ShortcutKey,
   autoFocusChatInput: true,
   streamingLockBottom: false,
+  messageSelectionBtn: true,
 }
 
 export type Perfs = typeof DefaultPerfs

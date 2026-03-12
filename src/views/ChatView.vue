@@ -45,6 +45,7 @@
           @regenerate="regenerate(parent)"
           @delete-branch="deleteBranch(parent)"
           @rendered="streamingTask && lockBottom()"
+          @quote="quote"
           :inputing="current === chain.at(-1)"
           :dense="position !== 'full' || $q.screen.lt.md"
           p-4
@@ -212,6 +213,7 @@ import MessageItem from 'src/components/MessageItem.vue'
 import { flush } from 'src/composables/state-proxy'
 import ProviderOptionsBtn from 'src/components/ProviderOptionsBtn.vue'
 import { DefaultPromptTemplate } from 'src/utils/templates'
+import { useQuote } from 'src/composables/quote'
 
 const props = defineProps<{
   chat: FullChat
@@ -480,4 +482,6 @@ const { scroll } = useChatScroll(scrollContainer)
 
 const providerOptions = ref({})
 const providerTools = ref({})
+
+const quote = useQuote(computed(() => getMessageAt(-1)!))
 </script>

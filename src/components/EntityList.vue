@@ -348,6 +348,7 @@ function recycleSelected() {
     workspaceId: workspaceStore.id!,
     ids: Array.from(selected),
   }))
+  exitSelectMode()
 }
 function renameSelected() {
   $q.dialog({

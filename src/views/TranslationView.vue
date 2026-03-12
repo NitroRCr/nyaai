@@ -1,79 +1,85 @@
 <template>
   <div
     view-styles
-    p-4
   >
-    <div
-      flex
-      items-center
-      gap-2
-    >
-      <autocomplete-input
-        :options="conf.translationLanguageOptions"
-        :model-value="record.from"
-        @update:model-value="update({ from: $event })"
-        :placeholder="t('Detect language')"
-        dense
-        class="grow"
-      />
-      <q-btn
-        @click="swapLanguages"
-        icon="sym_o_swap_horiz"
-        :title="t('Swap languages')"
-        flat
-        round
-        dense
-      />
-      <autocomplete-input
-        :options="conf.translationLanguageOptions"
-        :model-value="record.to"
-        @update:model-value="update({ to: $event })"
-        :placeholder="t('Auto')"
-        dense
-        class="grow"
-      />
-      <q-btn
-        :loading
-        :disable="!!currentRecord.output"
-        @click="translate"
-        :label="t('Translate')"
-        color="primary"
-        unelevated
-      />
-    </div>
-    <div
-      flex
-      mt-4
-      gap-2
-    >
-      <a-input
-        :model-value="recordProxy.input"
-        @update:model-value="updateProxy({ input: $event as string })"
-        outlined
-        type="textarea"
-        autofocus
-        class="flex-1"
-        field-sizing-content
-        important:min-h="200px"
-        @keydown.enter="onEnter"
-      />
+    <common-toolbar>
+      <q-toolbar-title>{{ t('Translate') }}</q-toolbar-title>
+    </common-toolbar>
+    <div p-4>
       <div
-        flex-1
-        bg-sur-c-low
-        px-3
-        rd
+        flex
+        items-center
+        gap-2
       >
-        <pre whitespace-pre-wrap>{{ record.output }}</pre>
+        <autocomplete-input
+          :options="conf.translationLanguageOptions"
+          :model-value="record.from"
+          @update:model-value="update({ from: $event })"
+          :placeholder="t('Detect language')"
+          dense
+          class="grow"
+          field-sizing-content
+        />
+        <q-btn
+          @click="swapLanguages"
+          icon="sym_o_swap_horiz"
+          :title="t('Swap languages')"
+          flat
+          round
+          dense
+        />
+        <autocomplete-input
+          :options="conf.translationLanguageOptions"
+          :model-value="record.to"
+          @update:model-value="update({ to: $event })"
+          :placeholder="t('Auto')"
+          dense
+          class="grow"
+          field-sizing-content
+        />
+        <q-btn
+          :loading
+          :disable="!!currentRecord.output"
+          @click="translate"
+          :label="t('Translate')"
+          color="primary"
+          unelevated
+        />
       </div>
+      <div
+        flex
+        mt-4
+        gap-2
+      >
+        <a-input
+          :model-value="recordProxy.input"
+          @update:model-value="updateProxy({ input: $event as string })"
+          outlined
+          type="textarea"
+          autofocus
+          class="flex-1"
+          field-sizing-content
+          important:min-h="200px"
+          @keydown.enter="onEnter"
+        />
+        <div
+          flex-1
+          bg-sur-c-low
+          px-3
+          rd
+        >
+          <pre whitespace-pre-wrap>{{ record.output }}</pre>
+        </div>
+      </div>
+      <q-pagination
+        v-if="translation.records.length > 1"
+        :model-value="translation.currentIndex + 1"
+        @update:model-value="switchRecord($event - 1)"
+        :max="translation.records.length"
+        :boundary-links="false"
+        input
+      />
     </div>
-    <q-pagination
-      v-if="translation.records.length > 1"
-      :model-value="translation.currentIndex + 1"
-      @update:model-value="switchRecord($event - 1)"
-      :max="translation.records.length"
-      :boundary-links="false"
-      input
-    />
   </div>
 </template>
 
@@ -98,6 +104,8 @@ import { computed, ref } from 'vue'
 import { z } from 'zod'
 import { usePerfsStore } from 'src/stores/perfs'
 import { shortcutKeyMatch } from 'src/utils/functions'
+import { useRoute, useRouter } from 'vue-router'
+import CommonToolbar from 'src/components/CommonToolbar.vue'
 
 const props = defineProps<{
   translation: FullTranslation
@@ -219,4 +227,10 @@ function onEnter(ev: KeyboardEvent) {
   }
 }
 
+const route = useRoute()
+const router = useRouter()
+if (route.hash === '#translate') {
+  translate()
+  router.replace({ query: route.query })
+}
 </script>

@@ -13,6 +13,7 @@
         <entity-list
           v-model="dirId"
           @entity-click="dirId = $event.id"
+          :exclude
         />
       </q-card-section>
       <q-card-actions align="right">
@@ -42,6 +43,7 @@ import { ref } from 'vue'
 
 defineProps<{
   title?: string
+  exclude?: string[]
 }>()
 
 defineEmits([

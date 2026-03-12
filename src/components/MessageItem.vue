@@ -129,12 +129,11 @@
                     :label="t('Direct Edit')"
                     @click="directEdit"
                   />
-                  <!-- TODO: impl quote
-                <menu-item
-                  icon="sym_o_format_quote"
-                  :label="$t('messageItem.quote')"
-                  @click="quote(textContent.text)"
-                /> -->
+                  <menu-item
+                    icon="sym_o_format_quote"
+                    :label="t('Quote')"
+                    @click="$emit('quote', message.text)"
+                  />
                   <menu-item
                     icon="sym_o_info"
                     :label="t('More Info')"
@@ -181,14 +180,70 @@
             </q-card-section>
           </q-card>
         </q-expansion-item>
-        <md-preview
-          :class="background ? 'bg-sur-c-low px-4' : 'bg-sur'"
-          rd-lg
-          :model-value="message.text"
-          v-bind="mdPreviewProps"
-          @on-html-changed="onHtmlChanged"
-          @on-get-catalog="headList = $event"
-        />
+        <div
+          ref="textDiv"
+          @mouseup="onSelect('mouse')"
+          @touchend="onSelect('touch')"
+          pos-relative
+          overflow-visible
+        >
+          <md-preview
+            :class="background ? 'bg-sur-c-low px-4' : 'bg-sur'"
+            rd-lg
+            :model-value="message.text"
+            v-bind="mdPreviewProps"
+            @on-html-changed="onHtmlChanged"
+            @on-get-catalog="headList = $event"
+          />
+          <transition name="fade">
+            <q-btn-group
+              v-if="selected.text"
+              :style="floatBtnStyle"
+              pos-absolute
+              z-20
+              bg-sec-c
+              text-on-sec-c
+              shadow-default
+              class="float-btn-group"
+              :class="{ dense: $q.screen.lt.md }"
+            >
+              <q-btn
+                icon="sym_o_format_quote"
+                :label="t('Quote')"
+                @click="$emit('quote', selected.text)"
+                no-caps
+              />
+
+              <template v-if="!selected.text.includes('\n')">
+                <q-separator vertical />
+                <q-btn
+                  v-if="!selected.text.includes('\n')"
+                  icon="sym_o_search"
+                  :label="t('Search')"
+                  @click="search(selected.text)"
+                  no-caps
+                />
+              </template>
+              <q-separator vertical />
+              <q-btn
+                icon="sym_o_translate"
+                :label="t('Translate')"
+                @click="translate(selected.text)"
+                no-caps
+              />
+              <template v-if="selected.markdown">
+                <q-separator vertical />
+                <q-btn
+                  icon="sym_o_content_copy"
+                  label="Markdown"
+                  @click="copyToClipboard(selected.markdown)"
+                  :title="t('Copy Markdown')"
+                  no-caps
+                />
+              </template>
+            </q-btn-group>
+          </transition>
+        </div>
         <div
           v-if="message.entities.length"
           flex="~ wrap"
@@ -286,11 +341,11 @@ import type { Avatar } from 'app/src-shared/utils/validators'
 import AAvatar from './AAvatar.vue'
 import { t } from 'src/utils/i18n'
 import type { Component } from 'vue'
-import { computed, nextTick, ref, shallowReactive } from 'vue'
+import { computed, nextTick, onUnmounted, reactive, ref, shallowReactive, useTemplateRef } from 'vue'
 import type { HeadList } from 'md-editor-v3'
 import { MdCatalog, MdPreview } from 'md-editor-v3'
 import { useMdProps } from 'src/composables/md-props'
-import { useQuasar } from 'quasar'
+import { copyToClipboard, useQuasar } from 'quasar'
 import TextareaDialog from './TextareaDialog.vue'
 import { dialogOptions } from 'src/utils/props'
 import { mutate, user } from 'src/utils/zero-session'
@@ -307,6 +362,8 @@ import MessageImage from './MessageImage.vue'
 import MessageEntity from './MessageEntity.vue'
 import { usePerfsStore } from 'src/stores/perfs'
 import ToolcallItem from './ToolCallItem.vue'
+import { createSearch } from 'src/services/create-search'
+import { useRouter } from 'vue-router'
 
 const props = defineProps<{
   message: FullMessage
@@ -323,6 +380,7 @@ const emit = defineEmits<{
   edit: []
   rendered: []
   deleteBranch: []
+  quote: [string]
 }>()
 
 const generating = computed(() => tasks.some(t => t.id === props.message.id && t.status === 'running'))
@@ -456,6 +514,74 @@ function timeText(message: FullMessage) {
   if (message.sentAt) return new Date(message.sentAt).toLocaleString()
   return null
 }
+
+const floatBtnStyle = reactive({
+  top: undefined as string | undefined,
+  left: undefined as string | undefined,
+})
+const textDiv = useTemplateRef('textDiv')
+const selected = reactive({
+  text: null as string | null,
+  markdown: null as string | null,
+})
+function getDataLine(node: Node | null, ttl = 5) {
+  if (!node || ttl === 0) return -1
+  if (node.nodeType !== Node.ELEMENT_NODE) return getDataLine(node.parentElement, ttl - 1)
+  const val = (node as Element).getAttribute('data-line')
+  return val ? parseInt(val) : getDataLine(node.parentElement, ttl - 1)
+}
+function onSelect(mode: 'mouse' | 'touch') {
+  const { perfs } = perfsStore
+  if (!perfs.messageSelectionBtn) return
+  const selection = document.getSelection()
+  if (!selection) return
+  const text = selection.toString()
+  if (!text) return
+  const start = getDataLine(selection.anchorNode)
+  const end = getDataLine(selection.focusNode)
+  if (start === -1 || end === -1) {
+    selected.text = text
+  } else {
+    selected.markdown = props.message.text.split('\n').slice(start, end + 1).join('\n')
+    selected.text = start === end ? text : selected.markdown
+  }
+  const range = selection.getRangeAt(0)
+  const targetRects = range.getBoundingClientRect()
+  const baseRects = textDiv.value!.getBoundingClientRect()
+  floatBtnStyle.top = targetRects.top < 48 || mode === 'touch'
+    ? targetRects.bottom - baseRects.top + 12 + 'px'
+    : targetRects.top - baseRects.top - 48 + 'px'
+  floatBtnStyle.left = Math.min(
+    targetRects.left - baseRects.left,
+    Math.max(baseRects.width - 375, 0),
+  ) + 'px'
+}
+if (perfsStore.perfs.messageSelectionBtn) {
+  const listener = () => {
+    selected.text = null
+    selected.markdown = null
+  }
+  document.addEventListener('selectionchange', listener)
+  onUnmounted(() => document.removeEventListener('selectionchange', listener))
+}
+
+const router = useRouter()
+async function search(text: string) {
+  const id = await createSearch(text, props.message.entityId)
+  router.push(`/search/${id}`)
+}
+async function translate(text: string) {
+  const id = genId()
+  await mutate(mutators.createTranslation({
+    id,
+    parentId: props.message.entityId,
+    input: text,
+  })).client
+  router.push({
+    query: { rightEntity: JSON.stringify({ type: 'translation', id }) },
+    hash: '#translate',
+  })
+}
 </script>
 <style lang="scss">
 .reasoning-content-header {
@@ -468,6 +594,26 @@ function timeText(message: FullMessage) {
   .md-editor-code .md-editor-code-head {
     top: 40px;
     z-index: 10;
+  }
+}
+
+.float-btn-group {
+  .q-btn {
+    .q-icon {
+      font-size: 18px;
+      margin-right: 8px;
+    }
+    padding: 4px 12px;
+  }
+
+  &.dense {
+    .q-btn {
+      .q-icon {
+        font-size: 16px;
+        margin-right: 4px;
+      }
+      padding: 4px 8px;
+    }
   }
 }
 </style>
