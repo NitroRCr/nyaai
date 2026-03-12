@@ -5,6 +5,7 @@
       items-center
       text-on-sur-var
       px-2
+      of-x-auto
     >
       <q-btn
         v-if="dir?.parent"
@@ -28,14 +29,21 @@
         <q-btn
           flat
           dense
-          :label="entityName(entity)"
           no-caps
           @click="dirId = entity.id"
+          :title="entityName(entity)"
           font-normal
           @drop="onDrop($event, entity.id)"
           v-on="dragHoverListeners"
           transition="background-color 250"
-        />
+          no-wrap
+          :class="{ 'min-w-50px of-hidden': displayLength(entityName(entity)) > 10 }"
+        >
+          <span
+            of-hidden
+            text-ellipsis
+          >{{ entityName(entity) }}</span>
+        </q-btn>
       </template>
       <q-space />
       <slot name="actions" />
@@ -109,6 +117,12 @@
               @click="renameSelected"
             />
             <menu-item
+              v-if="selectedOne?.type === 'chat'"
+              :label="t('Summarize title')"
+              icon="sym_o_auto_fix"
+              @click="summarizeChatTitle(selectedOne.id)"
+            />
+            <menu-item
               v-if="selectedOne"
               :label="t('Change Icon')"
               icon="sym_o_interests"
@@ -163,9 +177,9 @@
 import type { FullEntity } from 'app/src-shared/queries'
 import { queries } from 'app/src-shared/queries'
 import { useQuery } from 'src/composables/zero/query'
-import { mutate } from 'src/utils/zero-session'
+import { mutate, z } from 'src/utils/zero-session'
 import type { SpliceListOptions } from 'src/utils/functions'
-import { arrayToMap, entityRoute, expandAncestors, spliceList } from 'src/utils/functions'
+import { arrayToMap, displayLength, entityRoute, expandAncestors, spliceList } from 'src/utils/functions'
 import { computed, onUnmounted, reactive, ref, useTemplateRef, watch } from 'vue'
 import EntityItem from './EntityItem.vue'
 import { t } from 'src/utils/i18n'
@@ -183,6 +197,8 @@ import UpdateShortcutDialog from './UpdateShortcutDialog.vue'
 import { parseText } from 'src/utils/file-parse'
 import { genId } from 'app/src-shared/utils/id'
 import { upload } from 'src/utils/blob-cache'
+import { generateChatTitle } from 'src/services/generate-chat-title'
+import { useEntityConf } from 'src/composables/entity-conf'
 
 const emit = defineEmits<{
   entityClick: [entity: FullEntity]
@@ -431,6 +447,18 @@ function changeIcon() {
       id: entity.id,
       avatar,
     }))
+  })
+}
+
+const { conf } = useEntityConf(dir)
+async function summarizeChatTitle(id: string) {
+  const chat = await z.run(queries.fullChat(id), { type: 'complete' })
+  chat && await generateChatTitle({ chat, conf: conf.value }).catch(err => {
+    console.error(err)
+    $q.notify({
+      message: t('Failed to generate chat title: {0}', err.message),
+      color: 'negative',
+    })
   })
 }
 </script>

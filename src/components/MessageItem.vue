@@ -205,7 +205,7 @@
               text-on-sec-c
               shadow-default
               class="float-btn-group"
-              :class="{ dense: $q.screen.lt.md }"
+              :class="{ dense: $q.screen.lt.sm }"
               @click="hide"
             >
               <q-btn

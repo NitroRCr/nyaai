@@ -9,7 +9,7 @@
         :assistant-id="conf.chatAssistantId"
         :model-id="chat.modelId"
         :workspace-id="workspaceStore.id"
-        :conf="conf"
+        :conf
         @update:assistant-id="switchAssistant"
         @update:model-id="switchModel"
       />
@@ -343,9 +343,7 @@ async function send() {
   }
 }
 async function generateTitle() {
-  const modelId = conf.value.chatTitleModelId
-  const model = modelId && await z.run(queries.fullModel(modelId), { type: 'complete' })
-  model && await generateChatTitle({ chat: props.chat, model }).catch(err => {
+  await generateChatTitle({ chat: props.chat, conf: conf.value }).catch(err => {
     console.error(err)
     $q.notify({
       message: t('Failed to generate chat title: {0}', err.message),

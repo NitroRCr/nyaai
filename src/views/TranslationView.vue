@@ -17,8 +17,8 @@
           @update:model-value="update({ from: $event })"
           :placeholder="t('Detect language')"
           dense
-          class="grow"
           field-sizing-content
+          class="flex-1"
         />
         <q-btn
           @click="swapLanguages"
@@ -34,51 +34,100 @@
           @update:model-value="update({ to: $event })"
           :placeholder="t('Auto')"
           dense
-          class="grow"
           field-sizing-content
-        />
-        <q-btn
-          :loading
-          :disable="!!currentRecord.output"
-          @click="translate"
-          :label="t('Translate')"
-          color="primary"
-          unelevated
+          class="flex-1"
         />
       </div>
       <div
         flex
+        :class="{ 'flex-col': $q.screen.lt.sm}"
         mt-4
         gap-2
       >
-        <a-input
-          :model-value="recordProxy.input"
-          @update:model-value="updateProxy({ input: $event as string })"
-          outlined
-          type="textarea"
-          autofocus
+        <div
           class="flex-1"
-          field-sizing-content
-          important:min-h="200px"
-          @keydown.enter="onEnter"
-        />
+          pos-relative
+          box-border
+        >
+          <a-input
+            class="translation-input"
+            :model-value="recordProxy.input"
+            @update:model-value="updateProxy({ input: $event as string })"
+            outlined
+            autogrow
+            autofocus
+            field-sizing-content
+            important:min-h="200px"
+            @keydown.enter="onEnter"
+            pb="50px"
+          />
+          <div
+            pos-absolute
+            bottom-2
+            left-3
+            right-3
+            flex
+            items-center
+          >
+            <q-pagination
+              v-if="translation.records.length > 1"
+              :model-value="translation.currentIndex + 1"
+              @update:model-value="switchRecord($event - 1)"
+              :max="translation.records.length"
+              :boundary-links="false"
+              input
+            />
+            <q-btn
+              flat
+              dense
+              round
+              icon="sym_o_content_paste"
+              text-on-sur-var
+              @click="paste"
+            />
+            <q-btn
+              :loading
+              :disable="!!currentRecord.output"
+              @click="translate"
+              :label="t('Translate')"
+              bg-pri-c
+              text-on-pri-c
+              unelevated
+              ml-a
+            />
+          </div>
+        </div>
         <div
           flex-1
           bg-sur-c-low
-          px-3
           rd
         >
-          <pre whitespace-pre-wrap>{{ record.output }}</pre>
+          <div
+            px-3
+            h-full
+            flex="~ col"
+          >
+            <pre
+              whitespace-pre-wrap
+              grow
+            >{{ record.output }}</pre>
+            <div
+              py-2
+              flex
+            >
+              <copy-btn
+                v-if="record.output"
+                :value="record.output"
+                flat
+                dense
+                round
+                text-on-sur-var
+                ml-a
+              />
+            </div>
+          </div>
         </div>
       </div>
-      <q-pagination
-        v-if="translation.records.length > 1"
-        :model-value="translation.currentIndex + 1"
-        @update:model-value="switchRecord($event - 1)"
-        :max="translation.records.length"
-        :boundary-links="false"
-        input
-      />
     </div>
   </div>
 </template>
@@ -106,6 +155,7 @@ import { usePerfsStore } from 'src/stores/perfs'
 import { shortcutKeyMatch } from 'src/utils/functions'
 import { useRoute, useRouter } from 'vue-router'
 import CommonToolbar from 'src/components/CommonToolbar.vue'
+import CopyBtn from 'src/components/CopyBtn.vue'
 
 const props = defineProps<{
   translation: FullTranslation
@@ -144,7 +194,7 @@ async function swapLanguages() {
   output && translate()
 }
 
-const { value: recordProxy, update: updateProxy } = useEditProxy(
+const { value: recordProxy, update: updateProxy, flush } = useEditProxy(
   record,
   ['id', 'input'],
   (id, updates) => {
@@ -173,7 +223,8 @@ function translate() {
     translationPrimaryLanguage,
     translationSecondaryLanguage,
   } = conf.value
-  const { id, from, to, input } = record.value
+  flush()
+  const { id, from, to, input } = recordProxy.value
   generateText({
     ...model.value.settings,
     model: toSdkModel(model.value),
@@ -233,4 +284,19 @@ if (route.hash === '#translate') {
   translate()
   router.replace({ query: route.query })
 }
+
+async function paste() {
+  const text = await navigator.clipboard.readText()
+  updateProxy({ input: text })
+  flush()
+  translate()
+}
 </script>
+<style lang="scss" scoped>
+.translation-input {
+  height: 100%;
+  :is(.q-field__control) {
+    height: 100%;
+  }
+}
+</style>
