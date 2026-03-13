@@ -13,8 +13,8 @@ function withParent(q: EntityQuery, depth: number) {
   return q
 }
 function withChildren(q: EntityQuery, depth: number, refine: (q: EntityQuery) => EntityQuery = q => q) {
-  if (depth) q = q.related('children', q => withChildren(q, depth - 1, refine))
-  return refine(q)
+  if (depth) q = q.related('children', q => withChildren(refine(q), depth - 1, refine))
+  return q
 }
 function fullMessage(q: Query<'message', DefaultSchema>) {
   return q

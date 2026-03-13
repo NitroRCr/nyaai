@@ -69,7 +69,7 @@ const rules = [
   }),
   rule({
     match: ({ name, provider }) =>
-      (provider?.type === 'openai' || provider?.type === 'openai-compatible') &&
+      (provider?.type === 'openai' || provider?.type === 'openaiCompatible') &&
       /^gpt-5/.test(name),
     options: {
       reasoningEffort: {

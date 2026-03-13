@@ -615,5 +615,8 @@
   "Scroll to bottom": "滾動到底部",
   "Paste code optimization": "貼上程式碼優化",
   "Automatically wrap the code copied from VSCode with markdown code blocks when pasting to chat": "貼到聊天時自動將從 VSCode 複製的程式碼用 markdown 程式碼區塊包裹起來",
-  "Markdown rendering": "Markdown 渲染"
+  "Markdown rendering": "Markdown 渲染",
+  "Summarize title": "總結標題",
+  "Resource Name": "資源名稱",
+  "API Version": "API版本"
 }

@@ -227,6 +227,7 @@ const { data: dir } = useQuery(() => queries.entity({
   children: { depth: 1, limit: 40, ...listOptions.value },
 }), {
   onNotFound() {
+    console.log('not found', dirId.value)
     dirId.value = workspaceStore.id!
   },
 })

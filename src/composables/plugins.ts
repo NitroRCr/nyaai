@@ -1,9 +1,8 @@
-import { Client } from '@modelcontextprotocol/sdk/client'
+import type { Client } from '@modelcontextprotocol/sdk/client'
 import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js'
 import type { McpPluginManifest } from 'src/stores/plugins'
 import { usePluginsStore } from 'src/stores/plugins'
 import { computed, shallowRef, watch, type Ref } from 'vue'
-import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js'
 import { z } from 'zod'
 import { Notify } from 'quasar'
 import { t } from 'src/utils/i18n'
@@ -40,6 +39,8 @@ async function clientUp(manifest: McpPluginManifest) {
   }
   let refCount = pool[manifest.id]?.refCount ?? 0
   refCount++
+  const { Client } = await import('@modelcontextprotocol/sdk/client')
+  const { StreamableHTTPClientTransport } = await import('@modelcontextprotocol/sdk/client/streamableHttp.js')
   const client = new Client({
     name: 'nyaai',
     version: '1.0.0',

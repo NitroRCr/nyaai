@@ -6,7 +6,6 @@ import { getChatChain } from 'src/utils/chat-tools'
 import { arrayToMap } from 'src/utils/functions'
 import { toSdkModel } from 'src/utils/model'
 import { engine } from 'src/utils/template-engine'
-import { ChatTitlePrompt } from 'src/utils/templates'
 import type { EntityConf } from 'src/composables/entity-conf'
 
 export async function generateChatTitle({ chat, conf }: {
@@ -19,7 +18,7 @@ export async function generateChatTitle({ chat, conf }: {
   const messageMap = arrayToMap(chat.messages, m => m.id)
   const chain = getChatChain(chat)
   const messages = chain.slice(1, -1).map(id => messageMap[id])
-  const prompt = await engine.parseAndRender(ChatTitlePrompt, { messages })
+  const prompt = await engine.parseAndRender(conf.chatTitlePrompt, { messages })
   const { text } = await generateText({
     model: toSdkModel(model),
     prompt,

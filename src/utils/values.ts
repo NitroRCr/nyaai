@@ -7,6 +7,12 @@ import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
 import { t } from 'src/utils/i18n'
 import type { InferSchema, ObjectSchema } from './types'
 import { createGoogleGenerativeAI } from '@ai-sdk/google'
+import { createOpenResponses } from '@ai-sdk/open-responses'
+import { createAzure } from '@ai-sdk/azure'
+import { createDeepSeek } from '@ai-sdk/deepseek'
+import { createXai } from '@ai-sdk/xai'
+import { createOpenRouter } from '@openrouter/ai-sdk-provider'
+import { createOllama } from 'ollama-ai-provider-v2'
 
 export interface ProviderType<S extends ObjectSchema> {
   label: string
@@ -39,41 +45,39 @@ const BaseURLs = {
   google: 'https://generativelanguage.googleapis.com/v1beta',
   ollama: 'http://localhost:11434/api',
   openrouter: 'https://openrouter.ai/api/v1',
+  deepseek: 'https://api.deepseek.com',
+  xai: 'https://api.x.ai/v1',
 }
 
 const commonSchema = {
-  baseURL: {
-    type: 'string',
-    format: 'url',
-    title: t('API Address'),
-    width: '225px',
-  },
   apiKey: {
     type: 'string',
     title: 'API Key',
     format: 'password',
     width: '225px',
   },
+  baseURL: {
+    type: 'string',
+    format: 'url',
+    title: t('API Address'),
+    width: '225px',
+  },
 } satisfies ObjectSchema
 
 export const providerTypes = {
-  'openai-compatible': providerType({
+  openaiCompatible: providerType({
     label: 'OpenAI Compatible',
     avatar: { type: 'svg', name: 'openai', hue: 160 },
     schema: {
       ...commonSchema,
-      baseURL: {
-        ...commonSchema.baseURL,
-        placeholder: BaseURLs.openai,
-      },
     },
-    getModelList: ({ baseURL, apiKey }) => getModelListCompatible({ baseURL: baseURL ?? BaseURLs.openai, apiKey }),
+    getModelList: ({ baseURL, apiKey }) => getModelListCompatible({ baseURL, apiKey }),
     model: {
       language: (settings, model) => createOpenAICompatible({
-        name: 'openai-compatible',
+        name: 'openaiCompatible',
         includeUsage: true,
         ...settings,
-        baseURL: settings.baseURL ?? BaseURLs.openai,
+        baseURL: settings.baseURL!,
       }).languageModel(model),
     },
   }),
@@ -102,29 +106,20 @@ export const providerTypes = {
       },
     },
   }),
-  anthropic: providerType({
-    label: 'Anthropic',
-    avatar: { type: 'svg', name: 'anthropic' },
+  openResponses: providerType({
+    label: 'Open Responses',
+    avatar: { type: 'svg', name: 'openresponses' },
     schema: {
-      ...commonSchema,
-      baseURL: {
-        ...commonSchema.baseURL,
-        placeholder: BaseURLs.anthropic,
-      },
+      url: commonSchema.baseURL,
+      apiKey: commonSchema.apiKey,
     },
-    getModelList: async (settings) => {
-      const { baseURL = BaseURLs.anthropic } = settings
-      if (!settings.apiKey) throw new Error(t('Please enter API key'))
-      const { data } = await ky.get(`${baseURL}/models`, {
-        headers: {
-          'x-api-key': settings.apiKey,
-          'anthropic-version': '2023-06-01',
-        },
-      }).json<any>()
-      return data.map(m => m.id)
-    },
+    getModelList: ({ url, apiKey }) => getModelListCompatible({ baseURL: url, apiKey }),
     model: {
-      language: (settings, model) => createAnthropic(settings).languageModel(model),
+      language: (settings, model) => createOpenResponses({
+        name: 'openResponses',
+        ...settings,
+        url: settings.url!,
+      }).languageModel(model),
     },
   }),
   google: providerType({
@@ -151,6 +146,123 @@ export const providerTypes = {
     },
     model: {
       language: (settings, model) => createGoogleGenerativeAI(settings).languageModel(model),
+    },
+  }),
+  anthropic: providerType({
+    label: 'Anthropic',
+    avatar: { type: 'svg', name: 'anthropic' },
+    schema: {
+      ...commonSchema,
+      baseURL: {
+        ...commonSchema.baseURL,
+        placeholder: BaseURLs.anthropic,
+      },
+    },
+    getModelList: async (settings) => {
+      const { baseURL = BaseURLs.anthropic } = settings
+      if (!settings.apiKey) throw new Error(t('Please enter API key'))
+      const { data } = await ky.get(`${baseURL}/models`, {
+        headers: {
+          'x-api-key': settings.apiKey,
+          'anthropic-version': '2023-06-01',
+        },
+      }).json<any>()
+      return data.map(m => m.id)
+    },
+    model: {
+      language: (settings, model) => createAnthropic(settings).languageModel(model),
+    },
+  }),
+  azure: providerType({
+    label: 'Azure',
+    avatar: { type: 'svg', name: 'microsoft-c' },
+    schema: {
+      resourceName: {
+        type: 'string',
+        title: t('Resource Name'),
+      },
+      ...commonSchema,
+      apiVersion: {
+        type: 'string',
+        title: t('API Version'),
+        placeholder: 'v1',
+      },
+    },
+    model: {
+      language: (settings, model) => {
+        const azure = createAzure(settings)
+        return azure.languageModel(model)
+      },
+    },
+  }),
+  xai: providerType({
+    label: 'xAI',
+    avatar: { type: 'svg', name: 'grok' },
+    schema: {
+      ...commonSchema,
+      baseURL: {
+        ...commonSchema.baseURL,
+        placeholder: BaseURLs.xai,
+      },
+    },
+    getModelList: ({ baseURL, apiKey }) => getModelListCompatible({ baseURL: baseURL ?? BaseURLs.xai, apiKey }),
+    model: {
+      language: (settings, model) => {
+        const xai = createXai(settings)
+        return xai.languageModel(model)
+      },
+    },
+  }),
+  deepseek: providerType({
+    label: 'DeepSeek',
+    avatar: { type: 'svg', name: 'deepseek-c' },
+    schema: {
+      ...commonSchema,
+      baseURL: {
+        ...commonSchema.baseURL,
+        placeholder: BaseURLs.deepseek,
+      },
+    },
+    getModelList: ({ baseURL, apiKey }) => getModelListCompatible({ baseURL: baseURL ?? BaseURLs.deepseek, apiKey }),
+    model: {
+      language: (settings, model) => {
+        const deepseek = createDeepSeek(settings)
+        return deepseek.languageModel(model)
+      },
+    },
+  }),
+  openrouter: providerType({
+    label: 'OpenRouter',
+    avatar: { type: 'svg', name: 'openrouter' },
+    schema: {
+      ...commonSchema,
+      baseURL: {
+        ...commonSchema.baseURL,
+        placeholder: BaseURLs.openrouter,
+      },
+    },
+    getModelList: ({ baseURL, apiKey }) => getModelListCompatible({ baseURL: baseURL ?? BaseURLs.openrouter, apiKey }),
+    model: {
+      language: (settings, model) => {
+        const openrouter = createOpenRouter(settings)
+        return openrouter.languageModel(model)
+      },
+    },
+  }),
+  ollama: providerType({
+    label: 'Ollama',
+    avatar: { type: 'svg', name: 'ollama' },
+    schema: {
+      baseURL: {
+        ...commonSchema.baseURL,
+        placeholder: BaseURLs.ollama,
+      },
+    },
+    model: {
+      language: (settings, model) => {
+        const ollama = createOllama(settings)
+        return ollama.languageModel(model)
+      },
     },
   }),
 }

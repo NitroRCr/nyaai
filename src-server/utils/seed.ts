@@ -31,7 +31,7 @@ export async function seed() {
   await db.insert(provider).values({
     id: PUBLIC_ROOT_ID,
     rootId: PUBLIC_ROOT_ID,
-    type: 'openai-compatible',
+    type: 'openaiCompatible',
     settings: {
       baseURL: '/api/v1',
     },

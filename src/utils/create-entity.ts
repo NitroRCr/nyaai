@@ -40,7 +40,7 @@ export async function createEntity(parentId: string, type: EntityType) {
     })).client
     router.push(`/channel/${id}`)
   } else if (type === 'provider') {
-    const defaultType = 'openai-compatible'
+    const defaultType = 'openaiCompatible'
     const id = genId()
     const { label, avatar, initialSettings = {} } = providerTypes[defaultType]
     await mutate(mutators.createProvider({

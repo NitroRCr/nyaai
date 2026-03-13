@@ -14,7 +14,7 @@
       <common-item :label="t('Hidden')">
         <q-toggle
           :model-value="entity?.hidden"
-          @update:model-value="$event && updateEntity({ hidden: $event })"
+          @update:model-value="updateEntity({ hidden: $event })"
         />
       </common-item>
       <q-separator spaced />

@@ -370,7 +370,7 @@
   "{0} days": "{0} 天",
   "Owner": "所有者",
   "API Address": "接口地址",
-  "Use Responses API": "使用响应 API",
+  "Use Responses API": "使用 Responses API",
   "Please enter API key": "请输入API密钥",
   "Prompt": "提示词",
   "Prompt Template": "提示词模板",
@@ -615,5 +615,8 @@
   "Scroll to bottom": "滚动到底部",
   "Paste code optimization": "粘贴代码优化",
   "Automatically wrap the code copied from VSCode with markdown code blocks when pasting to chat": "粘贴从 VSCode 复制的代码到对话时自动用 markdown 代码块包裹",
-  "Markdown rendering": "Markdown 渲染"
+  "Markdown rendering": "Markdown 渲染",
+  "Summarize title": "总结标题",
+  "Resource Name": "资源名",
+  "API Version": "API 版本"
 }

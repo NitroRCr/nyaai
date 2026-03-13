@@ -8,6 +8,8 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+const ANALYZE = process.argv.includes('--analyze')
+
 export default defineConfig((ctx) => {
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
@@ -69,7 +71,7 @@ export default defineConfig((ctx) => {
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
-      sourcemap: false,
+      sourcemap: ANALYZE ? 'hidden' : false,
 
       vitePlugins: [
         ['vite-plugin-checker', {
@@ -80,7 +82,7 @@ export default defineConfig((ctx) => {
           },
         }, { server: false }],
         ['unocss/vite'],
-        ['sonda/vite', { gzip: true, brotli: true }],
+        ...ANALYZE ? [['sonda/vite', { gzip: true, brotli: true }] as any] : [],
         compression(),
       ],
       alias: {
