@@ -95,7 +95,7 @@ import { computed, reactive, ref } from 'vue'
 import AAvatar from 'src/components/AAvatar.vue'
 import ForgotPasswordDialog from './ForgotPasswordDialog.vue'
 import VerifyEmailDialog from './VerifyEmailDialog.vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { user } from 'src/utils/zero-session'
 import { until } from '@vueuse/core'
 import { useGlobalSettingsStore } from 'src/stores/global-settings'
@@ -111,6 +111,10 @@ const oauthProviders = computed(() => globalSettingsStore.settings?.oauthProvide
 const loading = ref(false)
 const $q = useQuasar()
 const router = useRouter()
+const route = useRoute()
+function getRedirect() {
+  return route.query.redirect as string || '/'
+}
 async function signIn() {
   loading.value = true
   const { error } = await authClient.signIn.email(({
@@ -138,13 +142,13 @@ async function signIn() {
     return
   }
   await until(() => user.id).toBeTruthy()
-  router.replace('/')
+  router.replace(getRedirect())
 }
 
 function signInWith(provider: string) {
   authClient.signIn.social({
     provider,
-    callbackURL: location.origin,
+    callbackURL: location.origin + getRedirect(),
   })
 }
 

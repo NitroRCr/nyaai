@@ -1,10 +1,10 @@
 {
+  "id": "141a58a7-1a14-408d-a250-4f62bbd42450",
+  "prevIds": [
+    "0aea3b6b-26ed-4882-9812-60f53ea0756f"
+  ],
   "version": "8",
   "dialect": "postgres",
-  "id": "2956d64b-f643-49f8-9367-540c83dfbc28",
-  "prevIds": [
-    "f37f5a7e-2ab3-40e1-877b-47b194de486d"
-  ],
   "ddl": [
     {
       "isRlsEnabled": false,
@@ -641,6 +641,19 @@
       "generated": null,
       "identity": null,
       "name": "userId",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "entityAccess"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "rootId",
       "entityType": "columns",
       "schema": "public",
       "table": "entityAccess"
@@ -1465,6 +1478,19 @@
       "table": "model"
     },
     {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "sortPriority",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "model"
+    },
+    {
       "type": "varchar(16)",
       "typeSchema": null,
       "notNull": true,
@@ -1629,6 +1655,19 @@
       "generated": null,
       "identity": null,
       "name": "patch",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pagePatch"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "userId",
       "entityType": "columns",
       "schema": "public",
       "table": "pagePatch"
@@ -3881,16 +3920,18 @@
     {
       "nameExplicit": false,
       "columns": [
+        "rootId",
         "entityId"
       ],
       "schemaTo": "public",
       "tableTo": "entity",
       "columnsTo": [
+        "rootId",
         "id"
       ],
-      "onUpdate": "NO ACTION",
+      "onUpdate": "CASCADE",
       "onDelete": "CASCADE",
-      "name": "entityAccess_entityId_entity_id_fkey",
+      "name": "entityAccess_rootId_entityId_entity_rootId_id_fkey",
       "entityType": "fks",
       "schema": "public",
       "table": "entityAccess"
@@ -4229,6 +4270,23 @@
       "entityType": "fks",
       "schema": "public",
       "table": "page"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "userId"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "SET NULL",
+      "name": "pagePatch_userId_user_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "pagePatch"
     },
     {
       "nameExplicit": false,

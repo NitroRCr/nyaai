@@ -167,13 +167,13 @@ function addItem(args: {
   language?: string
 }) {
   const id = genId()
-  mutate(mutators.createMessageItem({
+  const wait = mutate(mutators.createMessageItem({
     id,
     messageId: editableMessage.value.id,
     parentId: props.parentId,
     ...args,
-  }))
-  return id
+  })).server
+  return { id, wait }
 }
 async function addFiles(files: File[]) {
   const parseList: File[] = []
@@ -183,12 +183,12 @@ async function addFiles(files: File[]) {
       addItem({ name: file.name, text, language: getExt(file.name) })
     } else if (mimeTypeMatch(file.type, props.inputTypes)) {
       file = await scaleWhenNeeded(file)
-      const id = addItem({
+      const { id, wait } = addItem({
         name: file.name,
         mimeType: file.type,
         ...await parseText(file),
       })
-      upload(id, file, file.name)
+      upload(id, file, file.name, wait)
     } else {
       parseList.push(file)
     }
@@ -204,8 +204,8 @@ function parseFiles(files: File[]) {
     },
   }).onOk((results: ParseResult[]) => {
     for (const { name, text, blob, language } of results) {
-      const id = addItem({ name, text, mimeType: blob?.type, language })
-      blob && upload(id, blob, name)
+      const { id, wait } = addItem({ name, text, mimeType: blob?.type, language })
+      blob && upload(id, blob, name, wait)
     }
   })
 }

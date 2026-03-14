@@ -120,11 +120,11 @@ async function trimCache() {
   await tx.done
 }
 
-export async function upload(id: string, blob: Blob, name: string) {
+export async function upload(id: string, blob: Blob, name: string, wait?: Promise<any>) {
   sessionBlobs.set(id, blob)
   const sha256 = await uploadBlob({
     id,
     title: t('Upload: {0}', name),
-  }, id, blob).promise
+  }, id, blob, wait).promise
   await cacheBlob(id, sha256, blob)
 }

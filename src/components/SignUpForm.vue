@@ -42,7 +42,7 @@ import { authClient } from 'src/utils/auth-client'
 import { reactive, ref } from 'vue'
 import SetPasswordInputs from './SetPasswordInputs.vue'
 import VerifyEmailDialog from './VerifyEmailDialog.vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { until } from '@vueuse/core'
 import { user } from 'src/utils/zero-session'
 
@@ -55,6 +55,10 @@ const input = reactive({
 const loading = ref(false)
 const $q = useQuasar()
 const router = useRouter()
+const route = useRoute()
+function getRedirect() {
+  return route.query.redirect as string || '/'
+}
 async function signUp() {
   loading.value = true
   const { data, error } = await authClient.signUp.email(({
@@ -83,6 +87,6 @@ async function signUp() {
     return
   }
   await until(() => user.id).toBeTruthy()
-  router.replace('/')
+  router.replace(getRedirect())
 }
 </script>

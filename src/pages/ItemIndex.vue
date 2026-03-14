@@ -99,14 +99,14 @@ async function handleFiles(files: File[]) {
   if (!files.length) return
   for (const file of files) {
     const id = genId()
-    await mutate(mutators.createItem({
+    const wait = mutate(mutators.createItem({
       id,
       parentId: rightDirStore.dirId!,
       name: file.name,
       mimeType: file.type,
       ...await parseText(file),
-    })).client
-    upload(id, file, file.name)
+    })).server
+    upload(id, file, file.name, wait)
   }
   $q.notify(t('Added {p0 file}; you can view the upload progress by clicking "Tasks" at the bottom right.', files.length))
 }

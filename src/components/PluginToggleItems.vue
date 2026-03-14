@@ -1,6 +1,6 @@
 <template>
   <q-item
-    v-for="{ id, name, avatar, description } of store.plugins"
+    v-for="{ id, type, name, avatar, description } of store.plugins"
     :key="id"
     clickable
     @click="$emit(
@@ -24,6 +24,11 @@
     <q-item-section>
       <q-item-label>
         {{ name }}
+        <q-badge
+          :label="type === 'builtin' ? t('Built-in') : 'MCP'"
+          :class="type === 'builtin' ? 'bg-pri-c text-on-pri-c' : 'bg-ter-c text-on-ter-c'"
+          ml-1
+        />
       </q-item-label>
       <q-item-label
         v-if="!status"

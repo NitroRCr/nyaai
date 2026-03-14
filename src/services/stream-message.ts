@@ -39,15 +39,15 @@ export async function streamMessage(entityId: string, id: string, ...params: Par
       const itemId = genId()
       const blob = new Blob([part.file.uint8Array as Uint8Array<ArrayBuffer>], { type: part.file.mediaType })
       const name = `generated.${part.file.mediaType.split('/').at(-1)}`
-      mutate(mutators.createMessageItem({
+      const wait = mutate(mutators.createMessageItem({
         id: itemId,
         messageId: id,
         parentId: entityId,
         name,
         mimeType: part.file.mediaType,
         ...await parseText(blob),
-      }))
-      upload(itemId, blob, name)
+      })).server
+      upload(itemId, blob, name, wait)
     } else if (part.type === 'error') {
       mutate(mutators.updateAssistantMessage({ id, error: String(part.error) }))
       if ((part.error as any).responseBody.includes('Quota exceeded')) {

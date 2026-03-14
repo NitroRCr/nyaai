@@ -258,14 +258,14 @@ async function onImageInput(file: File) {
   const blob = await cropSquareImage(file, 96)
   const id = genId()
   const name = t('Avatar')
-  mutate(mutators.createItem({
+  const wait = mutate(mutators.createItem({
     id,
     parentId: props.parentId,
     name,
     mimeType: blob.type,
     hidden: true,
-  }))
-  upload(id, blob, name)
+  })).server
+  upload(id, blob, name, wait)
   selected.value = { type: 'image', itemId: id }
 }
 watch(selected, (to, from) => {

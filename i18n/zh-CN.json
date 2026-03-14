@@ -245,7 +245,7 @@
   "Invitation Link": "邀请链接",
   "Are you sure you want to sign out?": "您确定要退出登录吗？",
   "Failed to connect to MCP server \"{0}\": {1}": "无法连接到 MCP 服务器“{0}”：{1}",
-  "{0} invites you to join:": "{0}邀请您加入：",
+  "{0} invites you to join:": "{0} 邀请您加入：",
   "Join as {0}": "以 {0} 身份加入",
   "Invitation has expired": "邀请已过期",
   "Failed to join workspace: {0}": "无法加入工作区：{0}",
@@ -646,5 +646,10 @@
   "No logs": "无记录",
   "Time": "时间",
   "Cost": "消耗",
-  "Details": "细节"
+  "Details": "细节",
+  "Others": "其他",
+  "Directory config": "目录配置",
+  "Upload failed: {0}": "上传失败：{0}",
+  "Some settings apply at the directory level and are not displayed here. Right-click the directory in the right sidebar and click \"Properties\" to modify the configuration of that directory.": "某些设置作用于目录范围，并不在此处显示。 在右侧边栏目录中右键，点击“属性”即可修改该目录的配置。",
+  "Built-in": "内置"
 }

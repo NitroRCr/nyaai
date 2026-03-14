@@ -1,7 +1,6 @@
 <template>
   <div
     :id
-    flex
     rd
     of-hidden
   />
@@ -29,17 +28,16 @@ const emit = defineEmits<{
 
 let editor: ReturnType<typeof basicEditor> | null = null
 onMounted(() => {
-  editor = basicEditor(
-  `#${id}`,
-  {
+  editor = basicEditor(`#${id}`, {
     language: props.language,
     value: props.modelValue,
     theme: Dark.isActive ? 'atom-one-dark' : 'github-light',
     onUpdate(value) {
       emit('update:modelValue', value)
     },
-  },
-  )
+  }, () => {
+    editor!.container.style.height = '100%'
+  })
 })
 watch(() => Dark.isActive, dark => {
   editor?.setOptions({

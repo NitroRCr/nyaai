@@ -43,6 +43,9 @@ import type { Perfs } from 'src/stores/perfs'
 import { computed, provide } from 'vue'
 import { useRoute } from 'vue-router'
 import { z } from 'zod'
+import { useRequireLogin } from 'src/composables/require-login'
+
+useRequireLogin()
 
 const route = useRoute()
 const allScopes = [

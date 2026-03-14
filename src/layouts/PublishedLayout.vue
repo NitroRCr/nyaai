@@ -31,6 +31,9 @@ import { useUiStateStore } from 'src/stores/ui-state'
 import { useWorkspaceStore } from 'src/stores/workspace'
 import PublishedEntityList from 'src/components/PublishedEntityList.vue'
 import { pageFhStyle } from 'src/utils/functions'
+import { useRequireLogin } from 'src/composables/require-login'
+
+useRequireLogin()
 
 const uiStateStore = useUiStateStore()
 const workspaceStore = useWorkspaceStore()

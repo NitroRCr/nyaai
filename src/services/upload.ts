@@ -1,6 +1,8 @@
 import ky from 'ky'
+import { Notify } from 'quasar'
 import { formatBytes, formatTime, getItemUrl } from 'src/utils/functions'
 import { hashBlob } from 'src/utils/hash'
+import { t } from 'src/utils/i18n'
 import { withTask } from 'src/utils/tasks'
 
 export interface UploadProgress {
@@ -79,20 +81,29 @@ export const uploadBlob = withTask(async (
   { abortSignal, updateProgress },
   id: string,
   blob: Blob,
+  wait?: Promise<any>,
 ) => {
   const sha256 = await hashBlob(blob)
   const headers = {
     'sha-256': sha256,
     'sha-256-proof': await hashBlob(blob, 'proof'),
   }
-  const precheck = await ky.put(getItemUrl(id), { headers, signal: abortSignal }).json<{ success?: boolean, error?: string }>()
-  if (precheck.success) return sha256
-  await putBlob(getItemUrl(id), blob, headers, {
-    signal: abortSignal,
-    onProgress: ({ uploaded, total, speed, eta }) => updateProgress({
-      progress: uploaded / total,
-      progressText: `${formatBytes(speed)}/s - ${formatBytes(uploaded)}/${formatBytes(total)} - ${formatTime(eta)}`,
-    }),
-  })
-  return sha256
+  await wait
+  try {
+    const precheck = await ky.put(getItemUrl(id), { headers, signal: abortSignal }).json<{ success?: boolean, error?: string }>()
+    if (precheck.success) return sha256
+    await putBlob(getItemUrl(id), blob, headers, {
+      signal: abortSignal,
+      onProgress: ({ uploaded, total, speed, eta }) => updateProgress({
+        progress: uploaded / total,
+        progressText: `${formatBytes(speed)}/s - ${formatBytes(uploaded)}/${formatBytes(total)} - ${formatTime(eta)}`,
+      }),
+    })
+    return sha256
+  } catch (err: any) {
+    Notify.create({
+      message: t('Upload failed: {0}', err.message),
+    })
+    throw err
+  }
 })

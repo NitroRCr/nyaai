@@ -2,7 +2,7 @@ CREATE TABLE "assistant" (
 	"id" varchar(16) PRIMARY KEY,
 	"rootId" varchar(16) NOT NULL,
 	"prompt" text,
-	"promptTemplate" text NOT NULL,
+	"promptTemplate" text,
 	"promptRole" text NOT NULL,
 	"contextNum" integer,
 	"streamSettings" jsonb NOT NULL,
@@ -48,6 +48,7 @@ CREATE TABLE "entity" (
 --> statement-breakpoint
 CREATE TABLE "entityAccess" (
 	"userId" text,
+	"rootId" varchar(16) NOT NULL,
 	"entityId" varchar(16),
 	"time" timestamp NOT NULL,
 	CONSTRAINT "entityAccess_pkey" PRIMARY KEY("entityId","userId")
@@ -136,7 +137,9 @@ CREATE TABLE "model" (
 	"inputTypes" jsonb,
 	"settings" jsonb NOT NULL,
 	"inputPrice" real,
-	"outputPrice" real
+	"outputPrice" real,
+	"providerOptions" jsonb,
+	"sortPriority" integer NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "order" (
@@ -158,7 +161,8 @@ CREATE TABLE "pagePatch" (
 	"id" varchar(16) PRIMARY KEY,
 	"rootId" varchar(16) NOT NULL,
 	"entityId" varchar(16) NOT NULL,
-	"patch" text NOT NULL
+	"patch" text NOT NULL,
+	"userId" text
 );
 --> statement-breakpoint
 CREATE TABLE "plan" (
@@ -369,7 +373,7 @@ ALTER TABLE "chat" ADD CONSTRAINT "chat_modelId_model_id_fkey" FOREIGN KEY ("mod
 ALTER TABLE "chat" ADD CONSTRAINT "chat_rootId_id_entity_rootId_id_fkey" FOREIGN KEY ("rootId","id") REFERENCES "entity"("rootId","id") ON DELETE CASCADE ON UPDATE CASCADE;--> statement-breakpoint
 ALTER TABLE "entity" ADD CONSTRAINT "entity_rootId_parentId_entity_rootId_id_fkey" FOREIGN KEY ("rootId","parentId") REFERENCES "entity"("rootId","id") ON DELETE CASCADE ON UPDATE CASCADE;--> statement-breakpoint
 ALTER TABLE "entityAccess" ADD CONSTRAINT "entityAccess_userId_user_id_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "entityAccess" ADD CONSTRAINT "entityAccess_entityId_entity_id_fkey" FOREIGN KEY ("entityId") REFERENCES "entity"("id") ON DELETE CASCADE;--> statement-breakpoint
+ALTER TABLE "entityAccess" ADD CONSTRAINT "entityAccess_rootId_entityId_entity_rootId_id_fkey" FOREIGN KEY ("rootId","entityId") REFERENCES "entity"("rootId","id") ON DELETE CASCADE ON UPDATE CASCADE;--> statement-breakpoint
 ALTER TABLE "globalSettings" ADD CONSTRAINT "globalSettings_defaultChatModel_model_id_fkey" FOREIGN KEY ("defaultChatModel") REFERENCES "model"("id") ON DELETE SET NULL;--> statement-breakpoint
 ALTER TABLE "globalSettings" ADD CONSTRAINT "globalSettings_defaultChatTitleModel_model_id_fkey" FOREIGN KEY ("defaultChatTitleModel") REFERENCES "model"("id") ON DELETE SET NULL;--> statement-breakpoint
 ALTER TABLE "globalSettings" ADD CONSTRAINT "globalSettings_defaultTranslationModel_model_id_fkey" FOREIGN KEY ("defaultTranslationModel") REFERENCES "model"("id") ON DELETE SET NULL;--> statement-breakpoint
@@ -389,6 +393,7 @@ ALTER TABLE "model" ADD CONSTRAINT "model_rootId_entityId_entity_rootId_id_fkey"
 ALTER TABLE "order" ADD CONSTRAINT "order_workspaceId_workspace_id_fkey" FOREIGN KEY ("workspaceId") REFERENCES "workspace"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "order" ADD CONSTRAINT "order_planId_plan_id_fkey" FOREIGN KEY ("planId") REFERENCES "plan"("id");--> statement-breakpoint
 ALTER TABLE "page" ADD CONSTRAINT "page_rootId_id_entity_rootId_id_fkey" FOREIGN KEY ("rootId","id") REFERENCES "entity"("rootId","id") ON DELETE CASCADE ON UPDATE CASCADE;--> statement-breakpoint
+ALTER TABLE "pagePatch" ADD CONSTRAINT "pagePatch_userId_user_id_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE SET NULL;--> statement-breakpoint
 ALTER TABLE "pagePatch" ADD CONSTRAINT "pagePatch_rootId_entityId_entity_rootId_id_fkey" FOREIGN KEY ("rootId","entityId") REFERENCES "entity"("rootId","id") ON DELETE CASCADE ON UPDATE CASCADE;--> statement-breakpoint
 ALTER TABLE "planPrice" ADD CONSTRAINT "planPrice_planId_plan_id_fkey" FOREIGN KEY ("planId") REFERENCES "plan"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "provider" ADD CONSTRAINT "provider_rootId_id_entity_rootId_id_fkey" FOREIGN KEY ("rootId","id") REFERENCES "entity"("rootId","id") ON DELETE CASCADE ON UPDATE CASCADE;--> statement-breakpoint

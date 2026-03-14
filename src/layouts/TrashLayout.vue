@@ -54,6 +54,9 @@ import { useQuasar } from 'quasar'
 import { mutate } from 'src/utils/zero-session'
 import { mutators } from 'app/src-shared/mutators'
 import { pageFhStyle } from 'src/utils/functions'
+import { useRequireLogin } from 'src/composables/require-login'
+
+useRequireLogin()
 
 const uiStateStore = useUiStateStore()
 const workspaceStore = useWorkspaceStore()

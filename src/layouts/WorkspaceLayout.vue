@@ -45,6 +45,9 @@ import { useWorkspaceStore } from 'src/stores/workspace'
 import { toRef } from 'vue'
 import { t } from 'src/utils/i18n'
 import { useUiStateStore } from 'src/stores/ui-state'
+import { useRequireLogin } from 'src/composables/require-login'
+
+useRequireLogin()
 
 const uiStateStore = useUiStateStore()
 

@@ -646,5 +646,10 @@
   "No logs": "無日誌",
   "Time": "時間",
   "Cost": "成本",
-  "Details": "細節"
+  "Details": "細節",
+  "Others": "其他的",
+  "Directory config": "目錄配置",
+  "Upload failed: {0}": "上傳失敗：{0}",
+  "Some settings apply at the directory level and are not displayed here. Right-click the directory in the right sidebar and click \"Properties\" to modify the configuration of that directory.": "某些設定適用於目錄級別，此處不顯示。 右鍵點選右側欄中的目錄，然後按一下「屬性」可以修改該目錄的配置。",
+  "Built-in": "內建"
 }

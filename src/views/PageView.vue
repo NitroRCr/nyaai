@@ -261,14 +261,14 @@ async function handleFiles(editor: Editor, files: File[], pos: number) {
       }))
     } else {
       file = await scaleWhenNeeded(file)
-      mutate(mutators.createItem({
+      const wait = mutate(mutators.createItem({
         id,
         parentId: props.page.id,
         name: file.name,
         mimeType: file.type,
         ...await parseText(file),
-      }))
-      upload(id, file, file.name)
+      })).server
+      upload(id, file, file.name, wait)
     }
     editor.chain().insertContentAt(
       pos,

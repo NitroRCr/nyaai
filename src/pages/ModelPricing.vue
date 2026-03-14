@@ -31,7 +31,8 @@
           mt-2
         >
           <q-input
-            v-model="usage.quota"
+            v-model.number="usage.quota"
+            type="number"
             @update:model-value="calc('quota')"
             :label="t('Quota')"
             filled
@@ -56,7 +57,8 @@
             </template>
           </q-select>
           <q-input
-            v-model="usage.output"
+            v-model.number="usage.output"
+            type="number"
             @update:model-value="calc('output')"
             filled
             :label="t('Output Words')"
@@ -136,5 +138,6 @@ function costPerWord(model: Row['model']) {
 }
 until(status).toBe('complete').then(() => {
   usage.model = rows.value[0]
+  calc('quota')
 })
 </script>

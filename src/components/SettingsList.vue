@@ -1,5 +1,5 @@
 <template>
-  <q-list>
+  <q-list pb-2>
     <q-item-label
       header
       id="ui"
@@ -349,6 +349,20 @@
         @update:model-value="$emit('update', 'codePasteOptimize', $event)"
       />
     </setting-item>
+    <q-separator spaced />
+    <q-item-label
+      header
+      id="others"
+    >
+      {{ t('Others') }}
+    </q-item-label>
+    <common-item
+      :label="t('Directory config')"
+      :caption="directoryConfigCaption"
+      :to="`/folder/${workspaceStore.id}`"
+    >
+      <q-icon name="sym_o_chevron_right" />
+    </common-item>
   </q-list>
 </template>
 
@@ -365,6 +379,7 @@ import SendKeySelect from './SendKeySelect.vue'
 import ShortcutKeyInput from './ShortcutKeyInput.vue'
 import CommonItem from './CommonItem.vue'
 import { localData } from 'src/utils/local-data'
+import { useWorkspaceStore } from 'src/stores/workspace'
 
 const props = defineProps<{
   state: PerfsState<Perfs>
@@ -393,4 +408,7 @@ const localeOptions = [
   { label: '简体中文', value: 'zh-CN' },
   { label: '繁體中文', value: 'zh-TW' },
 ]
+
+const directoryConfigCaption = t('Some settings apply at the directory level and are not displayed here. Right-click the directory in the right sidebar and click "Properties" to modify the configuration of that directory.')
+const workspaceStore = useWorkspaceStore()
 </script>

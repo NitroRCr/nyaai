@@ -1,3 +1,0 @@
-ALTER TABLE "entityAccess" RENAME CONSTRAINT "entityAccess_entityId_entity_id_fkey" TO "entityAccess_rootId_entityId_entity_rootId_id_fkey";--> statement-breakpoint
-ALTER TABLE "entityAccess" ADD COLUMN "rootId" varchar(16) NOT NULL;--> statement-breakpoint
-ALTER TABLE "entityAccess" DROP CONSTRAINT "entityAccess_rootId_entityId_entity_rootId_id_fkey", ADD CONSTRAINT "entityAccess_rootId_entityId_entity_rootId_id_fkey" FOREIGN KEY ("rootId","entityId") REFERENCES "entity"("rootId","id") ON DELETE CASCADE ON UPDATE CASCADE;

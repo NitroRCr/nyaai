@@ -40,6 +40,11 @@ import { mutate } from 'src/utils/zero-session'
 import { roleText } from 'src/utils/functions'
 import { t } from 'src/utils/i18n'
 import { computed, ref } from 'vue'
+import { useWorkspaceStore } from 'src/stores/workspace'
+import { useRouter } from 'vue-router'
+import { useRequireLogin } from 'src/composables/require-login'
+
+useRequireLogin()
 
 const props = defineProps<{
   token: string
@@ -56,13 +61,16 @@ const valid = computed(() => {
 
 const loading = ref(false)
 const $q = useQuasar()
+const workspaceStore = useWorkspaceStore()
+const router = useRouter()
 function join() {
   loading.value = true
   mutate(mutators.joinWorkspace({
     memberId: genId(),
     invitationToken: props.token,
   })).server.then(() => {
-    // TODO: navigate to workspace
+    workspaceStore.switchWorkspace(invitation.value!.workspaceId)
+    router.push('/')
   }).catch(err => {
     console.error(err)
     $q.notify({

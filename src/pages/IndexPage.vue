@@ -18,28 +18,26 @@
 </template>
 <script setup lang="ts">
 import WelcomeWrapper from './WelcomeWrapper.vue'
-import { user } from 'src/utils/zero-session'
 import { useRouter } from 'vue-router'
 import NavigationPanel from 'src/components/NavigationPanel.vue'
 import { useWorkspaceStore } from 'src/stores/workspace'
 import { useUserDataStore } from 'src/stores/user-data'
 import { until } from '@vueuse/core'
+import { useRequireLogin } from 'src/composables/require-login'
+
+useRequireLogin()
 
 const router = useRouter()
-if (!user.id) {
-  router.replace('/auth/sign-in')
-} else {
-  const userDataStore = useUserDataStore()
+const userDataStore = useUserDataStore()
 
-  until(() => userDataStore.data).toBeTruthy().then(data => {
-    if (!data.welcomed) {
-      router.replace('/welcome')
-      userDataStore.updateData({
-        welcomed: [],
-      })
-    }
-  })
-}
+until(() => userDataStore.data).toBeTruthy().then(data => {
+  if (!data.welcomed) {
+    router.replace('/welcome')
+    userDataStore.updateData({
+      welcomed: [],
+    })
+  }
+})
 
 const workspaceStore = useWorkspaceStore()
 </script>

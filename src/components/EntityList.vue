@@ -320,14 +320,14 @@ function onDrop({ dataTransfer }: DragEvent, id: string) {
 async function handleFiles(files: File[], parentId: string) {
   for (const file of files) {
     const id = genId()
-    mutate(mutators.createItem({
+    const wait = mutate(mutators.createItem({
       id,
       parentId,
       name: file.name,
       mimeType: file.type,
       ...await parseText(file),
-    }))
-    upload(id, file, file.name)
+    })).server
+    upload(id, file, file.name, wait)
   }
 }
 

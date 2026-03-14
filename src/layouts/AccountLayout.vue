@@ -70,6 +70,9 @@ import { useQuasar } from 'quasar'
 import FileInputDialog from 'src/admin/components/FileInputDialog.vue'
 import { cropSquareImage } from 'src/utils/image-process'
 import ChangePasswordDialog from 'src/components/ChangePasswordDialog.vue'
+import { useRequireLogin } from 'src/composables/require-login'
+
+useRequireLogin()
 
 const uiStateStore = useUiStateStore()
 const workspaceStore = useWorkspaceStore()
