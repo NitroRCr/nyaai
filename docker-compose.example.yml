@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:18
+    image: abcfy2/zhparser:18 # Postgres with chinese tokenizer for FTS
     environment:
       POSTGRES_PASSWORD: pass
     command: postgres -c wal_level=logical

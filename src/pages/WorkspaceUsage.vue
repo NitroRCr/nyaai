@@ -60,11 +60,11 @@ import { useQuery } from 'src/composables/zero/query'
 import type { FullUsage } from 'app/src-shared/queries'
 import { queries } from 'app/src-shared/queries'
 import { useWorkspaceStore } from 'src/stores/workspace'
-import { idTimestamp, timestampHash } from 'app/src-shared/utils/id'
+import { idDateString, timestampHash } from 'app/src-shared/utils/id'
 import { reactive } from 'vue'
 
 const columns: QTableColumn<FullUsage>[] = [
-  { name: 'time', label: t('Time'), field: 'id', format: id => new Date(idTimestamp(id)).toLocaleString(), align: 'left' },
+  { name: 'time', label: t('Time'), field: 'id', format: idDateString, align: 'left' },
   { name: 'model', label: t('Model'), field: 'modelName' },
   { name: 'cost', label: t('Cost'), field: 'cost', format: cost => `$${cost.toFixed(8)}` },
   { name: 'details', label: t('Details'), field: 'details' },

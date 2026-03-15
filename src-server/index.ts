@@ -8,6 +8,7 @@ import { seed } from './utils/seed'
 import admin from './admin'
 import payment from './payment'
 import searxng from './searxng'
+import webhooks from './webhooks'
 import { initJobs } from './jobs'
 import { sizeBytes } from 'app/src-shared/utils/functions'
 
@@ -22,6 +23,7 @@ export const app = new Hono().basePath('/api')
   .route('/v1', ai)
   .route('/admin', admin)
   .route('/payment', payment)
+  .route('/webhooks', webhooks)
   .route('/searxng', searxng)
 
 export default {

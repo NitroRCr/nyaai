@@ -78,6 +78,7 @@ export const relations = defineRelations(schema, r => ({
     member: r.one.member({ from: r.pagePatch.rootId, to: r.member.workspaceId }),
     page: r.one.page({ from: r.pagePatch.entityId, to: r.page.id }),
     entity: r.one.entity({ from: r.pagePatch.entityId, to: r.entity.id }),
+    user: r.one.user({ from: r.pagePatch.userId, to: r.user.id }),
   },
   provider: {
     member: r.one.member({ from: r.provider.rootId, to: r.member.workspaceId }),

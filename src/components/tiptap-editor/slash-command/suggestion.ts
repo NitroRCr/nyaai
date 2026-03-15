@@ -27,6 +27,10 @@ type SuggestionItem = {
 }
 
 export const suggestion = (items: SuggestionItem[]) => ({
+  allow: ({ editor }) => {
+    return !editor.isActive('codeBlock') && !editor.isActive('code')
+  },
+
   items: ({ query }) => items
     .filter(item => item.title.toLowerCase().startsWith(query.toLowerCase()))
     .slice(0, 10),

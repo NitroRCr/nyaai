@@ -26,6 +26,14 @@
         @click="createChat"
         text-on-sur-var
       />
+      <page-versions-btn
+        :patches="page.patches"
+        @restore="editor?.commands.setContent"
+        flat
+        dense
+        round
+        text-on-sur-var
+      />
       <q-btn
         icon="sym_o_more_vert"
         text-on-sur-var
@@ -135,6 +143,7 @@ import type { Node } from '@tiptap/pm/model'
 import EditLatexDialog from 'src/components/EditLatexDialog.vue'
 import { staticExtensions } from 'src/components/tiptap-editor/static-extensions'
 import { parseText } from 'src/utils/file-parse'
+import PageVersionsBtn from 'src/components/PageVersionsBtn.vue'
 
 const props = defineProps<{
   page: FullPage
@@ -326,7 +335,7 @@ const patch = debounce(() => {
     patch: uint8ArrayToBase64(Y.mergeUpdatesV2(updates)),
   }))
   updates.splice(0)
-}, 500)
+}, 1000)
 ydoc.on('updateV2', update => {
   updates.push(update)
   patch()

@@ -22,7 +22,7 @@
           >
             <li>{{ t('Full Markdown support') }}</li>
             <li>{{ t('Import from / export as .docx file') }}</li>
-            <li>{{ t('Version control and snapshot management: Browse/revert to historical versions at any time.') }}</li>
+            <li>{{ t('Version control: Browse/revert to historical versions at any time.') }}</li>
             <li>{{ t('Publishing pages to the public internet') }}</li>
           </ul>
         </div>

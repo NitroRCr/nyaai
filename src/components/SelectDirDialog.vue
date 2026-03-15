@@ -9,7 +9,10 @@
           {{ title || t('Select Directory') }}
         </div>
       </q-card-section>
-      <q-card-section py-0>
+      <q-card-section
+        py-0
+        px-2
+      >
         <entity-list
           v-model="dirId"
           @entity-click="dirId = $event.id"

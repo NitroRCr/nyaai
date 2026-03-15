@@ -27,6 +27,7 @@ export const useReadonlyStateStore = defineStore('readonlyState', () => {
   const readonly = computed(() => message.value !== null)
 
   return {
+    connectionState,
     message,
     readonly,
   }

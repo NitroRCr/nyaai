@@ -63,6 +63,7 @@ CREATE TABLE "globalSettings" (
 	"freeModelReqLimit" integer NOT NULL,
 	"freeModelLimitWindow" integer NOT NULL,
 	"maxWorkspacesPerUser" integer NOT NULL,
+	"searchEngines" text NOT NULL,
 	"oauthProviders" jsonb NOT NULL
 );
 --> statement-breakpoint

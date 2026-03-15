@@ -240,7 +240,7 @@ export const queries = defineQueries({
         zql.page
           .where('id', id)
           .related('entity')
-          .related('patches'),
+          .related('patches', q => q.related('user')),
         ctx.userId,
       ).one()
     },

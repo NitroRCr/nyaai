@@ -78,6 +78,17 @@
               class="min-w-100px"
             />
           </common-item>
+          <common-item
+            :label="t('Search Engines')"
+            :caption="t('The search engines used when using SearXNG; separated by commas')"
+          >
+            <q-input
+              :model-value="value.searchEngines"
+              @update:model-value="updates.searchEngines = $event"
+              dense
+              class="min-w-100px"
+            />
+          </common-item>
         </q-list>
       </q-card-section>
       <q-card-actions align="right">

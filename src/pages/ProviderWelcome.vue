@@ -14,6 +14,9 @@
         <div>
           {{ t("We offer some out-of-the-box models, but these will consume workspace's AI quota based on usage. Custom model providers, on the other hand, allow you to add any custom models without consuming workspace AI quota.") }}
         </div>
+        <div mt-2>
+          {{ t("Note that the provider added here can be seen and used by all workspace members. It is recommended that you set a usage limit for the API key at your provider to avoid unexpected costs.") }}
+        </div>
         <div
           mt-2
           v-html="hint"

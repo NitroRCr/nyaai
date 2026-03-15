@@ -25,6 +25,7 @@ import ItemWelcome from 'src/pages/ItemWelcome.vue'
 import ItemIndex from 'src/pages/ItemIndex.vue'
 import ModelPricing from 'src/pages/ModelPricing.vue'
 import WorkspaceUsage from 'src/pages/WorkspaceUsage.vue'
+import { t } from 'src/utils/i18n'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -61,33 +62,53 @@ const routes: RouteRecordRaw[] = [
           {
             path: '',
             component: WorkspaceOverview,
+            meta: {
+              title: t('Workspace Overview'),
+            },
           },
           {
             path: 'plans',
             component: WorkspacePlans,
+            meta: {
+              title: t('Plans'),
+            },
           },
           {
             path: 'usage',
             component: WorkspaceUsage,
+            meta: {
+              title: t('Usage Logs'),
+            },
           },
           {
             path: 'orders',
             component: WorkspaceOrders,
+            meta: {
+              title: t('Orders'),
+            },
           },
         ],
       },
       {
         path: '/models',
         component: ModelPricing,
+        meta: {
+          title: t('Model Pricing'),
+        },
       },
       {
         path: '/published',
-
         component: PublishedLayout,
+        meta: {
+          title: t('Published Items'),
+        },
       },
       {
         path: '/trash',
         component: TrashLayout,
+        meta: {
+          title: t('Trash'),
+        },
       },
       {
         path: '/invitations/:token',
@@ -97,10 +118,16 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/settings',
         component: SettingsLayout,
+        meta: {
+          title: t('Settings'),
+        },
       },
       {
         path: '/account',
         component: AccountLayout,
+        meta: {
+          title: t('Account'),
+        },
       },
       authRoute,
       // Always leave this as last one,
@@ -108,6 +135,9 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/:catchAll(.*)*',
         component: NotFoundPage,
+        meta: {
+          title: t('Not Found'),
+        },
       },
     ],
   },

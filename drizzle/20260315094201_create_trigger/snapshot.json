@@ -1,7 +1,7 @@
 {
-  "id": "f6db14b3-4fb5-463e-a810-b5aa8b6f032d",
+  "id": "c3e4981e-d68a-4c77-9906-602959022231",
   "prevIds": [
-    "141a58a7-1a14-408d-a250-4f62bbd42450"
+    "10640cee-d93d-4feb-843e-ae2767ccea3c"
   ],
   "version": "8",
   "dialect": "postgres",
@@ -784,6 +784,19 @@
       "generated": null,
       "identity": null,
       "name": "maxWorkspacesPerUser",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "globalSettings"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "searchEngines",
       "entityType": "columns",
       "schema": "public",
       "table": "globalSettings"

@@ -4,7 +4,8 @@ import { useQuery } from 'src/composables/zero/query'
 import { useRightDirStore } from './right-dir'
 import { queries } from 'app/src-shared/queries'
 import { useRightEntity } from 'src/composables/right-entity'
-import { watch } from 'vue'
+import { watch, watchEffect } from 'vue'
+import { entityName } from 'src/utils/defaults'
 
 export const useEntityStore = defineStore('entity', () => {
   const route = useRoute()
@@ -14,6 +15,10 @@ export const useEntityStore = defineStore('entity', () => {
       ? queries.entity({ id: route.params.id, parent: { depth: 5 } })
       : null,
   )
+  watchEffect(() => {
+    if (!entity.value) return
+    document.title = `${entityName(entity.value)} - Nya AI`
+  })
   const rightEntityInfo = useRightEntity()
   const { data: rightEntity } = useQuery(() =>
     rightEntityInfo.value

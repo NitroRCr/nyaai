@@ -2323,6 +2323,14 @@ const pagePatchRelationships = {
       cardinality: "one",
     },
   ],
+  user: [
+    {
+      sourceField: ["userId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
 } as const;
 const planRelationships = {
   prices: [

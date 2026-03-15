@@ -155,6 +155,7 @@
             size="24px"
           />
           <code
+            v-if="$q.screen.gt.xs"
             bg-sur-c-high
             px-2
             py-1
