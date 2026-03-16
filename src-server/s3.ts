@@ -9,13 +9,13 @@ import * as schema from './schema'
 import { randomId } from 'app/src-shared/utils/id'
 import { deleteObject, presignedGetObject, putObject } from './utils/s3'
 
-async function getDownloadUrl(id: string, userId: string) {
+async function getDownloadUrl(id: string, userId?: string) {
   const item = await db.query.item.findFirst({
     where: {
       id,
       blobId: { isNotNull: true },
       OR: [
-        { member: { userId } },
+        ...userId ? [{ member: { userId } }] : [],
         {
           entity: {
             pubRoot: { isNotNull: true },
@@ -145,10 +145,9 @@ const app = new Hono()
   })
   .get('/items/:id', async c => {
     const id = c.req.param('id')
-    const session = await auth.api.getSession({ headers: c.req.raw.headers })
-    if (!session) return c.json({ error: 'Unauthorized' }, 401)
 
-    const res = await getDownloadUrl(id, session.user.id)
+    const session = await auth.api.getSession({ headers: c.req.raw.headers })
+    const res = await getDownloadUrl(id, session?.user.id)
     if (!res) return c.json({ error: 'Not found' }, 404)
     return c.redirect(res.url)
   })
