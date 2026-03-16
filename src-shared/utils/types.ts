@@ -61,6 +61,7 @@ export type OrderProvider = {
   priceId: string
   customerId: string
   subscriptionId: string
+  invoiceId: string
 } | {
   type: 'wxpay'
 }

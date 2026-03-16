@@ -36,11 +36,13 @@
 </template>
 
 <script setup lang="ts">
+import { until } from '@vueuse/core'
 import { useDialogPluginComponent, useQuasar } from 'quasar'
 import { authClient } from 'src/utils/auth-client'
 import { t } from 'src/utils/i18n'
+import { user } from 'src/utils/zero-session'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const props = defineProps<{
   email: string
@@ -76,6 +78,10 @@ async function resend() {
   $q.notify(t('Verification email sent'))
 }
 const router = useRouter()
+const route = useRoute()
+function getRedirect() {
+  return route.query.redirect as string || '/'
+}
 async function signIn() {
   signingIn.value = true
 
@@ -93,6 +99,7 @@ async function signIn() {
     return
   }
   onDialogOK()
-  router.replace('/')
+  await until(() => user.id).toBeTruthy()
+  router.replace(getRedirect())
 }
 </script>

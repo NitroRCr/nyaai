@@ -1332,7 +1332,7 @@ const createWorkspace = defineMutator(
       args: {
         id: chatAssistantId,
         parentId: assistantsFolderId,
-        name: '$defaultAssistants',
+        name: '$defaultAssistant',
       },
     })
     tx.mutate.entityAccess.insert({

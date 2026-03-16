@@ -12,6 +12,8 @@
         top-1
         size="32px"
         :class="{ 'mx--1': dense }"
+        cursor-pointer
+        @click="onAvatarClick"
       />
     </div>
     <div
@@ -34,6 +36,8 @@
           :avatar
           size="32px"
           mr-3
+          cursor-pointer
+          @click="onAvatarClick"
         />
         <div
           v-if="name"
@@ -367,7 +371,7 @@ import { usePerfsStore } from 'src/stores/perfs'
 import ToolcallItem from './ToolCallItem.vue'
 import { createSearch } from 'src/services/create-search'
 import { useRouter } from 'vue-router'
-import { wrapCode } from 'src/utils/functions'
+import { entityRoute, wrapCode } from 'src/utils/functions'
 
 const props = defineProps<{
   message: FullMessage
@@ -412,6 +416,14 @@ const actions = computed(() => ({
   directEdit: allowEditMessageText(props.message, user.id!),
   directDelete: allowDeleteMessage(props.message, user.id!),
 }))
+
+function onAvatarClick() {
+  const { message } = props
+  const to = message.type.endsWith(':assistant')
+    ? message.assistant && entityRoute('assistant', message.assistant.id)
+    : message.user && (message.user.id === user.id ? '/account' : '/workspace')
+  to && router.push(to)
+}
 
 function onHtmlChanged() {
   nextTick(() => {

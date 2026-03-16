@@ -41,7 +41,8 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
   const ws = await findWorkspaceByCustomerId(customerId)
   if (!ws) return
 
-  const lineItem = invoice.lines.data[0]
+  const lineItem = invoice.lines.data.find(item => item.amount > 0)
+  if (!lineItem) return
   const stripePrice = lineItem.pricing?.price_details?.price
   if (!stripePrice) return
 
@@ -49,20 +50,6 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
 
   const price = await db.query.planPrice.findFirst({ where: { priceId } })
   if (!price) return
-
-  const end = new Date(lineItem.period.end * 1000)
-  const months = differenceInMonths(end, new Date())
-  const resetAt = subMonths(end, months)
-
-  await db.update(workspace)
-    .set({
-      payment: { type: 'stripe', customerId },
-      planId: price.planId,
-      resetAt,
-      remainingMonths: months,
-      quotaUsed: 0,
-    })
-    .where(eq(workspace.id, ws.id))
 
   if (!lineItem.subscription) return
   await db.insert(order).values({
@@ -75,13 +62,14 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
       priceId,
       customerId,
       subscriptionId: getId(lineItem.subscription),
+      invoiceId: invoice.id,
     },
     amount: invoice.amount_paid / 100,
     completedAt: new Date(),
   })
 }
 
-async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
+async function handleSubscriptionChange(subscription: Stripe.Subscription) {
   const customerId = getId(subscription.customer)
 
   const ws = await findWorkspaceByCustomerId(customerId)
@@ -89,20 +77,25 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
 
   if (subscription.status === 'canceled' || subscription.status === 'unpaid') {
     await resetPlan(ws.id)
-    return
   }
 
-  const priceId = subscription.items.data[0]?.price?.id
-  if (!priceId) return
-
+  const priceId = subscription.items.data[0].price.id
   const price = await db.query.planPrice.findFirst({ where: { priceId } })
   if (!price) return
 
-  if (price.planId !== ws.planId) {
-    await db.update(workspace)
-      .set({ planId: price.planId })
-      .where(eq(workspace.id, ws.id))
-  }
+  const end = new Date(subscription.items.data[0].current_period_end * 1000)
+  const months = differenceInMonths(end, new Date())
+  const resetAt = subMonths(end, months)
+
+  await db.update(workspace)
+    .set({
+      payment: { type: 'stripe', customerId, subscriptionId: subscription.id },
+      planId: price.planId,
+      resetAt,
+      remainingMonths: months,
+      quotaUsed: 0,
+    })
+    .where(eq(workspace.id, ws.id))
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
@@ -134,8 +127,9 @@ const app = new Hono()
       case 'invoice.paid':
         await handleInvoicePaid(event.data.object)
         break
+      case 'customer.subscription.created':
       case 'customer.subscription.updated':
-        await handleSubscriptionUpdated(event.data.object)
+        await handleSubscriptionChange(event.data.object)
         break
       case 'customer.subscription.deleted':
         await handleSubscriptionDeleted(event.data.object)

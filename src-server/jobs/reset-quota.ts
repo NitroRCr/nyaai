@@ -19,12 +19,14 @@ export async function resetQuota() {
           resetAt,
         }).where(eq(workspace.id, ws.id))
       } else if (ws.remainingMonths === 0) {
-        await tx.update(workspace).set({
-          quotaUsed: 0,
-          resetAt,
-          planId: DEFAULT_PLAN_ID,
-          remainingMonths: null,
-        }).where(eq(workspace.id, ws.id))
+        if (ws.payment?.type === 'wxpay') {
+          await tx.update(workspace).set({
+            quotaUsed: 0,
+            resetAt,
+            planId: DEFAULT_PLAN_ID,
+            remainingMonths: null,
+          }).where(eq(workspace.id, ws.id))
+        }
       } else {
         await tx.update(workspace).set({
           quotaUsed: 0,
