@@ -152,7 +152,7 @@ import { engine } from 'src/utils/template-engine'
 import { computed, ref } from 'vue'
 import { z } from 'zod'
 import { usePerfsStore } from 'src/stores/perfs'
-import { shortcutKeyMatch } from 'src/utils/functions'
+import { shortcutKeyMatch, textBeginning } from 'src/utils/functions'
 import { useRoute, useRouter } from 'vue-router'
 import CommonToolbar from 'src/components/CommonToolbar.vue'
 import CopyBtn from 'src/components/CopyBtn.vue'
@@ -204,7 +204,7 @@ const { value: recordProxy, update: updateProxy, flush } = useEditProxy(
   { type: 'debounce', wait: 1000 },
 )
 
-const { conf } = useThisEntityConf()
+const { conf, entity } = useThisEntityConf()
 const { data: model } = useQuery(() => conf.value.translationModelId ? queries.fullModel(conf.value.translationModelId) : null)
 
 const $q = useQuasar()
@@ -247,6 +247,12 @@ function translate() {
       id,
       ...res.output,
     }))
+    if (!entity.value!.name) {
+      mutate(mutators.updateEntity({
+        id: entity.value!.id,
+        name: textBeginning(input!, 16),
+      }))
+    }
   }).catch(err => {
     console.error(err)
     $q.notify({

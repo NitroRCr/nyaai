@@ -16,13 +16,14 @@
         filled
         class="mt-4"
       />
+      <policy-links class="mt-4" />
       <q-btn
         :label="t('Sign In')"
         :loading
         type="submit"
         unelevated
         color="primary"
-        mt-6
+        mt-4
         w-full
         h="40px"
       />
@@ -99,6 +100,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { user } from 'src/utils/zero-session'
 import { until } from '@vueuse/core'
 import { useGlobalSettingsStore } from 'src/stores/global-settings'
+import PolicyLinks from './PolicyLinks.vue'
 
 const input = reactive({
   email: '',

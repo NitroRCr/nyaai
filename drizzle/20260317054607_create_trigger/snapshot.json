@@ -1,10 +1,10 @@
 {
+  "id": "b4e94a56-6782-4867-aa45-a8c216a08d09",
+  "prevIds": [
+    "d81bb3ae-0db5-4f0a-bf82-1b5ae5d74a5c"
+  ],
   "version": "8",
   "dialect": "postgres",
-  "id": "10640cee-d93d-4feb-843e-ae2767ccea3c",
-  "prevIds": [
-    "00000000-0000-0000-0000-000000000000"
-  ],
   "ddl": [
     {
       "isRlsEnabled": false,
@@ -810,6 +810,32 @@
       "generated": null,
       "identity": null,
       "name": "oauthProviders",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "globalSettings"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "tosLink",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "globalSettings"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "privacyPolicyLink",
       "entityType": "columns",
       "schema": "public",
       "table": "globalSettings"

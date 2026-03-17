@@ -441,6 +441,24 @@ const globalSettingsTable = {
         "oauthProviders"
       >,
     },
+    tosLink: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "globalSettings",
+        "tosLink"
+      >,
+    },
+    privacyPolicyLink: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "globalSettings",
+        "privacyPolicyLink"
+      >,
+    },
   },
   primaryKey: ["id"],
 } as const;

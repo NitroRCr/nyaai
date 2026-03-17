@@ -64,7 +64,9 @@ CREATE TABLE "globalSettings" (
 	"freeModelLimitWindow" integer NOT NULL,
 	"maxWorkspacesPerUser" integer NOT NULL,
 	"searchEngines" text NOT NULL,
-	"oauthProviders" jsonb NOT NULL
+	"oauthProviders" jsonb NOT NULL,
+	"tosLink" text,
+	"privacyPolicyLink" text
 );
 --> statement-breakpoint
 CREATE TABLE "item" (

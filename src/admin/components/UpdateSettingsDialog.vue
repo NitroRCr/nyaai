@@ -86,7 +86,26 @@
               :model-value="value.searchEngines"
               @update:model-value="updates.searchEngines = $event"
               dense
-              class="min-w-100px"
+              min-w-100px
+              field-sizing-content
+            />
+          </common-item>
+          <common-item :label="t('TOS Link')">
+            <q-input
+              :model-value="value.tosLink"
+              @update:model-value="updates.tosLink = $event"
+              dense
+              min-w-150px
+              field-sizing-content
+            />
+          </common-item>
+          <common-item :label="t('Privacy Policy Link')">
+            <q-input
+              :model-value="value.privacyPolicyLink"
+              @update:model-value="updates.privacyPolicyLink = $event"
+              dense
+              min-w-150px
+              field-sizing-content
             />
           </common-item>
         </q-list>

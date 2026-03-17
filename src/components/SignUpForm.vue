@@ -22,6 +22,7 @@
       mt-6
       filled
     />
+    <policy-links class="mt-2" />
     <q-btn
       :label="t('Sign Up')"
       :loading
@@ -45,6 +46,7 @@ import VerifyEmailDialog from './VerifyEmailDialog.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { until } from '@vueuse/core'
 import { user } from 'src/utils/zero-session'
+import PolicyLinks from './PolicyLinks.vue'
 
 const input = reactive({
   name: '',

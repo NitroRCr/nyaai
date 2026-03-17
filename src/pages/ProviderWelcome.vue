@@ -22,11 +22,25 @@
           v-html="hint"
         />
       </q-card-section>
+      <q-card-section p-0>
+        <q-list>
+          <q-item-label header>
+            {{ t('More') }}
+          </q-item-label>
+          <common-item
+            :label="t('View platform models')"
+            :caption="t('Browse the out-of-the-box models we offer and their pricing')"
+            to="/models"
+            rd
+          />
+        </q-list>
+      </q-card-section>
     </q-card>
   </welcome-wrapper>
 </template>
 
 <script setup lang="ts">
+import CommonItem from 'src/components/CommonItem.vue'
 import WelcomeWrapper from './WelcomeWrapper.vue'
 import { t } from 'src/utils/i18n'
 

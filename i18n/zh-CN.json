@@ -341,7 +341,7 @@
   "Failed to checkout: {0}": "结帐失败：{0}",
   "Tool Call Result": "工具调用结果",
   "Currently offline, you can only browse existing local content and cannot perform write operations.": "当前处于离线状态，您只能浏览现有的本地内容，无法执行写入操作。",
-  "You are viewing content published by someone. You can only view it and cannot make modifications.": "您正在查看某人发布的内容。 您只能查看，不能修改。",
+  "You are viewing content published by someone. You can only view it and cannot make modifications.": "您正在浏览某人发布的内容。 您只能浏览，不能修改。",
   "Your role is \"Guest\"; you can only browse the content in this workspace and cannot make modifications.": "您的角色是“游客”； 您只能浏览该工作区的内容，不能进行修改。",
   "Mutation failed: {0}": "变更失败：{0}",
   "Upload: {0}": "上传：{0}",
@@ -663,5 +663,15 @@
   "Not Found": "未找到页面",
   "Search Engines": "搜索引擎",
   "The search engines used when using SearXNG; separated by commas": "使用 SearXNG 时使用的搜索引擎；用逗号分隔",
-  "Version control: Browse/revert to historical versions at any time.": "版本控制：随时浏览/恢复到历史版本。"
+  "Version control: Browse/revert to historical versions at any time.": "版本控制：随时浏览/恢复到历史版本。",
+  "New Assistant": "新助手",
+  "By continuing, you agree to our": "通过继续，表示您同意我们的",
+  "Terms of Service": "服务条款",
+  "and": "和",
+  "Privacy Policy": "隐私政策",
+  "View platform models": "浏览平台模型",
+  "Browse the out-of-the-box models we offer and their pricing": "浏览我们提供的开箱即用的模型及其定价",
+  "New item": "新项目",
+  "TOS Link": "服务条款链接",
+  "Privacy Policy Link": "隐私政策链接"
 }

@@ -391,4 +391,6 @@ export const globalSettings = pgTable('globalSettings', {
   maxWorkspacesPerUser: integer().notNull(),
   searchEngines: text().notNull(),
   oauthProviders: jsonb().notNull().$type<string[]>(),
+  tosLink: text(),
+  privacyPolicyLink: text(),
 })

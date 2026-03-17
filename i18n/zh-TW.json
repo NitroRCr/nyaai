@@ -663,5 +663,15 @@
   "Not Found": "未找到頁面",
   "Search Engines": "搜索引擎",
   "The search engines used when using SearXNG; separated by commas": "使用 SearXNG 時使用的搜索引擎；用逗號分隔",
-  "Version control: Browse/revert to historical versions at any time.": "版本控制：隨時瀏覽/恢復到歷史版本。"
+  "Version control: Browse/revert to historical versions at any time.": "版本控制：隨時瀏覽/恢復到歷史版本。",
+  "New Assistant": "新助理",
+  "By continuing, you agree to our": "繼續，即表示您同意我們的",
+  "Terms of Service": "服務條款",
+  "and": "和",
+  "Privacy Policy": "隱私權政策",
+  "View platform models": "查看平台型號",
+  "Browse the out-of-the-box models we offer and their pricing": "瀏覽我們提供的開箱即用型號及其定價",
+  "New item": "新商品",
+  "TOS Link": "服務條款連結",
+  "Privacy Policy Link": "隱私權政策連結"
 }
