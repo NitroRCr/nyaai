@@ -9,7 +9,11 @@ const app = new Hono()
     const url = new URL(c.req.url)
     const target = new URL(url.search, SEARXNG_URL)
     target.searchParams.set('format', 'json')
-    const resp = await fetch(target, { headers: c.req.raw.headers })
+    const resp = await fetch(target, {
+      headers: {
+        'accept-language': c.req.raw.headers.get('accept-language') ?? '*',
+      },
+    })
     return new Response(resp.body, {
       status: resp.status,
       headers: {

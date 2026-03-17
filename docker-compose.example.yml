@@ -24,9 +24,11 @@ services:
       interval: 5s
 
   server:
-    build:
-      context: .
-      dockerfile: Dockerfile.server
+    image: krytro/nyaai-server:latest
+    # or build from source:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.server
     environment:
       SITE_NAME: 'Nya AI'
       FRONT_URL: update-this
@@ -45,9 +47,11 @@ services:
         condition: service_healthy
 
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile.web
+    image: krytro/nyaai-web:latest
+    # or build from source:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.web
     ports:
       - 8080:8080
       - 8081:8081
