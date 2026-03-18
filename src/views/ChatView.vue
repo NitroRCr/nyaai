@@ -19,7 +19,6 @@
       >
         {{ entityName(entity) }}
       </q-toolbar-title>
-      <q-space />
     </common-toolbar>
     <div
       grow

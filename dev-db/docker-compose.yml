@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:18.1-alpine
+    image: abcfy2/zhparser:18
     shm_size: 1g
     user: postgres
     restart: always
