@@ -24,21 +24,6 @@
             {{ t('More') }}
           </q-item-label>
           <q-item
-            href="https://docs.nyaai.cc/usage/"
-            target="_blank"
-            rd
-          >
-            <q-item-section avatar>
-              <a-avatar :avatar="{ type: 'icon', icon: 'sym_o_book_2' }" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ t('Documentation') }}</q-item-label>
-              <q-item-label caption>
-                {{ t('Learn more about features and usage tips') }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item
             href="https://github.com/NitroRCr/nyaai"
             target="_blank"
             rd
@@ -52,6 +37,21 @@
               <q-item-label>{{ t('GitHub') }}</q-item-label>
               <q-item-label caption>
                 {{ t('View source code & report issues & star us') }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item
+            href="https://zread.ai/NitroRCr/nyaai"
+            target="_blank"
+            rd
+          >
+            <q-item-section avatar>
+              <a-avatar :avatar="{ type: 'icon', icon: 'sym_o_book_2' }" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ t('Learn more details') }}</q-item-label>
+              <q-item-label caption>
+                {{ t('Ask AI on Zread to learn more details') }}
               </q-item-label>
             </q-item-section>
           </q-item>

@@ -115,18 +115,17 @@
         >
           <q-menu>
             <q-list>
-              <menu-item
-                icon="sym_o_book_2"
-                :label="t('Docs')"
-                href="https://docs.nyaai.cc/usage/"
-                target="_blank"
-              />
               <dense-item
                 clickable
-                v-close-popup
                 :avatar="{ type: 'svg', name: 'github' }"
                 label="GitHub"
                 href="https://github.com/NitroRCr/nyaai"
+                target="_blank"
+              />
+              <menu-item
+                icon="sym_o_book_2"
+                :label="t('Zread')"
+                href="https://zread.ai/NitroRCr/nyaai"
                 target="_blank"
               />
             </q-list>
