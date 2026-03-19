@@ -3,11 +3,20 @@
     bg-sur-c-low
     text-on-sur
   >
-    <common-toolbar>
+    <q-toolbar>
+      <q-btn
+        v-if="!uiStateStore.mainDrawerAbove"
+        flat
+        dense
+        round
+        icon="sym_o_menu"
+        @click="uiStateStore.toggleMainDrawer"
+        text-on-sur-var
+      />
       <q-toolbar-title>
         {{ t('Settings') }}
       </q-toolbar-title>
-    </common-toolbar>
+    </q-toolbar>
     <q-tabs
       active-color="primary"
       align="left"
@@ -34,7 +43,6 @@
 </template>
 
 <script setup lang="ts">
-import CommonToolbar from 'src/components/CommonToolbar.vue'
 import SettingsList from 'src/components/SettingsList.vue'
 import { usePerfsState } from 'src/composables/perfs-state'
 import { t } from 'src/utils/i18n'
@@ -44,6 +52,7 @@ import { computed, provide } from 'vue'
 import { useRoute } from 'vue-router'
 import { z } from 'zod'
 import { useRequireLogin } from 'src/composables/require-login'
+import { useUiStateStore } from 'src/stores/ui-state'
 
 useRequireLogin()
 
@@ -74,4 +83,6 @@ function reset(key: keyof Perfs) {
     scope: scope.value,
   })
 }
+
+const uiStateStore = useUiStateStore()
 </script>

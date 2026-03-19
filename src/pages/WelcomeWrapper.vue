@@ -1,6 +1,6 @@
 <template>
-  <q-header>
-    <q-toolbar bg-sur>
+  <q-header bg-sur>
+    <q-toolbar>
       <q-btn
         v-if="!store.mainDrawerAbove"
         flat

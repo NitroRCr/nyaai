@@ -106,7 +106,6 @@
   "Published Items": "已發布內容",
   "Trash": "回收站",
   "Settings": "設置",
-  "Docs": "文檔",
   "Message Info": "消息信息",
   "Created At": "創建於",
   "Text Length": "文字長度",
@@ -511,8 +510,6 @@
   "This is your workspace. Here, all content is organized in a file system-like manner, and you can browse all directories in the right sidebar.": "這是你的工作區。 在這裡，所有內容都以類似文件系統的方式組織，您可以在右側邊欄中瀏覽所有目錄。",
   "Get started by clicking one of the shortcuts in the left sidebar.": "點擊左側邊欄中的一個快捷方式以開始。",
   "More": "更多",
-  "Documentation": "文檔",
-  "Learn more about features and usage tips": "了解更多功能和使用技巧",
   "GitHub": "GitHub",
   "View source code & report issues & star us": "查看源代碼 & 報告問題 & Star",
   "Search the web...": "搜索互聯網...",
@@ -673,5 +670,7 @@
   "New item": "新項目",
   "TOS Link": "服務條款連結",
   "Privacy Policy Link": "隱私權政策連結",
-  "Copy failed": "複製失敗"
+  "Copy failed": "複製失敗",
+  "Learn more details": "了解更多詳情",
+  "Ask AI on Zread to learn more details": "在 Zread 上詢問 AI 以了解更多詳細信息"
 }

@@ -239,3 +239,9 @@ export function getCommonVars() {
     _platform: Platform,
   }
 }
+
+export function getTextLength(text: string) {
+  if (!Intl?.Segmenter) return text.length
+  const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' })
+  return [...segmenter.segment(text)].length
+}

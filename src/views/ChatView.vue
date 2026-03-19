@@ -19,6 +19,7 @@
       >
         {{ entityName(entity) }}
       </q-toolbar-title>
+      <div ml-a />
     </common-toolbar>
     <div
       grow

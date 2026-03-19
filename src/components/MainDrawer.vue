@@ -124,7 +124,7 @@
               />
               <menu-item
                 icon="sym_o_book_2"
-                :label="t('Zread')"
+                label="Zread"
                 href="https://zread.ai/NitroRCr/nyaai"
                 target="_blank"
               />

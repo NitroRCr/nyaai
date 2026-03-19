@@ -3,7 +3,7 @@ import { mutators } from 'app/src-shared/mutators'
 import { queries, type FullChat } from 'app/src-shared/queries'
 import { mutate, z } from 'src/utils/zero-session'
 import { getChatChain } from 'src/utils/chat-tools'
-import { arrayToMap } from 'src/utils/functions'
+import { arrayToMap, getTextLength } from 'src/utils/functions'
 import { toSdkModel } from 'src/utils/model'
 import { engine } from 'src/utils/template-engine'
 import type { EntityConf } from 'src/composables/entity-conf'
@@ -24,7 +24,7 @@ export async function generateChatTitle({ chat, conf }: {
     prompt,
   })
   const [emoji, ...rest] = text.split(' ')
-  if ([1, 2].includes(emoji.length)) {
+  if (getTextLength(emoji) === 1) {
     await mutate(mutators.updateEntity({
       id: chat.id,
       name: rest.join(' '),

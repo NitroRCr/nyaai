@@ -106,7 +106,6 @@
   "Published Items": "已发布内容",
   "Trash": "回收站",
   "Settings": "设置",
-  "Docs": "文档",
   "Message Info": "消息信息",
   "Created At": "创建于",
   "Text Length": "文字长度",
@@ -511,8 +510,6 @@
   "This is your workspace. Here, all content is organized in a file system-like manner, and you can browse all directories in the right sidebar.": "这是你的工作区。 在这里，所有内容都以类似文件系统的方式组织，您可以在右侧边栏中浏览所有目录。",
   "Get started by clicking one of the shortcuts in the left sidebar.": "点击左侧边栏中的一个快捷方式以开始。",
   "More": "更多",
-  "Documentation": "文档",
-  "Learn more about features and usage tips": "了解更多功能和使用技巧",
   "GitHub": "GitHub",
   "View source code & report issues & star us": "查看源代码 & 报告问题 & Star",
   "Search the web...": "搜索互联网...",
@@ -673,5 +670,7 @@
   "New item": "新项目",
   "TOS Link": "服务条款链接",
   "Privacy Policy Link": "隐私政策链接",
-  "Copy failed": "复制失败"
+  "Copy failed": "复制失败",
+  "Learn more details": "了解更多细节",
+  "Ask AI on Zread to learn more details": "在 Zread 上问 AI 以了解更多细节"
 }
