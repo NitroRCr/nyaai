@@ -26,22 +26,17 @@ async function runMerge({ offset, interval, gap, time }: {
   gap: number
   time: number
 }) {
-  console.log('runMerge', { offset, interval, gap, time })
   const end = time - offset
   const start = end - interval
   const timeRange = sql`${pagePatch.id} >= ${timestampHash(start)} AND ${pagePatch.id} < ${timestampHash(end + gap)}`
-  console.log({ start, end })
   const ids = await db.selectDistinct({ entityId: pagePatch.entityId }).from(pagePatch).where(timeRange)
-  console.log(ids)
   for (const { entityId } of ids) {
     const patches = (await db.select().from(pagePatch)
       .where(and(timeRange, eq(pagePatch.entityId, entityId)))
       .orderBy(asc(pagePatch.id)))
       .map(p => ({ ...p, timestamp: idTimestamp(p.id) }))
-    console.log('patchIds:', patches.map(x => x.id))
     if (patches.length <= 1) continue
     if (patches.at(-1)!.timestamp >= end) {
-      console.log('crossed gap')
       const mergeList = [patches.pop()!]
       while (patches.length && mergeList[0].timestamp - patches.at(-1)!.timestamp < gap) {
         mergeList.unshift(patches.pop()!)
@@ -54,7 +49,6 @@ async function runMerge({ offset, interval, gap, time }: {
 
 async function merge(patches: { id: string, patch: string }[]) {
   if (patches.length <= 1) return
-  console.log('merge', patches.map(x => x.id))
   const ydoc = new Y.Doc()
   for (const { patch } of patches) Y.applyUpdateV2(ydoc, base64ToUint8Array(patch))
   const patch = uint8ArrayToBase64(Y.encodeStateAsUpdateV2(ydoc))

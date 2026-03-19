@@ -15,6 +15,7 @@ services:
       POSTGRES_USER: user
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: password
+      POSTGRES_INITDB_ARGS: '--locale=C  --encoding=UTF8'
     command: |
       postgres 
       -c wal_level=logical
