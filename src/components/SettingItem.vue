@@ -35,7 +35,7 @@
           {{ t('Modified.') }}
           <span
             pri-link
-            @click="$emit('reset')"
+            @click.prevent.stop="$emit('reset')"
           >{{ t('Reset') }}</span>
         </span>
         <span v-else>

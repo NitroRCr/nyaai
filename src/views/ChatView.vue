@@ -220,6 +220,7 @@ import { DefaultPromptTemplate } from 'src/utils/templates'
 import { useQuote } from 'src/composables/quote'
 import { useListenKey } from 'src/composables/listen-key'
 import { engine } from 'src/utils/template-engine'
+import { localData } from 'src/utils/local-data'
 
 const props = defineProps<{
   chat: FullChat
@@ -437,7 +438,7 @@ async function getCompletionConfig(): Promise<CompletionConfig | undefined> {
         vars: {
           query: record.q,
           results: record.results,
-          language: navigator.language,
+          language: localData.locale ?? navigator.language,
         },
         tools: {},
       }
