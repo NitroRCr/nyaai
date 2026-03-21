@@ -32,6 +32,13 @@
   </q-header>
   <q-page-container>
     <q-page>
+      <a-tip
+        tip-key="settings-scopes"
+        long
+        rd-0
+      >
+        {{ t('Settings have three scopes: user, workspace, and local, which allows you to apply different settings for different workspaces and devices.') }}
+      </a-tip>
       <settings-list
         :state
         :scope
@@ -53,6 +60,7 @@ import { useRoute } from 'vue-router'
 import { z } from 'zod'
 import { useRequireLogin } from 'src/composables/require-login'
 import { useUiStateStore } from 'src/stores/ui-state'
+import ATip from 'src/components/ATip.vue'
 
 useRequireLogin()
 

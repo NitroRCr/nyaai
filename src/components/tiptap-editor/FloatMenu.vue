@@ -52,7 +52,43 @@
         un-size="32px"
         size="sm"
       />
+      <q-btn
+        :class="{ 'route-active': editor.isActive('link') }"
+        icon="sym_o_link"
+        :title="t('Link')"
+        un-size="32px"
+        size="sm"
+      >
+        <q-menu
+          :transition-duration="200"
+          anchor="top middle"
+          self="bottom middle"
+          :offset="[0, 4]"
+        >
+          <link-menu-content
+            :editor="editor"
+            :model-value="editor.getAttributes('link').href"
+            @update:model-value="setLink"
+          />
+        </q-menu>
+      </q-btn>
     </q-btn-group>
+  </bubble-menu>
+  <bubble-menu
+    v-if="editor"
+    :editor
+    :options="{ placement: 'top', offset: 8 }"
+    :should-show="linkSholdShow"
+    z-5
+  >
+    <link-menu-content
+      :editor="editor"
+      :model-value="editor.getAttributes('link').href"
+      @update:model-value="setLink"
+      shadow-default
+      bg-sur-c
+      rd
+    />
   </bubble-menu>
 </template>
 
@@ -61,8 +97,9 @@ import { isTextSelection, type Editor } from '@tiptap/vue-3'
 import { BubbleMenu } from '@tiptap/vue-3/menus'
 import { t } from 'src/utils/i18n'
 import type { BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
+import LinkMenuContent from 'src/components/LinkMenuContent.vue'
 
-defineProps<{
+const props = defineProps<{
   editor?: Editor
 }>()
 
@@ -90,5 +127,16 @@ const shouldShow: BubbleMenuPluginProps['shouldShow'] = ({ editor, element, view
   if (types.some(type => editor.isActive(type))) return false
 
   return true
+}
+const linkSholdShow: BubbleMenuPluginProps['shouldShow'] = ({ editor, from, to }) => {
+  return editor.isActive('link') && from === to
+}
+
+function setLink(link?: string) {
+  if (!link) {
+    props.editor?.chain().focus().extendMarkRange('link').unsetLink().run()
+  } else {
+    props.editor?.chain().focus().extendMarkRange('link').setLink({ href: link }).run()
+  }
 }
 </script>

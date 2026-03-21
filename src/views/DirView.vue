@@ -27,8 +27,15 @@
           />
         </common-item>
         <q-separator spaced />
+        <a-tip
+          tip-key="dir-conf"
+          long
+          rd-0
+        >
+          {{ t('This configuration applies to this directory scope; different directories can have different configurations, and the configuration of an inner directory can override that of an outer directory.') }}
+        </a-tip>
         <q-item-label header>
-          {{ t('Directory Settings') }}
+          {{ t('Directory Configuration') }}
         </q-item-label>
         <setting-item
           :label="t('Chat assistant')"
@@ -196,6 +203,7 @@ import AutocompleteInput from 'src/components/AutocompleteInput.vue'
 import ListInput from 'src/components/ListInput.vue'
 import AInput from 'src/components/AInput'
 import CommonToolbar from 'src/components/CommonToolbar.vue'
+import ATip from 'src/components/ATip.vue'
 
 const props = defineProps<{
   id: string

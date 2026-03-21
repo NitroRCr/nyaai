@@ -542,7 +542,6 @@
   "Click <strong>\"Upload Files\"</strong> in the right sidebar to get started.": "点击右侧边栏中的<strong>“上传文件”</strong>以开始。",
   "Sort Priority": "排序优先级",
   "Hidden": "隐藏",
-  "Directory Settings": "目录设置",
   "Abort Task": "中止任务",
   "Or, find existing files below:": "或者，在下面查找现有文件：",
   "Sent At": "发送于",
@@ -672,5 +671,10 @@
   "Privacy Policy Link": "隐私政策链接",
   "Copy failed": "复制失败",
   "Learn more details": "了解更多细节",
-  "Ask AI on Zread to learn more details": "在 Zread 上问 AI 以了解更多细节"
+  "Ask AI on Zread to learn more details": "在 Zread 上问 AI 以了解更多细节",
+  "Settings have three scopes: user, workspace, and local, which allows you to apply different settings for different workspaces and devices.": "设置有三层作用域：用户、工作区和本地，这允许你为不同的工作区和不同的设备应用不同的设置",
+  "This configuration applies to this directory scope; different directories can have different configurations, and the configuration of an inner directory can override that of an outer directory.": "此配置作用于此目录范围，不同的目录可以有不同的配置，内层目录的配置可以覆盖外层目录的配置",
+  "Directory Configuration": "目录配置",
+  "Enter link": "输入链接",
+  "Link": "链接"
 }

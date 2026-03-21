@@ -99,7 +99,7 @@
         >
       </q-btn>
     </common-toolbar>
-    <selection-menu :editor />
+    <float-menu :editor />
     <editor-content
       :editor
       class="md-editor-preview vuepress-theme"
@@ -127,7 +127,7 @@ import { suggestion } from 'src/components/tiptap-editor/slash-command/suggestio
 import { entityRoute, getItemUrl, isTextFile, scaleWhenNeeded } from 'src/utils/functions'
 import PageTitleInput from 'src/components/PageTitleInput.vue'
 import { entityName } from 'src/utils/defaults'
-import SelectionMenu from 'src/components/tiptap-editor/SelectionMenu.vue'
+import FloatMenu from 'src/components/tiptap-editor/FloatMenu.vue'
 import FileHandler from '@tiptap/extension-file-handler'
 import { upload } from 'src/utils/blob-cache'
 import type { Editor } from '@tiptap/core'

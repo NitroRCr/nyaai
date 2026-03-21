@@ -31,7 +31,7 @@
         <autocomplete-input
           :options="conf.translationLanguageOptions"
           :model-value="record.to"
-          @update:model-value="update({ to: $event })"
+          @update:model-value="updateTo($event as string)"
           :placeholder="t('Auto')"
           dense
           field-sizing-content
@@ -217,13 +217,13 @@ function translate() {
     })
     return
   }
-  loading.value = true
   const {
     translationPrompt,
     translationPrimaryLanguage,
     translationSecondaryLanguage,
   } = conf.value
   flush()
+  loading.value = true
   const { id, from, to, input } = recordProxy.value
   generateText({
     ...model.value.settings,
@@ -275,6 +275,15 @@ function update(updates: Partial<Row['translationRecord']>) {
   }))
 }
 
+async function updateTo(to: string) {
+  if (to === record.value.to) return
+  if (inputing.value) update({ to })
+  else {
+    await createRecord({ to })
+    translate()
+  }
+}
+
 const perfsStore = usePerfsStore()
 function onEnter(ev: KeyboardEvent) {
   if (currentRecord.value.output) return
@@ -294,7 +303,6 @@ if (route.hash === '#translate') {
 async function paste() {
   const text = await navigator.clipboard.readText()
   updateProxy({ input: text })
-  flush()
   translate()
 }
 </script>
