@@ -118,7 +118,7 @@ import { base64ToUint8Array, uint8ArrayToBase64 } from 'app/src-shared/utils/fun
 import { useTemplateRef, watch, watchEffect } from 'vue'
 import * as Y from 'yjs'
 import Collaboration from '@tiptap/extension-collaboration'
-import { copyToClipboard, debounce, exportFile, Dialog } from 'quasar'
+import { copyToClipboard, debounce, exportFile, Dialog, useQuasar } from 'quasar'
 import { mutate } from 'src/utils/zero-session'
 import Commands from 'src/components/tiptap-editor/slash-command/extension'
 import { mutators } from 'app/src-shared/mutators'
@@ -144,6 +144,7 @@ import EditLatexDialog from 'src/components/EditLatexDialog.vue'
 import { staticExtensions } from 'src/components/tiptap-editor/static-extensions'
 import { parseText } from 'src/utils/file-parse'
 import PageVersionsBtn from 'src/components/PageVersionsBtn.vue'
+import SelectEntityDialog from 'src/components/SelectEntityDialog.vue'
 
 const props = defineProps<{
   page: FullPage
@@ -216,6 +217,23 @@ const editor = useEditor({
                 href: entityRoute('page', id),
               },
             }).run()
+          },
+        },
+        {
+          title: 'Link to',
+          icon: 'sym_o_article_shortcut',
+          command: ({ editor, range }) => {
+            $q.dialog({
+              component: SelectEntityDialog,
+            }).onOk(entity => {
+              editor.chain().focus().deleteRange(range).insertContent({
+                type: 'entityLink',
+                attrs: {
+                  entityId: entity.id,
+                  href: entityRoute(entity.type, entity.id),
+                },
+              }).run()
+            })
           },
         },
       ]),
@@ -368,6 +386,8 @@ async function importFile({ target }) {
     updateTitle(file.name)
   }
 }
+
+const $q = useQuasar()
 </script>
 
 <style lang="scss">

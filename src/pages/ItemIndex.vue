@@ -67,7 +67,10 @@
           </div>
         </q-card-section>
         <q-card-section p-2>
-          <navigation-panel default-type="item" />
+          <select-entity-panel
+            default-type="item"
+            @select="$router.push(entityRoute($event.type, $event.id))"
+          />
         </q-card-section>
       </q-card>
       <div h="100px" />
@@ -78,7 +81,7 @@
 <script setup lang="ts">
 import { t } from 'src/utils/i18n'
 import { useUiStateStore } from 'src/stores/ui-state'
-import NavigationPanel from 'src/components/NavigationPanel.vue'
+import SelectEntityPanel from 'src/components/SelectEntityPanel.vue'
 import { onUnmounted, useTemplateRef } from 'vue'
 import { mutate } from 'src/utils/zero-session'
 import { mutators } from 'app/src-shared/mutators'
@@ -87,6 +90,7 @@ import { parseText } from 'src/utils/file-parse'
 import { useRightDirStore } from 'src/stores/right-dir'
 import { upload } from 'src/utils/blob-cache'
 import { useQuasar } from 'quasar'
+import { entityRoute } from 'src/utils/functions'
 
 const inputRef = useTemplateRef('inputRef')
 

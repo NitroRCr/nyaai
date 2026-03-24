@@ -46,8 +46,8 @@
           :label="entityName(r)"
           :avatar="entityAvatar(r)"
           :to="entityRoute(r.type, r.id)"
+          @click.prevent="$emit('select', r)"
           :caption="getPath(r)"
-          clickable
           :class="{ 'bg-sur-c-high': i === focusedIndex }"
           item-rd
         />
@@ -75,6 +75,10 @@ import { useRouter } from 'vue-router'
 
 const props = defineProps<{
   defaultType?: EntityType
+}>()
+
+defineEmits<{
+  select: [Row['entity']]
 }>()
 
 const args = reactive({

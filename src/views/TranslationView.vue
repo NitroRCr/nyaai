@@ -40,7 +40,7 @@
       </div>
       <div
         flex
-        :class="{ 'flex-col': $q.screen.lt.sm}"
+        :class="{ 'flex-col': $q.screen.lt.sm || position !== 'full' }"
         mt-4
         gap-2
       >
@@ -149,13 +149,15 @@ import { mutate } from 'src/utils/zero-session'
 import { t } from 'src/utils/i18n'
 import { toSdkModel } from 'src/utils/model'
 import { engine } from 'src/utils/template-engine'
-import { computed, ref } from 'vue'
+import type { Ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 import { z } from 'zod'
 import { usePerfsStore } from 'src/stores/perfs'
 import { shortcutKeyMatch, textBeginning } from 'src/utils/functions'
 import { useRoute, useRouter } from 'vue-router'
 import CommonToolbar from 'src/components/CommonToolbar.vue'
 import CopyBtn from 'src/components/CopyBtn.vue'
+import type { LayoutPosition } from 'src/utils/types'
 
 const props = defineProps<{
   translation: FullTranslation
@@ -305,6 +307,8 @@ async function paste() {
   updateProxy({ input: text })
   translate()
 }
+
+const position = inject<Ref<LayoutPosition>>('position')!
 </script>
 <style lang="scss" scoped>
 .translation-input {

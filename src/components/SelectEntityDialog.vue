@@ -10,7 +10,7 @@
       style="width: min(90vw, 500px)"
       py-2
     >
-      <select-entity-panel @select="$router.push(entityRoute($event.type, $event.id))" />
+      <select-entity-panel @select="onDialogOK" />
     </q-card>
   </q-dialog>
 </template>
@@ -18,7 +18,6 @@
 <script setup lang="ts">
 import { useDialogPluginComponent } from 'quasar'
 import SelectEntityPanel from './SelectEntityPanel.vue'
-import { entityRoute } from 'src/utils/functions'
 
-const { dialogRef, onDialogHide } = useDialogPluginComponent()
+const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
 </script>

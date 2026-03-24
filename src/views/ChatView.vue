@@ -142,7 +142,7 @@
           :title="t('Add Item')"
           flat
           round
-          @click="selectEntities"
+          @click="selectEntity"
         />
         <q-space />
         <div
@@ -207,7 +207,7 @@ import PluginToggleItems from 'src/components/PluginToggleItems.vue'
 import { editPageSdkTool } from 'src/utils/edit-page'
 import { injectGlobal } from 'src/composables/provide-inject-global'
 import type { Editor } from '@tiptap/vue-3'
-import SelectEntitiesDialog from 'src/components/SelectEntitiesDialog.vue'
+import SelectEntityDialog from 'src/components/SelectEntityDialog.vue'
 import { useWorkspaceStore } from 'src/stores/workspace'
 import CommonToolbar from 'src/components/CommonToolbar.vue'
 import MessageInput from 'src/components/MessageInput.vue'
@@ -296,13 +296,13 @@ watch(() => props.chat.id, id => {
   })
 })
 
-function selectEntities() {
+function selectEntity() {
   $q.dialog({
-    component: SelectEntitiesDialog,
-  }).onOk(ids => {
+    component: SelectEntityDialog,
+  }).onOk(entity => {
     mutate(mutators.createMessageEntities({
       messageId: chain.value.at(-1)!,
-      entityIds: ids,
+      entityIds: [entity.id],
     }))
   })
 }
