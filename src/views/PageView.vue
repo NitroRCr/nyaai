@@ -99,7 +99,10 @@
         >
       </q-btn>
     </common-toolbar>
-    <float-menu :editor />
+    <float-menu
+      :editor
+      :entity-id="page.id"
+    />
     <editor-content
       :editor
       class="md-editor-preview vuepress-theme"
@@ -203,6 +206,13 @@ const editor = useEditor({
           icon: 'sym_o_format_h3',
           command: ({ editor, range }) => {
             editor.chain().focus().deleteRange(range).setNode('heading', { level: 3 }).run()
+          },
+        },
+        {
+          title: 'Details',
+          icon: 'sym_o_chevron_right',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setDetails().run()
           },
         },
         {
@@ -393,6 +403,12 @@ const $q = useQuasar()
 <style lang="scss">
 .tiptap {
   --at-apply: 'grow px-5';
+  --md-theme-code-inline-color: #d63200;
+  --md-theme-code-inline-bg-color: #f8f8f8;
+  --md-theme-code-block-color: #747384;
+  --md-theme-code-block-bg-color: #f8f8f8;
+  --md-theme-code-before-bg-color: var(--md-theme-code-block-bg-color);
+  --md-theme-code-block-radius: 2px;
 
   [data-resize-handle] {
     width: 8px;
@@ -421,6 +437,38 @@ const $q = useQuasar()
       p {
         --at-apply: 'm-0';
       }
+    }
+  }
+
+  [data-type="details"] {
+    display: flex;
+    gap: 0.25rem;
+
+    summary {
+      font-weight: 600;
+    }
+
+    > button {
+      align-items: center;
+      background: transparent;
+      display: flex;
+      font-size: 0.625rem;
+      height: 1.25rem;
+      justify-content: center;
+      line-height: 1;
+      margin-top: 0.1rem;
+      padding: 0;
+      width: 1.25rem;
+      border-width: 0;
+      cursor: pointer;
+
+      &::before {
+        content: '\25B6';
+      }
+    }
+
+    &.is-open > button::before {
+      transform: rotate(90deg);
     }
   }
 }

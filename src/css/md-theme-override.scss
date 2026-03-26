@@ -102,6 +102,14 @@ body {
   --md-theme-heading-color: var(--a-on-sur-var) !important;
 }
 
+.md-editor {
+  summary {
+    display: list-item;
+    cursor: pointer;
+    font-weight: 600;
+  }
+}
+
 .body--light {
   pre code.hljs {
     display: block;

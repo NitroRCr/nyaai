@@ -185,7 +185,6 @@
   "Failed to reset password: {0}": "重置密码失败：{0}",
   "Password reset successfully": "密码重置成功",
   "Select Directory": "选择目录",
-  "Select Items": "选择项目",
   "Password": "密码",
   "Password must be at least 8 characters long": "密码长度必须至少为 8 个字符",
   "Password must contain at least one letter": "密码必须包含至少一个字母",

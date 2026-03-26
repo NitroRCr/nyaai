@@ -240,7 +240,7 @@
               <template v-if="selected.markdown">
                 <q-separator vertical />
                 <q-btn
-                  icon="sym_o_content_copy"
+                  icon="sym_o_markdown_copy"
                   label="Markdown"
                   @click="copyToClipboard(selected.markdown)"
                   :title="t('Copy Markdown')"

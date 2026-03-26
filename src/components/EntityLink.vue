@@ -25,7 +25,7 @@ import { entityAvatar, entityName } from 'src/utils/defaults'
 import { entityRoute } from 'src/utils/functions'
 import { useQuery } from 'src/composables/zero/query'
 import { queries } from 'app/src-shared/queries'
-import { watch } from 'vue'
+import { nextTick, watch } from 'vue'
 
 const props = defineProps<{
   id: string
@@ -43,10 +43,12 @@ const { data: entity } = useQuery(() => queries.entity({ id: props.id }), {
 })
 
 watch(() => entity.value?.name, () => {
-  if (!entity.value) return
-  emit('updateAttrs', {
-    text: entityName(entity.value),
-    href: entityRoute(entity.value.type, entity.value.id),
+  nextTick(() => {
+    if (!entity.value) return
+    emit('updateAttrs', {
+      text: entityName(entity.value),
+      href: entityRoute(entity.value.type, entity.value.id),
+    })
   })
 }, { immediate: true })
 </script>

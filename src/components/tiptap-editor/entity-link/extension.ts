@@ -5,6 +5,7 @@ export const EntityLink = Node.create({
   name: 'entityLink',
   inline: true,
   group: 'inline',
+  atom: true,
 
   addAttributes: () => ({
     entityId: {

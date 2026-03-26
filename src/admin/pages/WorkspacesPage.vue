@@ -53,7 +53,7 @@ import AInput from 'src/components/AInput'
 import PlanSelect from '../components/PlanSelect.vue'
 
 const columns: QTableColumn[] = [
-  { name: 'name', label: t('Name'), field: 'name' },
+  { name: 'name', label: t('Name'), field: 'name', align: 'left' },
   { name: 'ownerId', label: t('Owner ID'), field: 'ownerId' },
   { name: 'plan', label: t('Plan'), field: 'plan', format: plan => plan?.name },
   { name: 'payment', label: t('Payment'), field: 'payment', format: val => val ? JSON.stringify(val) : '' },

@@ -72,6 +72,27 @@
           />
         </q-menu>
       </q-btn>
+      <q-btn
+        @click="search"
+        icon="sym_o_search"
+        :title="t('Search')"
+        un-size="32px"
+        size="sm"
+      />
+      <q-btn
+        @click="translate"
+        icon="sym_o_translate"
+        :title="t('Translate')"
+        un-size="32px"
+        size="sm"
+      />
+      <q-btn
+        @click="copyMarkdown"
+        :icon="copyMarkdownIcon"
+        :title="t('Copy Markdown')"
+        un-size="32px"
+        size="sm"
+      />
     </q-btn-group>
   </bubble-menu>
   <bubble-menu
@@ -98,9 +119,18 @@ import { BubbleMenu } from '@tiptap/vue-3/menus'
 import { t } from 'src/utils/i18n'
 import type { BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 import LinkMenuContent from 'src/components/LinkMenuContent.vue'
+import { copyToClipboard } from 'quasar'
+import type { Node } from '@tiptap/pm/model'
+import { ref } from 'vue'
+import { createSearch } from 'src/services/create-search'
+import { useRouter } from 'vue-router'
+import { genId } from 'app/src-shared/utils/id'
+import { mutate } from 'src/utils/zero-session'
+import { mutators } from 'app/src-shared/mutators'
 
 const props = defineProps<{
   editor?: Editor
+  entityId: string
 }>()
 
 const shouldShow: BubbleMenuPluginProps['shouldShow'] = ({ editor, element, view, state, from, to }) => {
@@ -138,5 +168,50 @@ function setLink(link?: string) {
   } else {
     props.editor?.chain().focus().extendMarkRange('link').setLink({ href: link }).run()
   }
+}
+
+function getMarkdown() {
+  const editor = props.editor!
+  const nodes: Node[] = []
+  editor.state.selection.content().content.forEach(node => {
+    nodes.push(node.toJSON())
+  })
+  const markdown = editor.markdown!.renderNodes(nodes)
+  return markdown
+}
+function getText() {
+  const { state } = props.editor!
+  return state.doc.textBetween(state.selection.from, state.selection.to, '\n')
+}
+
+const copyMarkdownIcon = ref('sym_o_markdown_copy')
+function copyMarkdown() {
+  copyToClipboard(getMarkdown())
+  copyMarkdownIcon.value = 'sym_o_check'
+  setTimeout(() => {
+    copyMarkdownIcon.value = 'sym_o_markdown_copy'
+  }, 2000)
+}
+
+const router = useRouter()
+async function search() {
+  const text = getText()
+  if (!text) return
+  const id = await createSearch(text, props.entityId)
+  router.push(`/search/${id}`)
+}
+async function translate() {
+  const text = getMarkdown()
+  if (!text) return
+  const id = genId()
+  await mutate(mutators.createTranslation({
+    id,
+    parentId: props.entityId,
+    input: text,
+  })).client
+  router.push({
+    query: { rightEntity: JSON.stringify({ type: 'translation', id }) },
+    hash: '#translate',
+  })
 }
 </script>

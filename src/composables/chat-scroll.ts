@@ -44,7 +44,7 @@ export function useChatScroll(scrollContainer: Ref<HTMLElement | null>) {
         top = items[index + 1].offsetTop
       }
     }
-    container.scrollTo({ top, behavior })
+    container.scrollTo({ top: top + 2, behavior })
   }
 
   const perfsStore = usePerfsStore()
