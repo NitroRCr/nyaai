@@ -460,6 +460,7 @@ function changeIcon() {
 
 const { conf } = useEntityConf(dir)
 async function summarizeChatTitle(id: string) {
+  exitSelectMode()
   const chat = await z.run(queries.fullChat(id), { type: 'complete' })
   chat && await generateChatTitle({ chat, conf: conf.value }).catch(err => {
     console.error(err)
@@ -468,6 +469,5 @@ async function summarizeChatTitle(id: string) {
       color: 'negative',
     })
   })
-  exitSelectMode()
 }
 </script>
