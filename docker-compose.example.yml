@@ -14,18 +14,6 @@ services:
       - source: init_db
         target: /docker-entrypoint-initdb.d/init.sql
 
-  pgbouncer:
-    image: edoburu/pgbouncer:latest
-    environment:
-      - DATABASE_URLS="postgres://postgres:pass@db:5432/app,postgres://postgres:pass@db:5432/zero"
-      - AUTH_TYPE=scram-sha-256
-      - POOL_MODE=transaction
-    depends_on:
-      - db
-    healthcheck:
-      test: ['CMD', 'pg_isready', '-h', 'localhost']
-      interval: 5s
-
   server:
     image: krytro/nyaai-server:latest
     # or build from source:
@@ -37,7 +25,7 @@ services:
       FRONT_URL: update-this
       ADMIN_URL: update-this
       BETTER_AUTH_SECRET: update-this
-      DATABASE_URL: postgres://postgres:pass@pgbouncer:5432/app
+      DATABASE_URL: postgres://postgres:pass@db:5432/app
       S3_ACCESS_KEY_ID: update-this
       S3_SECRET_ACCESS_KEY: update-this
       S3_ENDPOINT: update-this
@@ -66,8 +54,8 @@ services:
     image: rocicorp/zero:0.26.1
     environment:
       ZERO_UPSTREAM_DB: postgres://postgres:pass@db:5432/app
-      ZERO_CVR_DB: postgres://postgres:pass@pgbouncer:5432/zero
-      ZERO_CHANGE_DB: postgres://postgres:pass@pgbouncer:5432/zero
+      ZERO_CVR_DB: postgres://postgres:pass@db:5432/zero
+      ZERO_CHANGE_DB: postgres://postgres:pass@db:5432/zero
       ZERO_REPLICA_FILE: /data/zero.db
       # Password used to access the inspector and /statz
       ZERO_ADMIN_PASSWORD: pickanewpassword

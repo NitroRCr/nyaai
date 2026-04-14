@@ -1,5 +1,5 @@
-import { migrate } from 'drizzle-orm/bun-sql/migrator'
-import { drizzle } from 'drizzle-orm/bun-sql'
+import { migrate } from 'drizzle-orm/postgres-js/migrator'
+import { drizzle } from 'drizzle-orm/postgres-js'
 import { DATABASE_URL } from './config'
 import { relations } from '../schema/relations'
 import * as schema from '../schema'
