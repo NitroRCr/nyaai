@@ -37,7 +37,7 @@ export async function generateChatTitle({ chat, conf }: {
     model: toSdkModel(model),
     prompt,
   })
-  await mutate(mutators.updateChat({
+  await mutate(mutators.updateEntity({
     id: chat.id,
     ...getNameAvatar(text),
   })).client

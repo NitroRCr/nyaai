@@ -67,7 +67,6 @@
         "nodemailer": "^8.0.1",
         "ollama-ai-provider-v2": "^3.4.0",
         "pdfjs-dist": "^5.4.624",
-        "pg": "^8.16.3",
         "pinia": "^3.0.1",
         "prism-code-editor": "^5.0.1",
         "quasar": "^2.16.0",
