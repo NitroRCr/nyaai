@@ -676,5 +676,12 @@
   "Getting started": "開始使用",
   "Chat with AI": "與 AI 對話",
   "Search the web with AI": "使用 AI 搜尋網路",
-  "Take notes & collaborate": "筆記與協作"
+  "Take notes & collaborate": "筆記與協作",
+  "Import data": "導入數據",
+  "Currently, only importing from AIaW is supported.": "目前僅支援從 AIaW 導入。",
+  "Importing...": "導入...",
+  "AIaW Import": "AIaW 導入",
+  "Import successful": "導入成功",
+  "Imported to the workspace root": "已導入到工作區根目錄",
+  "Import failed": "導入失敗"
 }

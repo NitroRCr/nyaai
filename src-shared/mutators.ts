@@ -41,6 +41,12 @@ function insertSchema<T extends TableSchema>(table: T) {
 function updateSchema<T extends TableSchema>(table: T) {
   return zeroToZod(table).partial().required({ id: true }).omit({ rootId: true })
 }
+const entityPropsSchema = z.object({
+  id: z.string(),
+  parentId: z.string(),
+  name: z.string().optional(),
+  avatar: avatarSchema.optional(),
+})
 
 export const entityDefaultProps = {
   conf: {},
@@ -73,20 +79,24 @@ function ensureTimeValid(time: number) {
   return Math.abs(now - time) < allowLatency ? time : now
 }
 
-const appendMessage = defineMutator(
-  z.object({
-    entityId: z.string(),
-    target: z.string(),
-    props: z.object({
-      id: z.string(),
-      text: z.string(),
-      type: z.enum(['chat:user', 'chat:assistant']),
-      assistantId: z.string().nullish(),
-      userId: z.string().nullish(),
-      sentAt: z.number().nullish(),
-    }),
-    entities: z.array(z.string()).optional(),
+const appendMessageArgs = z.object({
+  entityId: z.string(),
+  target: z.string(),
+  props: z.object({
+    id: z.string(),
+    text: z.string(),
+    reasoning: z.string().nullish(),
+    type: z.enum(['chat:user', 'chat:assistant']),
+    assistantId: z.string().nullish(),
+    modelName: z.string().nullish(),
+    userId: z.string().nullish(),
+    sentAt: z.number().nullish(),
   }),
+  entities: z.array(z.string()).optional(),
+})
+export type AppendMessageArgs = z.infer<typeof appendMessageArgs>
+const appendMessage = defineMutator(
+  appendMessageArgs,
   async ({ tx, ctx, args: { entityId, target, props, entities = [] } }) => {
     assertAuthorized(ctx.userId)
     const { rootId, msgTree, msgRoute } = await requireWritable.chat(tx, ctx, entityId)
@@ -147,6 +157,16 @@ const appendMessagePair = defineMutator(
         props: { ...uProps, type: 'chat:user', text: '' },
       },
     })
+  },
+)
+const appendMessageBatch = defineMutator(
+  z.array(appendMessageArgs),
+  async ({ tx, ctx, args }) => {
+    if (tx.location === 'server') {
+      for (const arg of args) {
+        await appendMessage.fn({ tx, ctx, args: arg })
+      }
+    }
   },
 )
 
@@ -280,8 +300,9 @@ const createChat = defineMutator(
     ids: z.array(z.string()).length(2),
     parentId: z.string(),
     name: z.string().optional(),
+    avatar: avatarSchema.optional(),
   }),
-  async ({ tx, ctx, args: { ids, parentId, name } }) => {
+  async ({ tx, ctx, args: { ids, parentId, name, avatar } }) => {
     assertAuthorized(ctx.userId)
     const { rootId, pubRoot } = await requireWritable.entity(tx, ctx, parentId)
     const [id, uId] = ids
@@ -293,6 +314,7 @@ const createChat = defineMutator(
       type: 'chat',
       parentId,
       name,
+      avatar,
     })
     await tx.mutate.chat.insert({
       id,
@@ -311,12 +333,8 @@ const createChat = defineMutator(
   },
 )
 const createAssistant = defineMutator(
-  z.object({
-    id: z.string(),
-    parentId: z.string(),
-    name: z.string().optional(),
-  }),
-  async ({ tx, ctx, args: { id, parentId, name } }) => {
+  entityPropsSchema,
+  async ({ tx, ctx, args: { id, parentId, name, avatar } }) => {
     assertAuthorized(ctx.userId)
     const { rootId, pubRoot } = await requireWritable.entity(tx, ctx, parentId)
     await tx.mutate.entity.insert({
@@ -327,6 +345,7 @@ const createAssistant = defineMutator(
       rootId,
       type: 'assistant',
       name,
+      avatar,
     })
     await tx.mutate.assistant.insert({
       id,
@@ -340,12 +359,10 @@ const createAssistant = defineMutator(
 )
 const createMcpPlugin = defineMutator(
   z.object({
-    id: z.string(),
-    parentId: z.string(),
-    name: z.string().optional(),
+    ...entityPropsSchema.shape,
     transport: mcpTransportSchema,
   }),
-  async ({ tx, ctx, args: { id, parentId, name, transport } }) => {
+  async ({ tx, ctx, args: { id, parentId, name, avatar, transport } }) => {
     assertAuthorized(ctx.userId)
     const { rootId, pubRoot } = await requireWritable.entity(tx, ctx, parentId)
     await tx.mutate.entity.insert({
@@ -356,6 +373,7 @@ const createMcpPlugin = defineMutator(
       rootId,
       type: 'mcpPlugin',
       name,
+      avatar,
     })
     await tx.mutate.mcpPlugin.insert({
       id,
@@ -487,9 +505,7 @@ const updateWorkspace = defineMutator(
 
 const createProvider = defineMutator(
   z.object({
-    id: z.string(),
-    name: z.string().optional(),
-    parentId: z.string(),
+    ...entityPropsSchema.shape,
     avatar: avatarSchema.optional(),
     type: z.string(),
     settings: z.record(z.string(), z.any()),
@@ -532,12 +548,8 @@ const createModels = defineMutator(
   },
 )
 const createPage = defineMutator(
-  z.object({
-    id: z.string(),
-    parentId: z.string(),
-    name: z.string().optional(),
-  }),
-  async ({ tx, ctx, args: { id, parentId, name } }) => {
+  entityPropsSchema,
+  async ({ tx, ctx, args: { id, parentId, name, avatar } }) => {
     assertAuthorized(ctx.userId)
     const { rootId, pubRoot } = await requireWritable.entity(tx, ctx, parentId)
     await tx.mutate.entity.insert({
@@ -548,6 +560,7 @@ const createPage = defineMutator(
       type: 'page',
       name,
       parentId,
+      avatar,
     })
     await tx.mutate.page.insert({
       id,
@@ -571,11 +584,10 @@ const createPagePatch = defineMutator(
 )
 const createTranslation = defineMutator(
   z.object({
-    id: z.string(),
-    parentId: z.string(),
+    ...entityPropsSchema.shape,
     input: z.string().optional(),
   }),
-  async ({ tx, ctx, args: { id, parentId, input } }) => {
+  async ({ tx, ctx, args: { id, parentId, input, name, avatar } }) => {
     assertAuthorized(ctx.userId)
     const { rootId, pubRoot } = await requireWritable.entity(tx, ctx, parentId)
     await tx.mutate.entity.insert({
@@ -585,6 +597,8 @@ const createTranslation = defineMutator(
       pubRoot,
       type: 'translation',
       parentId,
+      name,
+      avatar,
     })
     await tx.mutate.translation.insert({
       id,
@@ -601,12 +615,10 @@ const createTranslation = defineMutator(
 )
 const createChannel = defineMutator(
   z.object({
-    id: z.string(),
-    parentId: z.string(),
-    name: z.string().optional(),
+    ...entityPropsSchema.shape,
     draftMessageId: z.string(),
   }),
-  async ({ tx, ctx, args: { id, parentId, name, draftMessageId } }) => {
+  async ({ tx, ctx, args: { id, parentId, name, avatar, draftMessageId } }) => {
     assertAuthorized(ctx.userId)
     const { rootId, pubRoot } = await requireWritable.entity(tx, ctx, parentId)
     await tx.mutate.entity.insert({
@@ -617,6 +629,7 @@ const createChannel = defineMutator(
       type: 'channel',
       parentId,
       name,
+      avatar,
     })
     await tx.mutate.channel.insert({
       id,
@@ -633,9 +646,7 @@ const createChannel = defineMutator(
   },
 )
 const createItemArgs = z.object({
-  id: z.string(),
-  parentId: z.string(),
-  name: z.string().optional(),
+  ...entityPropsSchema.shape,
   mimeType: z.string().optional(),
   text: z.string().optional(),
   language: z.string().optional(),
@@ -643,13 +654,14 @@ const createItemArgs = z.object({
 })
 const createItem = defineMutator(
   createItemArgs,
-  async ({ tx, ctx, args: { id, parentId, name, hidden = false, ...itemProps } }) => {
+  async ({ tx, ctx, args: { id, parentId, name, avatar, hidden = false, ...itemProps } }) => {
     assertAuthorized(ctx.userId)
     const { rootId, pubRoot } = await requireWritable.entity(tx, ctx, parentId)
     await tx.mutate.entity.insert({
       ...entityDefaultProps,
       id,
       name,
+      avatar,
       rootId,
       pubRoot,
       type: 'item',
@@ -710,18 +722,15 @@ const createMessageEntities = defineMutator(
   },
 )
 const createFolder = defineMutator(
-  z.object({
-    id: z.string(),
-    parentId: z.string(),
-    name: z.string().optional(),
-  }),
-  async ({ tx, ctx, args: { id, parentId, name } }) => {
+  entityPropsSchema,
+  async ({ tx, ctx, args: { id, parentId, name, avatar } }) => {
     assertAuthorized(ctx.userId)
     const { rootId, pubRoot } = await requireWritable.entity(tx, ctx, parentId)
     await tx.mutate.entity.insert({
       ...entityDefaultProps,
       id,
       name,
+      avatar,
       rootId,
       pubRoot,
       parentId,
@@ -731,10 +740,7 @@ const createFolder = defineMutator(
   },
 )
 const createShortcutArgs = z.object({
-  id: z.string(),
-  parentId: z.string(),
-  name: z.string().nullish(),
-  avatar: avatarSchema.nullish(),
+  ...entityPropsSchema.shape,
   dirId: z.string().nullish(),
   type: entityTypeSchema.nullish(),
   action: shortcutActionSchema.nullish(),
@@ -1605,6 +1611,7 @@ export const mutators = defineMutators({
   switchChain,
   appendMessage,
   appendMessagePair,
+  appendMessageBatch,
   deleteBranch,
   createSearchRecord,
   createSearch,

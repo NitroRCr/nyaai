@@ -363,6 +363,21 @@
     >
       <q-icon name="sym_o_chevron_right" />
     </common-item>
+    <common-item
+      :label="t('Import data')"
+      :caption="t('Currently, only importing from AIaW is supported.')"
+      clickable
+      @click="fileInput?.click()"
+    >
+      <q-icon name="sym_o_chevron_right" />
+      <input
+        type="file"
+        accept=".json"
+        hidden
+        ref="fileInput"
+        @change="importData"
+      >
+    </common-item>
   </q-list>
 </template>
 
@@ -380,6 +395,11 @@ import ShortcutKeyInput from './ShortcutKeyInput.vue'
 import CommonItem from './CommonItem.vue'
 import { localData } from 'src/utils/local-data'
 import { useWorkspaceStore } from 'src/stores/workspace'
+import { useTemplateRef } from 'vue'
+import { genId } from 'app/src-shared/utils/id'
+import { mutate } from 'src/utils/zero-session'
+import { mutators } from 'app/src-shared/mutators'
+import { importAiaw } from 'src/services/import-aiaw'
 
 const props = defineProps<{
   state: PerfsState<Perfs>
@@ -411,4 +431,48 @@ const localeOptions = [
 
 const directoryConfigCaption = t('Some settings apply at the directory level and are not displayed here. Right-click the directory in the right sidebar and click "Properties" to modify the configuration of that directory.')
 const workspaceStore = useWorkspaceStore()
+
+const fileInput = useTemplateRef('fileInput')
+async function importData({ target }) {
+  const files: File[] = Array.from(target.files)
+  if (!files.length) return
+  target.value = ''
+  const folderId = genId()
+  const notif = $q.notify({
+    group: false,
+    timeout: 0,
+    spinner: true,
+    message: t('Importing...'),
+    caption: '0%',
+  })
+  await mutate(mutators.createFolder({
+    id: folderId,
+    parentId: workspaceStore.id!,
+    name: t('AIaW Import'),
+  })).client
+  await importAiaw(files[0], folderId, progress => {
+    notif({
+      caption: `${(progress * 100).toFixed(1)}%`,
+    })
+  }).then(() => {
+    notif({
+      type: 'positive',
+      icon: 'sym_o_done',
+      spinner: false,
+      message: t('Import successful'),
+      caption: t('Imported to the workspace root'),
+      timeout: 3000,
+    })
+  }).catch(err => {
+    console.error(err)
+    notif({
+      type: 'negative',
+      icon: 'sym_o_error',
+      spinner: false,
+      message: t('Import failed'),
+      caption: err.message,
+      timeout: 3000,
+    })
+  })
+}
 </script>

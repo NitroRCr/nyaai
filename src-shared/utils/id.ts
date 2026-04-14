@@ -21,8 +21,7 @@ function refreshCount() {
 export function timestampHash(timestamp: number) {
   return int32ToSafe64(timestamp / (1 << 30) | 0, 2) + int32ToSafe64(timestamp, 5)
 }
-export function genId() {
-  const timestamp = Date.now()
+export function genId(timestamp = Date.now()) {
   if (timestamp === lastTimestamp) {
     count++
   } else {

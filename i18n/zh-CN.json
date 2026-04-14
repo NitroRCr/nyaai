@@ -676,5 +676,12 @@
   "Getting started": "开始使用",
   "Chat with AI": "和 AI 对话",
   "Search the web with AI": "搜索互联网",
-  "Take notes & collaborate": "笔记 & 协作"
+  "Take notes & collaborate": "笔记 & 协作",
+  "Import data": "导入数据",
+  "Currently, only importing from AIaW is supported.": "目前仅支持从 AIaW 导入。",
+  "Importing...": "导入中...",
+  "AIaW Import": "AIaW 导入",
+  "Import successful": "导入成功",
+  "Imported to the workspace root": "已导入到工作区根目录",
+  "Import failed": "导入失败"
 }

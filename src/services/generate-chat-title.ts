@@ -8,6 +8,20 @@ import { toSdkModel } from 'src/utils/model'
 import { engine } from 'src/utils/template-engine'
 import type { EntityConf } from 'src/composables/entity-conf'
 
+export function getNameAvatar(text: string) {
+  const [emoji, ...rest] = text.split(' ')
+  if (getTextLength(emoji) === 1) {
+    return {
+      name: rest.join(' '),
+      avatar: { type: 'text' as const, text: emoji },
+    }
+  } else {
+    return {
+      name: text,
+    }
+  }
+}
+
 export async function generateChatTitle({ chat, conf }: {
   chat: FullChat
   conf: EntityConf
@@ -23,17 +37,8 @@ export async function generateChatTitle({ chat, conf }: {
     model: toSdkModel(model),
     prompt,
   })
-  const [emoji, ...rest] = text.split(' ')
-  if (getTextLength(emoji) === 1) {
-    await mutate(mutators.updateEntity({
-      id: chat.id,
-      name: rest.join(' '),
-      avatar: { type: 'text', text: emoji },
-    })).client
-  } else {
-    await mutate(mutators.updateEntity({
-      id: chat.id,
-      name: text,
-    })).client
-  }
+  await mutate(mutators.updateChat({
+    id: chat.id,
+    ...getNameAvatar(text),
+  })).client
 }
