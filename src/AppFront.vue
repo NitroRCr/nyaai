@@ -36,6 +36,10 @@ router.beforeEach((to, from) => {
       location.href = to.fullPath
     }, { once: true })
     waitingWorker.postMessage({ type: 'SKIP_WAITING' })
+    // Prevent hanging
+    setTimeout(() => {
+      location.href = to.fullPath
+    }, 3000)
     return false
   }
 })
