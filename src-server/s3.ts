@@ -53,7 +53,7 @@ const app = new Hono()
     const { 'content-length': contentLength, 'sha-256': sha256, 'sha-256-proof': sha256Proof } = c.req.valid('header')
 
     const resp = await db.transaction(async tx => {
-      const item = await db.query.item.findFirst({
+      const item = await tx.query.item.findFirst({
         where: {
           id,
           blobId: { isNull: true },
@@ -74,7 +74,7 @@ const app = new Hono()
       })
       if (!item?.workspace) return c.json({ error: 'item not found' }, 404)
 
-      const blob = await db.query.blob.findFirst({
+      const blob = await tx.query.blob.findFirst({
         where: {
           sha256,
           sha256Proof,
