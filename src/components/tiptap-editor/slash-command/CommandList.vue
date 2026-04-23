@@ -2,6 +2,8 @@
   <q-list
     bg-sur-c
     shadow-default
+    max-h="400px"
+    of-y-auto
   >
     <template v-if="items.length">
       <menu-item
@@ -11,7 +13,16 @@
         @click="selectItem(index)"
         :label="item.title"
         :icon="item.icon"
-      />
+      >
+        <q-item-section
+          side
+          v-if="item.shortcut"
+          text="xs out"
+          ml-4
+        >
+          {{ item.shortcut }}
+        </q-item-section>
+      </menu-item>
     </template>
   </q-list>
 </template>
@@ -23,6 +34,7 @@ import MenuItem from 'src/components/MenuItem.vue'
 interface Item {
   title: string
   icon: string
+  shortcut?: string
 }
 
 interface Props {

@@ -534,7 +534,7 @@
   "Nya AI can also be your cloud drive. Uploading files here brings the following benefits:": "Nya AI 也可以是你的網盤。將文件上傳至這裡有以下好處：",
   "Access anytime from any device": "隨時可從任意設備訪問",
   "Ready to use in chat/pages at any time": "隨時可在對話/頁面中使用",
-  "Full-text search of file content (for parseable types)": "可全文搜索文件內容（對於可解析的類型）",
+  "Ready for full-text search of file content (for parseable types)": "可全文搜索文件內容（對於可解析的類型）",
   "Share publicly or share using download links": "可公開分享或使用下載連結分享",
   "This feature is mainly designed for document-type files, but we do not limit the file types you can upload, as long as a single file does not exceed 5GB.": "此功能主要為文檔類型文件設計，但我們並沒有限制上傳的文件類型，只要單個文件不超過 5GB 即可。",
   "Click <strong>\"Upload Files\"</strong> in the right sidebar to get started.": "點擊右側邊欄中的<strong>“上傳文件”</strong>以開始。",
@@ -683,5 +683,10 @@
   "AIaW Import": "AIaW 導入",
   "Import successful": "導入成功",
   "Imported to the workspace root": "已導入到工作區根目錄",
-  "Import failed": "導入失敗"
+  "Import failed": "導入失敗",
+  "Search in Workspace": "搜尋工作區",
+  "Search…": "搜尋…",
+  "Workspace Search": "工作區搜尋",
+  "Search in workspace": "搜尋工作區",
+  "Enable AI to search inside the current workspace (chats, channels, pages, and files).": "使 AI 能夠在目前工作區內容（聊天、頻道、頁面和文件）中搜尋。"
 }

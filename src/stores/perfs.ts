@@ -25,6 +25,7 @@ export const DefaultPerfs = {
   sendMessageKey: { key: 'Enter', withCtrl: true } as ShortcutKey,
   translateKey: { key: 'Enter', withCtrl: true } as ShortcutKey,
   navigationPanelShortcut: { key: 'KeyP', withCtrl: true } as ShortcutKey,
+  searchWorkspaceKey: null as ShortcutKey,
   regenerateCurrKey: { key: 'KeyR', withCtrl: true } as ShortcutKey,
   editCurrKey: { key: 'KeyE', withCtrl: true } as ShortcutKey,
   scrollUpKey: { key: 'ArrowUp', withCtrl: true } as ShortcutKey,

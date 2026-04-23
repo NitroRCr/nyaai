@@ -7,7 +7,7 @@ export const Math = Extension.create({
 
   addOptions() {
     return {
-      onClick: undefined,
+      onClick: undefined as any,
     }
   },
 

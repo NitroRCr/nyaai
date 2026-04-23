@@ -18,6 +18,8 @@ export const useUiStateStore = defineStore('ui-state', () => {
   const $q = useQuasar()
   const rightDrawerAbove = computed(() => $q.screen.width > rightDrawerBreakpoint)
   const chatScrollTops = ref(new Map<string, number>())
+
+  const searchDialogOpen = ref(false)
   return {
     mainDrawerWidth,
     mainDrawerBreakpoint,
@@ -29,6 +31,7 @@ export const useUiStateStore = defineStore('ui-state', () => {
     rightDrawerBreakpoint,
     toggleRightDrawer,
     rightDrawerOpen,
+    searchDialogOpen,
   }
 })
 

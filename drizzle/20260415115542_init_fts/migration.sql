@@ -1,0 +1,6 @@
+CREATE TEXT SEARCH CONFIGURATION mixed (PARSER = zhparser);
+ALTER TEXT SEARCH CONFIGURATION mixed 
+ADD MAPPING FOR n,v,a,b,z,s,t,i,j,l,x,g,m,q,d,f WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION mixed 
+ADD MAPPING FOR e WITH english_stem;

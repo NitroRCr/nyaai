@@ -35,10 +35,10 @@ async function requireWorkspaceRole(tx: Transaction<Schema>, ctx: Context, id: s
   assert(workspace, 'Workspace not found')
   return workspace
 }
-function insertSchema<T extends TableSchema>(table: T) {
+export function insertSchema<T extends TableSchema>(table: T) {
   return zeroToZod(table).omit({ rootId: true })
 }
-function updateSchema<T extends TableSchema>(table: T) {
+export function updateSchema<T extends TableSchema>(table: T) {
   return zeroToZod(table).partial().required({ id: true }).omit({ rootId: true })
 }
 const entityPropsSchema = z.object({
@@ -57,17 +57,16 @@ export const entityDefaultProps = {
 const switchChain = defineMutator(
   z.object({
     entityId: z.string(),
-    target: z.string(),
-    value: z.int(),
+    updates: z.record(z.string(), z.int()),
   }),
-  async ({ tx, ctx, args: { entityId, target, value } }) => {
+  async ({ tx, ctx, args: { entityId, updates } }) => {
     assertAuthorized(ctx.userId)
     const chat = await requireWritable.chat(tx, ctx, entityId)
     await tx.mutate.chat.update({
       id: entityId,
       msgRoute: {
         ...chat.msgRoute,
-        [target]: value,
+        ...updates,
       },
     })
   },

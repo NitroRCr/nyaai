@@ -35,6 +35,7 @@
       >
         <message-item
           class="message-item"
+          :data-message-id="current"
           v-if="messageMap[current]"
           :model-value="chat.msgRoute[parent] + 1"
           :message="messageMap[current]"
@@ -199,6 +200,7 @@ import { useQuery } from 'src/composables/zero/query'
 import type { CompletionConfig } from 'src/services/stream-message'
 import { streamChat } from 'src/services/stream-message'
 import { generateChatTitle } from 'src/services/generate-chat-title'
+import Mark from 'mark.js'
 import type { LayoutPosition } from 'src/utils/types'
 import { useRoute } from 'vue-router'
 import { entityName, modelInputTypes, modelName } from 'src/utils/defaults'
@@ -247,7 +249,7 @@ function updatePlugins(plugins: string[]) {
 const { getMessageAt, chain, messageMap } = useChatRes(toRef(props, 'chat'))
 
 function switchChain(target: string, value: number) {
-  mutate(mutators.switchChain({ entityId: props.chat.id, target, value }))
+  mutate(mutators.switchChain({ entityId: props.chat.id, updates: { [target]: value } }))
 }
 
 async function edit(parent: string) {
@@ -308,6 +310,40 @@ function selectEntity() {
 }
 
 const route = useRoute()
+
+watch(route, async () => {
+  const messageId = route.query.messageId
+  const highlight = route.query.highlight
+
+  if (typeof messageId !== 'string') return
+
+  const { msgTree } = props.chat
+  const parentMap = Object.entries(msgTree).reduce((acc, [parent, children]) => {
+    children.forEach(child => { acc[child] = parent })
+    return acc
+  }, {} as Record<string, string>)
+
+  if (!parentMap[messageId]) return
+
+  const updates: Record<string, number> = {}
+  let curr = messageId
+  while (curr !== '$root') {
+    const parent = parentMap[curr]
+    updates[parent] = msgTree[parent].indexOf(curr)
+    curr = parent
+  }
+  await mutate(mutators.switchChain({ entityId: props.chat.id, updates })).client
+  await nextTick()
+
+  const el = document.querySelector(`[data-message-id="${messageId}"]`)
+  if (!el) return
+
+  const instance = new Mark(el)
+  instance.unmark()
+  highlight && instance.mark(highlight)
+
+  document.querySelector('mark')?.scrollIntoView({ block: 'center' })
+}, { immediate: true })
 
 async function getStreamParams() {
   const config = await getCompletionConfig()

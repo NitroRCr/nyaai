@@ -193,7 +193,7 @@ export const streamChat = withTask(async (
       ...config.sdkTools,
     },
     providerOptions: config.providerOptions,
-    stopWhen: stepCountIs(config.streamSettings.maxSteps ?? 5),
+    stopWhen: stepCountIs(config.streamSettings.maxSteps ?? 20),
     abortSignal,
   })
 })

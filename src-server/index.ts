@@ -9,6 +9,7 @@ import admin from './admin'
 import payment from './payment'
 import searxng from './searxng'
 import webhooks from './webhooks'
+import search from './search'
 import { initJobs } from './jobs'
 import { sizeBytes } from 'app/src-shared/utils/functions'
 import { log } from './utils/functions'
@@ -26,6 +27,7 @@ export const app = new Hono().basePath('/api')
   .route('/payment', payment)
   .route('/webhooks', webhooks)
   .route('/searxng', searxng)
+  .route('/search', search)
 
 export default {
   fetch: app.fetch,

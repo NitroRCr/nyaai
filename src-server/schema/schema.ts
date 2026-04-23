@@ -1,12 +1,20 @@
 import type { LanguageModelUsage } from 'ai'
 import type { OrderProvider, Payment, ToolResultItem } from 'app/src-shared/utils/types'
-import { bigint, boolean, foreignKey, index, integer, jsonb, pgTable, serial, text, timestamp, unique, varchar, doublePrecision, real, primaryKey, numeric } from 'drizzle-orm/pg-core'
+import { bigint, boolean, foreignKey, index, integer, jsonb, pgTable, serial, text, timestamp, unique, varchar, doublePrecision, real, primaryKey, numeric, customType } from 'drizzle-orm/pg-core'
 import { user } from './auth.gen'
 import type { MessageType, Avatar, WorkspaceRole, EntityType, ShortcutAction, SearchResult, McpTransport, ToolCallStatus, ModelInputTypes, PlanInterval, PaymentProvider, PromptRole } from 'app/src-shared/utils/validators'
+import type { SQL } from 'drizzle-orm'
+import { sql } from 'drizzle-orm'
 
 export * from './auth.gen'
 
 const id = () => varchar({ length: 16 })
+
+const tsVector = customType<{ data: string }>({
+  dataType() {
+    return 'tsvector'
+  },
+})
 
 export const workspace = pgTable('workspace', {
   id: id().primaryKey().references(() => entity.id),
@@ -58,6 +66,9 @@ export const message = pgTable('message', {
   editedAt: timestamp(),
   entityId: id().notNull(),
   text: text().notNull(),
+  search: tsVector().generatedAlwaysAs(
+    (): SQL => sql`to_tsvector('mixed', ${message.text})`, // Do not create an index, because we always search in a certain workspace,
+  ),                                                  // and a GIN index incurs significant write overhead.
   reasoning: text(),
   error: text(),
   warnings: jsonb().$type<string[]>(),
@@ -88,6 +99,9 @@ export const entity = pgTable('entity', {
   parentId: id(),
   type: text().notNull().$type<EntityType>(),
   name: text(),
+  search: tsVector().generatedAlwaysAs(
+    (): SQL => sql`to_tsvector('mixed', ${entity.name})`,
+  ),
   avatar: jsonb().$type<Avatar>(),
   conf: jsonb().notNull().$type<Record<string, any>>(),
   sortPriority: integer().notNull(),
@@ -172,6 +186,10 @@ export const assistant = pgTable('assistant', {
 export const page = pgTable('page', {
   id: id().primaryKey(),
   rootId: id().notNull(),
+  text: text(),
+  search: tsVector().generatedAlwaysAs(
+    (): SQL => sql`to_tsvector('mixed', ${page.text})`,
+  ),
 }, t => [
   foreignKey({
     columns: [t.rootId, t.id],
@@ -218,6 +236,9 @@ export const item = pgTable('item', {
   language: text(),
   blobId: id().references(() => blob.id),
   mimeType: text(),
+  search: tsVector().generatedAlwaysAs(
+    (): SQL => sql`to_tsvector('mixed', ${item.text})`,
+  ),
 }, t => [
   foreignKey({
     columns: [t.rootId, t.id],
@@ -287,6 +308,9 @@ export const translationRecord = pgTable('translationRecord', {
   output: text(),
   from: text(),
   to: text(),
+  search: tsVector().generatedAlwaysAs(
+    (): SQL => sql`to_tsvector('mixed', coalesce(${translationRecord.input}, '') || ' ' || coalesce(${translationRecord.output}, ''))`,
+  ),
 }, t => [
   foreignKey({
     columns: [t.rootId, t.entityId],

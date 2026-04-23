@@ -41,6 +41,7 @@
       <node-view-content
         p-3
         text-on-sur-var
+        class="code-block-content"
       />
     </details>
   </node-view-wrapper>
@@ -55,3 +56,9 @@ defineProps(nodeViewProps)
 
 const open = ref(true)
 </script>
+<style lang="scss" scoped>
+.code-block-content {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
+  font-size: 14px;
+}
+</style>

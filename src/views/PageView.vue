@@ -188,34 +188,6 @@ const editor = useEditor({
     Commands.configure({
       suggestion: suggestion([
         {
-          title: 'Heading 1',
-          icon: 'sym_o_format_h1',
-          command: ({ editor, range }) => {
-            editor.chain().focus().deleteRange(range).setNode('heading', { level: 1 }).run()
-          },
-        },
-        {
-          title: 'Heading 2',
-          icon: 'sym_o_format_h2',
-          command: ({ editor, range }) => {
-            editor.chain().focus().deleteRange(range).setNode('heading', { level: 2 }).run()
-          },
-        },
-        {
-          title: 'Heading 3',
-          icon: 'sym_o_format_h3',
-          command: ({ editor, range }) => {
-            editor.chain().focus().deleteRange(range).setNode('heading', { level: 3 }).run()
-          },
-        },
-        {
-          title: 'Details',
-          icon: 'sym_o_chevron_right',
-          command: ({ editor, range }) => {
-            editor.chain().focus().deleteRange(range).setDetails().run()
-          },
-        },
-        {
           title: 'Page',
           icon: 'sym_o_note_stack_add',
           command: ({ editor, range }) => {
@@ -244,6 +216,93 @@ const editor = useEditor({
                 },
               }).run()
             })
+          },
+        },
+        {
+          title: 'Heading 1',
+          icon: 'sym_o_format_h1',
+          shortcut: '#',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setNode('heading', { level: 1 }).run()
+          },
+        },
+        {
+          title: 'Heading 2',
+          icon: 'sym_o_format_h2',
+          shortcut: '##',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setNode('heading', { level: 2 }).run()
+          },
+        },
+        {
+          title: 'Heading 3',
+          icon: 'sym_o_format_h3',
+          shortcut: '###',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setNode('heading', { level: 3 }).run()
+          },
+        },
+        {
+          title: 'Heading 4',
+          icon: 'sym_o_format_h4',
+          shortcut: '####',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setNode('heading', { level: 4 }).run()
+          },
+        },
+        {
+          title: 'Details',
+          icon: 'sym_o_chevron_right',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setDetails().run()
+          },
+        },
+        {
+          title: 'Quote',
+          icon: 'sym_o_format_quote',
+          shortcut: '>',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setBlockquote().run()
+          },
+        },
+        {
+          title: 'Code Block',
+          icon: 'sym_o_code_blocks',
+          shortcut: '```',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).toggleCodeBlock().run()
+          },
+        },
+        {
+          title: 'Bulleted List',
+          icon: 'sym_o_format_list_bulleted',
+          shortcut: '-',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).toggleBulletList().run()
+          },
+        },
+        {
+          title: 'Numbered List',
+          icon: 'sym_o_format_list_numbered',
+          shortcut: '1.',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).toggleOrderedList().run()
+          },
+        },
+        {
+          title: 'To-do List',
+          icon: 'sym_o_checklist',
+          shortcut: '[]',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).toggleTaskList().run()
+          },
+        },
+        {
+          title: 'Divider',
+          icon: 'sym_o_horizontal_rule',
+          shortcut: '---',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setHorizontalRule().run()
           },
         },
       ]),
@@ -350,8 +409,8 @@ function downloadMarkdown() {
   exportFile(`${entityName(props.page.entity)}.md`, editor.value!.getMarkdown())
 }
 async function exportDocx() {
-  const { exportDocx2 } = await import('src/utils/export-docx')
-  exportFile(`${entityName(props.page.entity)}.docx`, await exportDocx2(editor.value!))
+  const { exportDocx } = await import('src/utils/export-docx')
+  exportFile(`${entityName(props.page.entity)}.docx`, await exportDocx(editor.value!))
 }
 
 const updates: Uint8Array[] = []
@@ -470,6 +529,18 @@ const $q = useQuasar()
     &.is-open > button::before {
       transform: rotate(90deg);
     }
+  }
+
+  p.is-empty::before {
+    color: var(--a-out-var);
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+
+  hr {
+    background-color: var(--a-out-var);
   }
 }
 </style>

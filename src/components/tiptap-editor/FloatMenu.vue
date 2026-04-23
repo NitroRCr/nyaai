@@ -153,7 +153,7 @@ const shouldShow: BubbleMenuPluginProps['shouldShow'] = ({ editor, element, view
     return false
   }
 
-  const types = ['codeBlock', 'image', 'inlineMath', 'blockMath']
+  const types = ['codeBlock', 'image', 'inlineMath', 'blockMath', 'horizontalRule']
   if (types.some(type => editor.isActive(type))) return false
 
   return true

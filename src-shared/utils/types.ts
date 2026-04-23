@@ -1,5 +1,6 @@
 import type { ReadResourceResult, Resource, CallToolResult, Tool, Prompt, GetPromptResult } from '@modelcontextprotocol/sdk/types.js'
 import type { CallSettings } from 'ai'
+import type { EntityType } from './validators'
 
 export type TextResultItem = {
   type: 'text'
@@ -64,4 +65,14 @@ export type OrderProvider = {
   invoiceId: string
 } | {
   type: 'wxpay'
+}
+
+export type SearchResult = {
+  id: string
+  entityId: string
+  type: EntityType
+  name: string
+  content: string | null
+  words: string[]
+  rank: number
 }

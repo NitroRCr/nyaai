@@ -1,5 +1,6 @@
 import { zValidator } from '@hono/zod-validator'
 import { Hono } from 'hono'
+import { getCookie } from 'hono/cookie'
 import { z } from 'zod'
 import { auth } from './auth/auth'
 import { db } from './utils/db'
@@ -88,6 +89,7 @@ const app = new Hono()
         if (workspace.planId !== DEFAULT_PLAN_ID) {
           return c.json({ error: 'Plan already subscribed' }, 400)
         }
+        const promotekitReferral = getCookie(c, 'promotekit_referral')
         const session = await stripe.checkout.sessions.create({
           mode: 'subscription',
           success_url: successUrl,
@@ -99,6 +101,10 @@ const app = new Hono()
               quantity: 1,
             },
           ],
+          metadata: {
+            ...(promotekitReferral ? { promotekit_referral: promotekitReferral } : {}),
+            workspaceId: workspace.id,
+          },
         })
         return c.json({ url: session.url! })
       }
