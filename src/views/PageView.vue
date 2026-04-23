@@ -103,6 +103,7 @@
       :editor
       :entity-id="page.id"
     />
+    <table-float-menu :editor />
     <editor-content
       :editor
       class="md-editor-preview vuepress-theme"
@@ -131,6 +132,7 @@ import { entityRoute, getItemUrl, isTextFile, scaleWhenNeeded } from 'src/utils/
 import PageTitleInput from 'src/components/PageTitleInput.vue'
 import { entityName } from 'src/utils/defaults'
 import FloatMenu from 'src/components/tiptap-editor/FloatMenu.vue'
+import TableFloatMenu from 'src/components/tiptap-editor/TableFloatMenu.vue'
 import FileHandler from '@tiptap/extension-file-handler'
 import { upload } from 'src/utils/blob-cache'
 import type { Editor } from '@tiptap/core'
@@ -271,6 +273,13 @@ const editor = useEditor({
           shortcut: '```',
           command: ({ editor, range }) => {
             editor.chain().focus().deleteRange(range).toggleCodeBlock().run()
+          },
+        },
+        {
+          title: 'Table',
+          icon: 'sym_o_table',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).insertTable({ rows: 3, cols: 2, withHeaderRow: true }).run()
           },
         },
         {
@@ -541,6 +550,16 @@ const $q = useQuasar()
 
   hr {
     background-color: var(--a-out-var);
+  }
+
+  table {
+    --md-theme-table-td-border-color: var(--a-out-var);
+    tr p {
+      margin: 0;
+    }
+    th {
+      background-color: var(--a-sur-c-low);
+    }
   }
 }
 </style>
