@@ -51,17 +51,10 @@
             {{ t('Drag / paste /') }}
             <span
               pri-link
-              @click="inputRef?.click()"
+              @click="selectFile(handleFiles, { multiple: true })"
             >{{ t('click here') }}</span>
             {{ t('to upload files') }}
           </div>
-          <input
-            ref="inputRef"
-            type="file"
-            multiple
-            @change="onInputFiles"
-            hidden
-          >
           <div mt-2>
             {{ t('Or, find existing files below:') }}
           </div>
@@ -82,7 +75,7 @@
 import { t } from 'src/utils/i18n'
 import { useUiStateStore } from 'src/stores/ui-state'
 import SelectEntityPanel from 'src/components/SelectEntityPanel.vue'
-import { onUnmounted, useTemplateRef } from 'vue'
+import { onUnmounted } from 'vue'
 import { mutate } from 'src/utils/zero-session'
 import { mutators } from 'app/src-shared/mutators'
 import { genId } from 'app/src-shared/utils/id'
@@ -91,8 +84,7 @@ import { useRightDirStore } from 'src/stores/right-dir'
 import { upload } from 'src/utils/blob-cache'
 import { useQuasar } from 'quasar'
 import { entityRoute } from 'src/utils/functions'
-
-const inputRef = useTemplateRef('inputRef')
+import { selectFile } from 'src/utils/select-file'
 
 const uiStateStore = useUiStateStore()
 
@@ -113,11 +105,6 @@ async function handleFiles(files: File[]) {
     upload(id, file, file.name, wait)
   }
   $q.notify(t('Added {p0 file}; you can view the upload progress by clicking "Tasks" at the bottom right.', files.length))
-}
-function onInputFiles({ target }) {
-  const files = target.files
-  handleFiles(Array.from(files))
-  target.value = ''
 }
 
 function onPaste(ev: ClipboardEvent) {

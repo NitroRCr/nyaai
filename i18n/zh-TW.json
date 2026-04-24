@@ -688,5 +688,16 @@
   "Search…": "搜尋…",
   "Workspace Search": "工作區搜尋",
   "Search in workspace": "搜尋工作區",
-  "Enable AI to search inside the current workspace (chats, channels, pages, and files).": "使 AI 能夠在目前工作區內容（聊天、頻道、頁面和文件）中搜尋。"
+  "Enable AI to search inside the current workspace (chats, channels, pages, and files).": "使 AI 能夠在目前工作區內容（聊天、頻道、頁面和文件）中搜尋。",
+  "Max file size for your current plan is {0}.": "目前訂閱計畫允許的最大檔案大小為 {0}",
+  "Type '/' for commands": "輸入 '/' 使用指令",
+  "Header Row": "標題行",
+  "Add Row Above": "上方插入行",
+  "Add Row Below": "下方插入行",
+  "Delete Row": "刪除行",
+  "Delete Table": "刪除表格",
+  "Header Column": "標題列",
+  "Add Column Left": "左側插入列",
+  "Add Column Right": "右側插入列",
+  "Delete Column": "刪除列"
 }

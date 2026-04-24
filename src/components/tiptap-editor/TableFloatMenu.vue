@@ -20,7 +20,7 @@
         icon="sym_o_drag_indicator"
         text-on-sur-var
       >
-        <q-menu>
+        <q-menu :transition-duration="200">
           <q-list
             dense
             class="min-w-150px"
@@ -83,6 +83,7 @@
         <q-menu
           anchor="top left"
           self="bottom left"
+          :transition-duration="200"
         >
           <q-list
             dense

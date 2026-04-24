@@ -688,5 +688,16 @@
   "Search…": "搜索…",
   "Workspace Search": "工作区搜索",
   "Search in workspace": "搜索工作区",
-  "Enable AI to search inside the current workspace (chats, channels, pages, and files).": "使 AI 能够在当前工作区内容（聊天、频道、页面和文件）中搜索。"
+  "Enable AI to search inside the current workspace (chats, channels, pages, and files).": "使 AI 能够在当前工作区内容（聊天、频道、页面和文件）中搜索。",
+  "Max file size for your current plan is {0}.": "当前订阅计划允许的最大文件大小为 {0}",
+  "Type '/' for commands": "输入 '/' 使用命令",
+  "Header Row": "标题行",
+  "Add Row Above": "上方插入行",
+  "Add Row Below": "下方插入行",
+  "Delete Row": "删除行",
+  "Delete Table": "删除表格",
+  "Header Column": "标题列",
+  "Add Column Left": "左侧插入列",
+  "Add Column Right": "右侧插入列",
+  "Delete Column": "删除列"
 }

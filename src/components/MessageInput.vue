@@ -49,17 +49,8 @@
         round
         min-w="2.7em"
         min-h="2.7em"
-        @click="imageInput?.click()"
-      >
-        <input
-          ref="imageInput"
-          type="file"
-          multiple
-          accept="image/*"
-          @change="onInputFiles"
-          un-hidden
-        >
-      </q-btn>
+        @click="selectFile(addFiles, { accept: 'image/*', multiple: true })"
+      />
       <q-btn
         flat
         icon="sym_o_folder"
@@ -67,17 +58,8 @@
         round
         min-w="2.7em"
         min-h="2.7em"
-        @click="fileInput?.click()"
-      >
-        <input
-          ref="fileInput"
-          type="file"
-          multiple
-          accept="*"
-          @change="onInputFiles"
-          un-hidden
-        >
-      </q-btn>
+        @click="selectFile(addFiles, { multiple: true })"
+      />
       <plugin-context-btn
         v-if="plugins"
         :plugins
@@ -126,6 +108,7 @@ import { parseText } from 'src/utils/file-parse'
 import type { Plugins } from 'src/composables/plugins'
 import PluginContextBtn from './PluginContextBtn.vue'
 import { useListenKey } from 'src/composables/listen-key'
+import { selectFile } from 'src/utils/select-file'
 
 const props = defineProps<{
   message: FullMessage
@@ -153,13 +136,6 @@ const {
   { type: 'debounce', wait: 1000 },
 )
 
-const imageInput = useTemplateRef('imageInput')
-const fileInput = useTemplateRef('fileInput')
-function onInputFiles({ target }) {
-  const files = target.files
-  addFiles(Array.from(files))
-  target.value = ''
-}
 function addItem(args: {
   name: string
   mimeType?: string

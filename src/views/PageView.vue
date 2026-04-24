@@ -46,7 +46,7 @@
             <menu-item
               icon="sym_o_upload_file"
               :label="t('Import')"
-              @click="fileInput?.click()"
+              @click="selectFile(importFile, { accept: '.md,.docx,.xlsx' })"
             />
             <q-item
               clickable
@@ -90,13 +90,6 @@
             </q-item>
           </q-list>
         </q-menu>
-        <input
-          ref="fileInput"
-          type="file"
-          accept=".md,.docx,.xlsx"
-          hidden
-          @change="importFile"
-        >
       </q-btn>
     </common-toolbar>
     <float-menu
@@ -104,14 +97,17 @@
       :entity-id="page.id"
     />
     <table-float-menu :editor />
-    <editor-content
-      :editor
-      class="md-editor-preview vuepress-theme"
-      p-0
-      grow
-      flex="~ col"
-      of-y-auto
-    />
+    <div of-y-auto>
+      <editor-content
+        :editor
+        class="md-editor-preview vuepress-theme"
+        p-0
+        grow
+        flex="~ col"
+        max-w="1000px"
+        mx-a
+      />
+    </div>
   </div>
 </template>
 
@@ -119,7 +115,7 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import type { FullPage } from 'app/src-shared/queries'
 import { base64ToUint8Array, uint8ArrayToBase64 } from 'app/src-shared/utils/functions'
-import { useTemplateRef, watch, watchEffect } from 'vue'
+import { watch, watchEffect } from 'vue'
 import * as Y from 'yjs'
 import Collaboration from '@tiptap/extension-collaboration'
 import { copyToClipboard, debounce, exportFile, Dialog, useQuasar } from 'quasar'
@@ -150,6 +146,7 @@ import { staticExtensions } from 'src/components/tiptap-editor/static-extensions
 import { parseText } from 'src/utils/file-parse'
 import PageVersionsBtn from 'src/components/PageVersionsBtn.vue'
 import SelectEntityDialog from 'src/components/SelectEntityDialog.vue'
+import { selectFile } from 'src/utils/select-file'
 
 const props = defineProps<{
   page: FullPage
@@ -314,6 +311,16 @@ const editor = useEditor({
             editor.chain().focus().deleteRange(range).setHorizontalRule().run()
           },
         },
+        {
+          title: 'Upload Files',
+          icon: 'sym_o_upload_file',
+          command: ({ editor, range }) => {
+            selectFile(files => {
+              editor.chain().focus().deleteRange(range).run()
+              handleFiles(editor, files, range.from)
+            }, { multiple: true })
+          },
+        },
       ]),
     }),
     FileHandler.configure({
@@ -447,9 +454,8 @@ function createChat() {
   router.push({ query: { rightEntity: JSON.stringify({ id, type: 'chat' }) } })
 }
 
-const fileInput = useTemplateRef('fileInput')
-async function importFile({ target }) {
-  const file = target.files[0]
+async function importFile(files: File[]) {
+  const file = files[0]
   if (!file) return
   let text: string
   if (await isTextFile(file)) {

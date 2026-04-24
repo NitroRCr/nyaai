@@ -26,6 +26,7 @@ export const EntityLink = Node.create({
     HTMLAttributes,
     attrs.text,
   ],
+  renderMarkdown: ({ node: { attrs } }) => `[${attrs.text}](${attrs.href})`,
 
   addNodeView() {
     return VueNodeViewRenderer(EntityLinkWrapper)
