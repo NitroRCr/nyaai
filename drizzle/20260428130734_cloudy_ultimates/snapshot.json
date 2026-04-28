@@ -1,7 +1,7 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "3e7346fc-69a9-4ef5-b4ca-56856add41a9",
+  "id": "54702601-54cc-439d-b4cd-e87a7eaa9ddf",
   "prevIds": [
     "9f4c3a88-19c9-45cb-ab9b-17c83cf5ee68"
   ],
@@ -574,7 +574,7 @@
       "dimensions": 0,
       "default": null,
       "generated": {
-        "as": "to_tsvector('mixed', \"entity\".\"name\")",
+        "as": "to_tsvector('mixed', left(\"entity\".\"name\", 250000))",
         "type": "stored"
       },
       "identity": null,
@@ -941,7 +941,7 @@
       "dimensions": 0,
       "default": null,
       "generated": {
-        "as": "to_tsvector('mixed', \"item\".\"text\")",
+        "as": "to_tsvector('mixed', left(\"item\".\"text\", 250000))",
         "type": "stored"
       },
       "identity": null,
@@ -1295,7 +1295,7 @@
       "dimensions": 0,
       "default": null,
       "generated": {
-        "as": "to_tsvector('mixed', \"message\".\"text\")",
+        "as": "to_tsvector('mixed', left(\"message\".\"text\", 250000))",
         "type": "stored"
       },
       "identity": null,
@@ -1714,7 +1714,7 @@
       "dimensions": 0,
       "default": null,
       "generated": {
-        "as": "to_tsvector('mixed', \"page\".\"text\")",
+        "as": "to_tsvector('mixed', left(\"page\".\"text\", 250000))",
         "type": "stored"
       },
       "identity": null,
@@ -2432,7 +2432,7 @@
       "dimensions": 0,
       "default": null,
       "generated": {
-        "as": "to_tsvector('mixed', coalesce(\"translationRecord\".\"input\", '') || ' ' || coalesce(\"translationRecord\".\"output\", ''))",
+        "as": "to_tsvector('mixed', left(coalesce(\"translationRecord\".\"input\", '') || ' ' || coalesce(\"translationRecord\".\"output\", ''), 250000))",
         "type": "stored"
       },
       "identity": null,

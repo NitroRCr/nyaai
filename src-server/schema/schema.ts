@@ -67,7 +67,7 @@ export const message = pgTable('message', {
   entityId: id().notNull(),
   text: text().notNull(),
   search: tsVector().generatedAlwaysAs(
-    (): SQL => sql`to_tsvector('mixed', ${message.text})`, // Do not create an index, because we always search in a certain workspace,
+    (): SQL => sql`to_tsvector('mixed', left(${message.text}, 250000))`, // Do not create an index, because we always search in a certain workspace,
   ),                                                  // and a GIN index incurs significant write overhead.
   reasoning: text(),
   error: text(),
@@ -100,7 +100,7 @@ export const entity = pgTable('entity', {
   type: text().notNull().$type<EntityType>(),
   name: text(),
   search: tsVector().generatedAlwaysAs(
-    (): SQL => sql`to_tsvector('mixed', ${entity.name})`,
+    (): SQL => sql`to_tsvector('mixed', left(${entity.name}, 250000))`,
   ),
   avatar: jsonb().$type<Avatar>(),
   conf: jsonb().notNull().$type<Record<string, any>>(),
@@ -188,7 +188,7 @@ export const page = pgTable('page', {
   rootId: id().notNull(),
   text: text(),
   search: tsVector().generatedAlwaysAs(
-    (): SQL => sql`to_tsvector('mixed', ${page.text})`,
+    (): SQL => sql`to_tsvector('mixed', left(${page.text}, 250000))`,
   ),
 }, t => [
   foreignKey({
@@ -237,7 +237,7 @@ export const item = pgTable('item', {
   blobId: id().references(() => blob.id),
   mimeType: text(),
   search: tsVector().generatedAlwaysAs(
-    (): SQL => sql`to_tsvector('mixed', ${item.text})`,
+    (): SQL => sql`to_tsvector('mixed', left(${item.text}, 250000))`,
   ),
 }, t => [
   foreignKey({
@@ -309,7 +309,7 @@ export const translationRecord = pgTable('translationRecord', {
   from: text(),
   to: text(),
   search: tsVector().generatedAlwaysAs(
-    (): SQL => sql`to_tsvector('mixed', coalesce(${translationRecord.input}, '') || ' ' || coalesce(${translationRecord.output}, ''))`,
+    (): SQL => sql`to_tsvector('mixed', left(coalesce(${translationRecord.input}, '') || ' ' || coalesce(${translationRecord.output}, ''), 250000))`,
   ),
 }, t => [
   foreignKey({
