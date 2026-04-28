@@ -63,6 +63,15 @@
             rd
             h="48px"
           />
+          <dense-item
+            :avatar="{ type: 'icon', icon: 'sym_o_book_2' }"
+            :label="t('Docs')"
+            :caption="t('Learn more about the features')"
+            href="https://docs.nyaai.cc"
+            target="_blank"
+            rd
+            h="48px"
+          />
         </q-list>
       </q-card-section>
     </q-card>

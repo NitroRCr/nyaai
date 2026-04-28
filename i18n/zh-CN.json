@@ -80,7 +80,7 @@
   "File": "文件",
   "Assistant": "助手",
   "Provider": "服务商",
-  "MCP Plugin": "MCP插件",
+  "MCP Plugin": "MCP 插件",
   "Shortcut": "快捷方式",
   "Click to Select {0}": "点击以选择 {0}",
   "Image": "图像",
@@ -350,7 +350,6 @@
   "New translation": "新翻译",
   "New provider": "新服务商",
   "New assistant": "新助手",
-  "MCP plugin": "MCP 插件",
   "Page Range": "页码范围",
   "Docx parsing": "Docx 解析",
   "PPTX parsing": "PPTX 解析",
@@ -699,5 +698,7 @@
   "Header Column": "标题列",
   "Add Column Left": "左侧插入列",
   "Add Column Right": "右侧插入列",
-  "Delete Column": "删除列"
+  "Delete Column": "删除列",
+  "Docs": "文档",
+  "Learn more about the features": "了解更多功能特性"
 }

@@ -109,16 +109,28 @@
               :loading
               no-caps
             />
-            <q-btn
-              v-else-if="workspace.payment?.type === 'wxpay' && paymentProvider === 'wxpay' && plan.id === workspace.planId"
-              unelevated
-              bg-pri
-              text-on-pri
-              :label="t('Renew Subscription')"
-              @click="checkout(plan.id)"
-              :loading
-              no-caps
-            />
+            <template v-else-if="workspace.payment?.type === 'wxpay' && paymentProvider === 'wxpay'">
+              <q-btn
+                v-if="plan.id === workspace.planId"
+                unelevated
+                bg-pri
+                text-on-pri
+                :label="t('Renew Subscription')"
+                @click="checkout(plan.id)"
+                :loading
+                no-caps
+              />
+              <q-btn
+                v-else-if="upgradable(plan.id)"
+                unelevated
+                bg-pri
+                text-on-pri
+                :label="t('Upgrade')"
+                @click="upgrade(plan.id)"
+                :loading
+                no-caps
+              />
+            </template>
             <q-btn
               v-else-if="workspace.payment?.type === 'stripe' && paymentProvider === 'stripe'"
               unelevated
@@ -134,19 +146,28 @@
             pt-0
             mt-a
           >
-            <ul
-              my-0
-              pl-4
-              lh-2em
+            <div
+              flex="~ col"
+              gap-2
             >
-              <li decoration="underline out offset-2">
+              <div decoration="underline out offset-2">
+                <q-icon
+                  name="sym_o_check"
+                  text-suc
+                  mr-2
+                />
                 {{ t('All features') }}
                 <q-tooltip>
                   {{ t('All plans includes all the features!') }}<br>
                   {{ t('The higher-tier plans simply offer significantly higher usage limits.') }}
                 </q-tooltip>
-              </li>
-              <li>
+              </div>
+              <div>
+                <q-icon
+                  name="sym_o_check"
+                  text-suc
+                  mr-2
+                />
                 <router-link
                   to="/models"
                   text-on-sur
@@ -155,11 +176,32 @@
                   {{ t('${0} AI quota', plan.quotaLimit) }}
                 </router-link>
                 {{ t('per month') }}
-              </li>
-              <li>{{ t('{0} file storage space', formatBytes(plan.storageLimit)) }}</li>
-              <li>{{ t('{0} max file size', formatBytes(plan.fileSizeLimit)) }}</li>
-              <li>{{ t('Up to {0} members', plan.maxMembers) }}</li>
-            </ul>
+              </div>
+              <div>
+                <q-icon
+                  name="sym_o_check"
+                  text-suc
+                  mr-2
+                />
+                {{ t('{0} file storage space', formatBytes(plan.storageLimit)) }}
+              </div>
+              <div>
+                <q-icon
+                  name="sym_o_check"
+                  text-suc
+                  mr-2
+                />
+                {{ t('{0} max file size', formatBytes(plan.fileSizeLimit)) }}
+              </div>
+              <div>
+                <q-icon
+                  name="sym_o_check"
+                  text-suc
+                  mr-2
+                />
+                {{ t('Up to {0} members', plan.maxMembers) }}
+              </div>
+            </div>
           </q-card-section>
         </q-card>
       </div>
@@ -266,5 +308,26 @@ function checkout(planId: string) {
   }).finally(() => {
     loading.value = false
   })
+}
+function upgradable(planId: string) {
+  const planFromId = workspace.value?.planId
+  if (planFromId === DEFAULT_PLAN_ID) return true
+  const priceFrom = plans.value.find(plan => plan.id === planFromId)?.priceMap[interval.value]
+  const priceTo = plans.value.find(plan => plan.id === planId)?.priceMap[interval.value]
+  if (!priceFrom || !priceTo) return false
+  return priceTo > priceFrom
+}
+function upgrade(planId: string) {
+  const remainingMonths = workspace.value?.remainingMonths
+  if (!remainingMonths) return
+  if (remainingMonths >= 3 && interval.value !== 'yearly') {
+    interval.value = 'yearly'
+    return
+  }
+  if (remainingMonths >= 1 && interval.value === 'monthly') {
+    interval.value = 'quarterly'
+    return
+  }
+  checkout(planId)
 }
 </script>

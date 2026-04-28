@@ -75,13 +75,34 @@ const rules = [
       reasoningEffort: {
         title: t('Reasoning Effort'),
         type: 'enum',
-        options: ['low', 'medium', 'high'] as const,
+        options: ['low', 'medium', 'high', 'xhigh'] as const,
       },
     },
     exec: ({ reasoningEffort }) => {
       return {
         providerOptions: {
           openai: { reasoningEffort },
+          openaiCompatible: { reasoningEffort },
+        },
+        tools: {},
+      }
+    },
+  }),
+  rule({
+    match: ({ name, provider }) =>
+      (provider?.type === 'deepseek' || provider?.type === 'openaiCompatible') &&
+      /^deepseek-v4/.test(name),
+    options: {
+      reasoningEffort: {
+        title: t('Reasoning Effort'),
+        type: 'enum',
+        options: ['high', 'max'] as const,
+      },
+    },
+    exec: ({ reasoningEffort }) => {
+      return {
+        providerOptions: {
+          deepseek: { reasoningEffort },
           openaiCompatible: { reasoningEffort },
         },
         tools: {},

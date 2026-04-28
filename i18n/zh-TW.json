@@ -350,7 +350,6 @@
   "New translation": "新翻譯",
   "New provider": "新服務商",
   "New assistant": "新助手",
-  "MCP plugin": "MCP 插件",
   "Page Range": "頁碼範圍",
   "Docx parsing": "Docx 解析",
   "PPTX parsing": "PPTX 解析",
@@ -699,5 +698,7 @@
   "Header Column": "標題列",
   "Add Column Left": "左側插入列",
   "Add Column Right": "右側插入列",
-  "Delete Column": "刪除列"
+  "Delete Column": "刪除列",
+  "Docs": "文檔",
+  "Learn more about the features": "了解更多功能特性"
 }

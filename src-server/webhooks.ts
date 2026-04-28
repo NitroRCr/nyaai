@@ -9,6 +9,7 @@ import { DEFAULT_PLAN_ID } from 'app/src-shared/utils/config'
 import { addMonths, differenceInMonths, subMonths } from 'date-fns'
 import { genId } from 'app/src-shared/utils/id'
 import { getSign } from './utils/wxpay'
+import { intervalMonths } from 'app/src-shared/utils/values'
 
 async function findWorkspaceByCustomerId(customerId: string) {
   return await db.query.workspace.findFirst({
@@ -26,12 +27,6 @@ async function resetPlan(workspaceId: string) {
 
 function getId(x: { id: string } | string) {
   return typeof x === 'string' ? x : x.id
-}
-
-const intervalMonths = {
-  monthly: 1,
-  quarterly: 3,
-  yearly: 12,
 }
 
 async function handleInvoicePaid(invoice: Stripe.Invoice) {

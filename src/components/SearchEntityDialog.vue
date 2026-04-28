@@ -2,6 +2,7 @@
   <q-dialog
     ref="dialogRef"
     @hide="onDialogHide"
+    no-refocus
     position="top"
     :transition-duration="200"
   >
@@ -34,6 +35,7 @@
             { label: t('Chat'), value: 'chat' },
             { label: t('Page'), value: 'page' },
             { label: t('Channel'), value: 'channel' },
+            { label: t('Translation'), value: 'translation' },
             { label: t('File'), value: 'item' },
           ]"
           map-options
@@ -166,7 +168,7 @@ function getSnippet(content: string, words: string[] | null, maxLength = 200) {
 
 watch(args, async () => {
   if (!args.query) {
-    rows.value = []
+    rows.value = null
     focusedIndex.value = 0
     return
   }

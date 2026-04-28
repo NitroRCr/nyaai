@@ -135,8 +135,8 @@
               />
               <menu-item
                 icon="sym_o_book_2"
-                label="Zread"
-                href="https://zread.ai/NitroRCr/nyaai"
+                label="Docs"
+                href="https://docs.nyaai.cc"
                 target="_blank"
               />
             </q-list>

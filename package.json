@@ -34,7 +34,6 @@
     "@ai-sdk/xai": "^3.0.67",
     "@hocuspocus/transformer": "^3.4.4",
     "@hono/zod-validator": "^0.7.6",
-    "@krytro/prosemirror-docx": "^0.7.0",
     "@material/material-color-utilities": "^0.3.0",
     "@modelcontextprotocol/sdk": "^1.25.2",
     "@openrouter/ai-sdk-provider": "^2.3.0",

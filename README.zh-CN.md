@@ -1,16 +1,14 @@
 # Nya AI
 
-[![zread](https://img.shields.io/badge/Ask_Zread-_.svg?style=flat&color=00b0aa&labelColor=000000&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQuOTYxNTYgMS42MDAxSDIuMjQxNTZDMS44ODgxIDEuNjAwMSAxLjYwMTU2IDEuODg2NjQgMS42MDE1NiAyLjI0MDFWNC45NjAxQzEuNjAxNTYgNS4zMTM1NiAxLjg4ODEgNS42MDAxIDIuMjQxNTYgNS42MDAxSDQuOTYxNTZDNS4zMTUwMiA1LjYwMDEgNS42MDE1NiA1LjMxMzU2IDUuNjAxNTYgNC45NjAxVjIuMjQwMUM1LjYwMTU2IDEuODg2NjQgNS4zMTUwMiAxLjYwMDEgNC45NjE1NiAxLjYwMDFaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik00Ljk2MTU2IDEwLjM5OTlIMi4yNDE1NkMxLjg4ODEgMTAuMzk5OSAxLjYwMTU2IDEwLjY4NjQgMS42MDE1NiAxMS4wMzk5VjEzLjc1OTlDMS42MDE1NiAxNC4xMTM0IDEuODg4MSAxNC4zOTk5IDIuMjQxNTYgMTQuMzk5OUg0Ljk2MTU2QzUuMzE1MDIgMTQuMzk5OSA1LjYwMTU2IDE0LjExMzQgNS42MDE1NiAxMy43NTk5VjExLjAzOTlDNS42MDE1NiAxMC42ODY0IDUuMzE1MDIgMTAuMzk5OSA0Ljk2MTU2IDEwLjM5OTlaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik0xMy43NTg0IDEuNjAwMUgxMS4wMzg0QzEwLjY4NSAxLjYwMDEgMTAuMzk4NCAxLjg4NjY0IDEwLjM5ODQgMi4yNDAxVjQuOTYwMUMxMC4zOTg0IDUuMzEzNTYgMTAuNjg1IDUuNjAwMSAxMS4wMzg0IDUuNjAwMUgxMy43NTg0QzE0LjExMTkgNS42MDAxIDE0LjM5ODQgNS4zMTM1NiAxNC4zOTg0IDQuOTYwMVYyLjI0MDFDMTQuMzk4NCAxLjg4NjY0IDE0LjExMTkgMS42MDAxIDEzLjc1ODQgMS42MDAxWiIgZmlsbD0iI2ZmZiIvPgo8cGF0aCBkPSJNNCAxMkwxMiA0TDQgMTJaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik00IDEyTDEyIDQiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K&logoColor=ffffff)](https://zread.ai/NitroRCr/nyaai)
-
 ![](assets/ui.zh.webp)
 
-[English](README.md) | 简体中文
+[English](README.md) | 简体中文 | [SaaS](https://nyaai.cc) | [文档](https://docs.nyaai.cc) | [Ask Zread](https://zread.ai/NitroRCr/nyaai)
 
 Nya AI 结合了 AI 对话客户端和协作平台，让你能够在一个统一的工作空间中进行 AI 对话、网络搜索、记笔记、编写文档、与团队沟通/协作、管理文件等操作。
 
 ## 一流的 AI 对话
 
-与其他协作平台中附加的 AI 功能不同，AI 对话是我们的核心功能，旨在完全取代单独的 AI 对话客户端。
+与其他协作平台中附加的 AI 功能不同，AI 对话是我们的核心功能，旨在完全取代单独的 AI 对话应用。
 
 - 消息分支：在多个分支之间切换
 - 文档输入：将 .docx、.pdf、.pptx 等解析为文本输入
@@ -59,7 +57,7 @@ Nya AI 也可以是你的网盘。将文件上传至这里有以下好处：
 - 可随时从任意设备访问
 - 可随时在对话/页面中使用
 - 可公开分享或使用下载链接分享
-- 文档类型文件自动解析为文本，以便全文搜索
+- 可全文搜索文件内容（对于可解析的类型）
 
 此功能主要为文档类型文件设计，但我们并没有限制上传的文件类型，只要文件大小不超过上限即可。
 
@@ -67,13 +65,9 @@ Nya AI 也可以是你的网盘。将文件上传至这里有以下好处：
 
 搜索、频道、翻译... 通过 [开始使用](https://nyaai.cc) 来了解更多功能！
 
-## 文档
-
-我们尚未建立文档，不过你可以在 [Zread](https://zread.ai/NitroRCr/nyaai) 询问 AI 来了解项目的更多细节。
-
 ## 自部署
 
-请参考 [docker-compose.example.yml](docker-compose.example.yml)。
+请参考 [自部署](https://docs.nyaai.cc/zh/self-host.html)。
 
 ## 开发
 

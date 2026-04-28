@@ -127,7 +127,7 @@ export async function upload(id: string, blob: Blob, name: string, wait?: Promis
   const limit = workspaceStore.workspace?.plan?.fileSizeLimit
   if (limit && blob.size > limit) {
     Notify.create({
-      message: t('Max file size for your plan is {0}.', formatBytes(limit)),
+      message: t('Max file size for your current plan is {0}.', formatBytes(limit)),
     })
     throw new Error('File size exceeds limit')
   }
