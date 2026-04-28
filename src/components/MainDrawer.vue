@@ -67,6 +67,18 @@
     >
       <q-item
         clickable
+        @click="searchInWorkspace"
+        item-rd
+        min-h="40px"
+      >
+        <q-item-section avatar>
+          <q-icon name="sym_o_manage_search" />
+        </q-item-section>
+        <q-item-section>
+          {{ t('Search in Workspace') }}
+        </q-item-section>
+      </q-item>
+      <q-item
         to="/published"
         item-rd
         min-h="40px"
@@ -79,7 +91,6 @@
         </q-item-section>
       </q-item>
       <q-item
-        clickable
         to="/trash"
         item-rd
         min-h="40px"
@@ -124,8 +135,8 @@
               />
               <menu-item
                 icon="sym_o_book_2"
-                label="Zread"
-                href="https://zread.ai/NitroRCr/nyaai"
+                label="Docs"
+                href="https://docs.nyaai.cc"
                 target="_blank"
               />
             </q-list>
@@ -158,4 +169,8 @@ const dirId = ref<string | null>(null)
 until(() => workspaceStore.member).toBeTruthy().then(({ leftDirId }) => {
   dirId.value = leftDirId
 })
+
+function searchInWorkspace() {
+  uiStateStore.searchDialogOpen = true
+}
 </script>

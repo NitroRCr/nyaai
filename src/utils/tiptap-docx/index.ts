@@ -2,7 +2,7 @@
 // TipTap → DOCX exporter
 // ---------------------------------------------------------------------------
 
-export { TiptapDocxExporter } from './TiptapDocxExporter.js'
+export { TiptapDocxExporter } from './TiptapDocxExporter'
 export type {
   TiptapDocument,
   TiptapDocxExporterOptions,

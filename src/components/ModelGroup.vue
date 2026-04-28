@@ -25,6 +25,7 @@
           round
           icon="sym_o_tune"
           @click="openModelSettings(model.id)"
+          :title="t('Model Settings')"
         />
         <q-btn
           flat

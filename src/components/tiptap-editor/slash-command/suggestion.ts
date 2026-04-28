@@ -23,6 +23,7 @@ const updatePosition = (editor, element) => {
 type SuggestionItem = {
   title: string
   icon: string
+  shortcut?: string
   command: (props: { editor: Editor, range: Range }) => void
 }
 
@@ -32,8 +33,7 @@ export const suggestion = (items: SuggestionItem[]) => ({
   },
 
   items: ({ query }) => items
-    .filter(item => item.title.toLowerCase().startsWith(query.toLowerCase()))
-    .slice(0, 10),
+    .filter(item => item.title.toLowerCase().startsWith(query.toLowerCase())),
 
   render: () => {
     let component

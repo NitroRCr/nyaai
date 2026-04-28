@@ -15,6 +15,7 @@
       />
     </q-item-section>
     <q-item-section>{{ label }}</q-item-section>
+    <slot />
   </q-item>
 </template>
 

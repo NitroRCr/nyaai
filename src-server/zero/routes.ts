@@ -8,9 +8,9 @@ import { auth } from '../auth/auth'
 import { mustGetMutator, mustGetQuery } from '@rocicorp/zero'
 import { queries } from 'app/src-shared/queries'
 import { zdb } from './db'
-import { mutators } from 'app/src-shared/mutators'
 import { getLocaleFromHeaders } from '../utils/functions'
 import type { Context } from 'app/src-shared/utils/types'
+import { serverMutators } from './mutators'
 
 async function getCtx(headers: Headers): Promise<Context> {
   const session = await auth.api.getSession({ headers })
@@ -29,7 +29,7 @@ app.post('/mutate', async c => {
   return c.json(await handleMutateRequest(
     zdb,
     transact => transact(async (tx, name, args) => {
-      const mutator = mustGetMutator(mutators, name)
+      const mutator = mustGetMutator(serverMutators, name)
       return await mutator.fn({ tx, ctx, args })
     }),
     c.req.raw,

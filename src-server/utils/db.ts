@@ -8,6 +8,7 @@ export const db = drizzle({
   connection: {
     url: DATABASE_URL,
     prepare: false,
+    max: 15,
   },
   schema,
   relations,

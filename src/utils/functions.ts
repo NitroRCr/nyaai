@@ -95,7 +95,7 @@ export function mimeTypeMatch(mimeType: string, mimeTypes: string[]) {
   })
 }
 
-const cjkReg = /[\u4e00-\u9fa5\u0800-\u4e00\uac00-\ud7ff]/
+export const cjkReg = /[\u4e00-\u9fa5\u0800-\u4e00\uac00-\ud7ff]/
 export function displayLength(text: string) {
   return Array.from(text).reduce((acc, char) => acc + (cjkReg.test(char) ? 2 : 1), 0)
 }

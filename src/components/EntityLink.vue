@@ -47,7 +47,7 @@ watch(() => entity.value?.name, () => {
     if (!entity.value) return
     emit('updateAttrs', {
       text: entityName(entity.value),
-      href: entityRoute(entity.value.type, entity.value.id),
+      href: `${location.origin}/${entity.value.type}/${entity.value.id}`,
     })
   })
 }, { immediate: true })

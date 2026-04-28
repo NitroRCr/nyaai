@@ -9,6 +9,8 @@ import { EntityLink } from 'src/components/tiptap-editor/entity-link/extension'
 import StarterKit from '@tiptap/starter-kit'
 import { Markdown } from '@tiptap/markdown'
 import { Image } from 'src/components/tiptap-editor/image/extension'
+import { Placeholder } from '@tiptap/extensions'
+import { t } from 'src/utils/i18n'
 
 export const staticExtensions: Extensions = [
   StarterKit.configure({
@@ -27,4 +29,7 @@ export const staticExtensions: Extensions = [
   TextStyle, Color, BackgroundColor,
   Details, DetailsSummary, DetailsContent,
   TaskList, TaskItem,
+  Placeholder.configure({
+    placeholder: t("Type '/' for commands"),
+  }),
 ]

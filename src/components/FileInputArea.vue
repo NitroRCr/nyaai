@@ -42,8 +42,12 @@ const emit = defineEmits<{
 const fileInput = useTemplateRef('fileInput')
 
 function onInput() {
-  const file = fileInput.value?.files?.[0]
-  file && emit('input', file)
+  if (!fileInput.value?.files) return
+  for (const file of fileInput.value.files) {
+    if (!props.image || file.type.startsWith('image/')) {
+      emit('input', file)
+    }
+  }
 }
 function onDrop({ dataTransfer }) {
   for (const file of dataTransfer.files) {

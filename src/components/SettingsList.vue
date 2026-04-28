@@ -173,6 +173,19 @@
         />
       </setting-item>
       <setting-item
+        :label="t('Search in workspace')"
+        :modified-in="state.searchWorkspaceKey.modifiedIn"
+        @reset="$emit('reset', 'searchWorkspaceKey')"
+      >
+        <shortcut-key-input
+          :model-value="state.searchWorkspaceKey.value"
+          @update:model-value="$emit('update', 'searchWorkspaceKey', $event)"
+          dense
+          filled
+          class="min-w-100px"
+        />
+      </setting-item>
+      <setting-item
         :label="t('Regenerate current message')"
         :modified-in="state.regenerateCurrKey.modifiedIn"
         @reset="$emit('reset', 'regenerateCurrKey')"

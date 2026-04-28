@@ -1,5 +1,6 @@
 import { zValidator } from '@hono/zod-validator'
 import { Hono } from 'hono'
+import { getCookie } from 'hono/cookie'
 import { z } from 'zod'
 import { auth } from './auth/auth'
 import { db } from './utils/db'
@@ -11,6 +12,8 @@ import { paymentProviderSchema, planIntervalSchema } from 'app/src-shared/utils/
 import { FRONT_URL } from './utils/config'
 import { genId } from 'app/src-shared/utils/id'
 import { wxpayCheckout } from './utils/wxpay'
+import { timeMs } from 'app/src-shared/utils/functions'
+import { intervalMonths } from 'app/src-shared/utils/values'
 
 type Workspace = InferSelectModel<typeof workspace>
 async function requireCustomerId(ws: Workspace) {
@@ -62,8 +65,18 @@ const app = new Hono()
       if (!price) return c.json({ error: 'Price not found' }, 400)
 
       if (provider === 'wxpay') {
-        if (workspace.planId !== DEFAULT_PLAN_ID && workspace.planId !== planId) {
-          return c.json({ error: 'Plan already subscribed' }, 400)
+        let amount = price.amount
+        if (workspace.planId !== DEFAULT_PLAN_ID) {
+          const currentPrice = await db.query.planPrice.findFirst({
+            where: { planId: workspace.planId, interval },
+          })
+          if (currentPrice) {
+            const remainingMonths = (workspace.remainingMonths ?? 0) + (workspace.resetAt.getTime() - Date.now()) / timeMs('1M')
+            amount -= remainingMonths * currentPrice.amount / intervalMonths[interval]
+          }
+        }
+        if (amount <= 0) {
+          return c.json({ error: 'The amount after deduction is negative or zero' }, 400)
         }
         const orderId = genId()
         const url = await wxpayCheckout({
@@ -71,7 +84,7 @@ const app = new Hono()
           return_url: successUrl,
           out_trade_no: orderId,
           name: `${plan.name} Plan (${interval})`,
-          money: price.amount.toFixed(2),
+          money: amount.toFixed(2),
         })
         await db.insert(order).values({
           id: orderId,
@@ -81,13 +94,14 @@ const app = new Hono()
           provider: {
             type: 'wxpay',
           },
-          amount: price.amount,
+          amount: parseFloat(amount.toFixed(2)),
         })
         return c.json({ url })
       } else {
         if (workspace.planId !== DEFAULT_PLAN_ID) {
           return c.json({ error: 'Plan already subscribed' }, 400)
         }
+        const promotekitReferral = getCookie(c, 'promotekit_referral')
         const session = await stripe.checkout.sessions.create({
           mode: 'subscription',
           success_url: successUrl,
@@ -99,6 +113,10 @@ const app = new Hono()
               quantity: 1,
             },
           ],
+          metadata: {
+            ...(promotekitReferral ? { promotekit_referral: promotekitReferral } : {}),
+            workspaceId: workspace.id,
+          },
         })
         return c.json({ url: session.url! })
       }

@@ -19,9 +19,11 @@ export function useQuote(inputingMessage: Ref<FullMessage | undefined>) {
         text,
       }))
     } else {
+      let content = wrapQuote(text) + '\n\n'
+      if (message.text) content = message.text + '\n\n' + content
       mutate(mutators.updateInputingMessage({
         id: message.id,
-        text: wrapQuote(text) + '\n\n' + message.text,
+        text: content,
       }))
     }
   }

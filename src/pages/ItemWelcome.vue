@@ -21,9 +21,7 @@
           >
             <li>{{ t('Access anytime from any device') }}</li>
             <li>{{ t('Ready to use in chat/pages at any time') }}</li>
-            <li v-if="false">
-              {{ t('Full-text search of file content (for parseable types)') }} <!-- Planned feature -->
-            </li>
+            <li>{{ t('Ready for full-text search of file content (for parseable types)') }}</li>
             <li>{{ t('Share publicly or share using download links') }}</li>
           </ul>
         </div>

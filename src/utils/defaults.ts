@@ -38,7 +38,7 @@ export function entityName(entity: PartialEntity | null | undefined) {
   if (entity.type === 'translation') return t('New translation')
   if (entity.type === 'provider') return t('New provider')
   if (entity.type === 'assistant') return t('New assistant')
-  if (entity.type === 'mcpPlugin') return t('MCP plugin')
+  if (entity.type === 'mcpPlugin') return t('MCP Plugin')
   if (entity.type === 'item') return t('New item')
   return ''
 }

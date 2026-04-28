@@ -17,7 +17,7 @@ export type PluginStatus = 'starting' | 'ready' | 'failed'
 
 const pool: Record<string, {
   refCount: number
-  client: Client
+  client?: Client
   status: Ref<PluginStatus>
   tools: Ref<PluginTool[]>
   resources: Ref<PluginResource[]>
@@ -39,24 +39,24 @@ async function clientUp(manifest: McpPluginManifest) {
   }
   let refCount = pool[manifest.id]?.refCount ?? 0
   refCount++
-  const { Client } = await import('@modelcontextprotocol/sdk/client')
-  const { StreamableHTTPClientTransport } = await import('@modelcontextprotocol/sdk/client/streamableHttp.js')
-  const client = new Client({
-    name: 'nyaai',
-    version: '1.0.0',
-  })
   const tools = shallowRef<PluginTool[]>([])
   const resources = shallowRef<PluginResource[]>([])
   const prompts = shallowRef<PluginPrompt[]>([])
   const status = shallowRef<PluginStatus>('starting')
   pool[manifest.id] = {
     refCount,
-    client,
     tools,
     resources,
     prompts,
     status,
   }
+  const { Client } = await import('@modelcontextprotocol/sdk/client')
+  const { StreamableHTTPClientTransport } = await import('@modelcontextprotocol/sdk/client/streamableHttp.js')
+  const client = new Client({
+    name: 'nyaai',
+    version: '1.0.0',
+  })
+  pool[manifest.id].client = client
   try {
     await client.connect(new StreamableHTTPClientTransport(new URL(manifest.transport.url)))
   } catch (err) {
@@ -126,7 +126,7 @@ function clientDown(manifest: McpPluginManifest) {
   item.refCount--
   if (!item.refCount) {
     item.timeoutId = window.setTimeout(() => {
-      item.client.close()
+      item.client?.close()
       delete pool[manifest.id]
     }, (manifest.keepAliveTimeout ?? DefaultKeepAliveTimeout) * 1000)
   }

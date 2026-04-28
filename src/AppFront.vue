@@ -6,6 +6,10 @@
       v-if="workspaceStore.id"
       v-model="panelOpen"
     />
+    <search-entity-dialog
+      v-if="workspaceStore.id"
+      v-model="uiStateStore.searchDialogOpen"
+    />
   </q-layout>
 </template>
 
@@ -19,6 +23,8 @@ import { useListenKey } from './composables/listen-key'
 import { useWorkspaceStore } from './stores/workspace'
 import { useRouter } from 'vue-router'
 import { waitingWorker } from 'app/src-pwa/register-service-worker'
+import SearchEntityDialog from './components/SearchEntityDialog.vue'
+import { useUiStateStore } from './stores/ui-state'
 
 const perfsStore = usePerfsStore()
 useSetTheme(computed(() => perfsStore.perfs.themeHue))
@@ -27,6 +33,11 @@ const workspaceStore = useWorkspaceStore()
 const panelOpen = ref(false)
 useListenKey(computed(() => perfsStore.perfs.navigationPanelShortcut), () => {
   panelOpen.value = !panelOpen.value
+})
+
+const uiStateStore = useUiStateStore()
+useListenKey(computed(() => perfsStore.perfs.searchWorkspaceKey), () => {
+  uiStateStore.searchDialogOpen = !uiStateStore.searchDialogOpen
 })
 
 const router = useRouter()

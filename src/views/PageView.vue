@@ -46,7 +46,7 @@
             <menu-item
               icon="sym_o_upload_file"
               :label="t('Import')"
-              @click="fileInput?.click()"
+              @click="selectFile(importFile, { accept: '.md,.docx,.xlsx' })"
             />
             <q-item
               clickable
@@ -90,27 +90,24 @@
             </q-item>
           </q-list>
         </q-menu>
-        <input
-          ref="fileInput"
-          type="file"
-          accept=".md,.docx,.xlsx"
-          hidden
-          @change="importFile"
-        >
       </q-btn>
     </common-toolbar>
     <float-menu
       :editor
       :entity-id="page.id"
     />
-    <editor-content
-      :editor
-      class="md-editor-preview vuepress-theme"
-      p-0
-      grow
-      flex="~ col"
-      of-y-auto
-    />
+    <table-float-menu :editor />
+    <div of-y-auto>
+      <editor-content
+        :editor
+        class="md-editor-preview vuepress-theme"
+        p-0
+        grow
+        flex="~ col"
+        max-w="1000px"
+        mx-a
+      />
+    </div>
   </div>
 </template>
 
@@ -118,7 +115,7 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import type { FullPage } from 'app/src-shared/queries'
 import { base64ToUint8Array, uint8ArrayToBase64 } from 'app/src-shared/utils/functions'
-import { useTemplateRef, watch, watchEffect } from 'vue'
+import { watch, watchEffect } from 'vue'
 import * as Y from 'yjs'
 import Collaboration from '@tiptap/extension-collaboration'
 import { copyToClipboard, debounce, exportFile, Dialog, useQuasar } from 'quasar'
@@ -131,6 +128,7 @@ import { entityRoute, getItemUrl, isTextFile, scaleWhenNeeded } from 'src/utils/
 import PageTitleInput from 'src/components/PageTitleInput.vue'
 import { entityName } from 'src/utils/defaults'
 import FloatMenu from 'src/components/tiptap-editor/FloatMenu.vue'
+import TableFloatMenu from 'src/components/tiptap-editor/TableFloatMenu.vue'
 import FileHandler from '@tiptap/extension-file-handler'
 import { upload } from 'src/utils/blob-cache'
 import type { Editor } from '@tiptap/core'
@@ -148,6 +146,7 @@ import { staticExtensions } from 'src/components/tiptap-editor/static-extensions
 import { parseText } from 'src/utils/file-parse'
 import PageVersionsBtn from 'src/components/PageVersionsBtn.vue'
 import SelectEntityDialog from 'src/components/SelectEntityDialog.vue'
+import { selectFile } from 'src/utils/select-file'
 
 const props = defineProps<{
   page: FullPage
@@ -188,34 +187,6 @@ const editor = useEditor({
     Commands.configure({
       suggestion: suggestion([
         {
-          title: 'Heading 1',
-          icon: 'sym_o_format_h1',
-          command: ({ editor, range }) => {
-            editor.chain().focus().deleteRange(range).setNode('heading', { level: 1 }).run()
-          },
-        },
-        {
-          title: 'Heading 2',
-          icon: 'sym_o_format_h2',
-          command: ({ editor, range }) => {
-            editor.chain().focus().deleteRange(range).setNode('heading', { level: 2 }).run()
-          },
-        },
-        {
-          title: 'Heading 3',
-          icon: 'sym_o_format_h3',
-          command: ({ editor, range }) => {
-            editor.chain().focus().deleteRange(range).setNode('heading', { level: 3 }).run()
-          },
-        },
-        {
-          title: 'Details',
-          icon: 'sym_o_chevron_right',
-          command: ({ editor, range }) => {
-            editor.chain().focus().deleteRange(range).setDetails().run()
-          },
-        },
-        {
           title: 'Page',
           icon: 'sym_o_note_stack_add',
           command: ({ editor, range }) => {
@@ -244,6 +215,110 @@ const editor = useEditor({
                 },
               }).run()
             })
+          },
+        },
+        {
+          title: 'Heading 1',
+          icon: 'sym_o_format_h1',
+          shortcut: '#',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setNode('heading', { level: 1 }).run()
+          },
+        },
+        {
+          title: 'Heading 2',
+          icon: 'sym_o_format_h2',
+          shortcut: '##',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setNode('heading', { level: 2 }).run()
+          },
+        },
+        {
+          title: 'Heading 3',
+          icon: 'sym_o_format_h3',
+          shortcut: '###',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setNode('heading', { level: 3 }).run()
+          },
+        },
+        {
+          title: 'Heading 4',
+          icon: 'sym_o_format_h4',
+          shortcut: '####',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setNode('heading', { level: 4 }).run()
+          },
+        },
+        {
+          title: 'Details',
+          icon: 'sym_o_chevron_right',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setDetails().run()
+          },
+        },
+        {
+          title: 'Quote',
+          icon: 'sym_o_format_quote',
+          shortcut: '>',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setBlockquote().run()
+          },
+        },
+        {
+          title: 'Code Block',
+          icon: 'sym_o_code_blocks',
+          shortcut: '```',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).toggleCodeBlock().run()
+          },
+        },
+        {
+          title: 'Table',
+          icon: 'sym_o_table',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).insertTable({ rows: 3, cols: 2, withHeaderRow: true }).run()
+          },
+        },
+        {
+          title: 'Bulleted List',
+          icon: 'sym_o_format_list_bulleted',
+          shortcut: '-',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).toggleBulletList().run()
+          },
+        },
+        {
+          title: 'Numbered List',
+          icon: 'sym_o_format_list_numbered',
+          shortcut: '1.',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).toggleOrderedList().run()
+          },
+        },
+        {
+          title: 'To-do List',
+          icon: 'sym_o_checklist',
+          shortcut: '[]',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).toggleTaskList().run()
+          },
+        },
+        {
+          title: 'Divider',
+          icon: 'sym_o_horizontal_rule',
+          shortcut: '---',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setHorizontalRule().run()
+          },
+        },
+        {
+          title: 'Upload Files',
+          icon: 'sym_o_upload_file',
+          command: ({ editor, range }) => {
+            selectFile(files => {
+              editor.chain().focus().deleteRange(range).run()
+              handleFiles(editor, files, range.from)
+            }, { multiple: true })
           },
         },
       ]),
@@ -350,8 +425,8 @@ function downloadMarkdown() {
   exportFile(`${entityName(props.page.entity)}.md`, editor.value!.getMarkdown())
 }
 async function exportDocx() {
-  const { exportDocx2 } = await import('src/utils/export-docx')
-  exportFile(`${entityName(props.page.entity)}.docx`, await exportDocx2(editor.value!))
+  const { exportDocx } = await import('src/utils/export-docx')
+  exportFile(`${entityName(props.page.entity)}.docx`, await exportDocx(editor.value!))
 }
 
 const updates: Uint8Array[] = []
@@ -379,9 +454,8 @@ function createChat() {
   router.push({ query: { rightEntity: JSON.stringify({ id, type: 'chat' }) } })
 }
 
-const fileInput = useTemplateRef('fileInput')
-async function importFile({ target }) {
-  const file = target.files[0]
+async function importFile(files: File[]) {
+  const file = files[0]
   if (!file) return
   let text: string
   if (await isTextFile(file)) {
@@ -469,6 +543,28 @@ const $q = useQuasar()
 
     &.is-open > button::before {
       transform: rotate(90deg);
+    }
+  }
+
+  p.is-empty::before {
+    color: var(--a-out-var);
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+
+  hr {
+    background-color: var(--a-out-var);
+  }
+
+  table {
+    --md-theme-table-td-border-color: var(--a-out-var);
+    tr p {
+      margin: 0;
+    }
+    th {
+      background-color: var(--a-sur-c-low);
     }
   }
 }

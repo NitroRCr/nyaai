@@ -1,16 +1,14 @@
 # Nya AI
 
-[![zread](https://img.shields.io/badge/Ask_Zread-_.svg?style=flat&color=00b0aa&labelColor=000000&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQuOTYxNTYgMS42MDAxSDIuMjQxNTZDMS44ODgxIDEuNjAwMSAxLjYwMTU2IDEuODg2NjQgMS42MDE1NiAyLjI0MDFWNC45NjAxQzEuNjAxNTYgNS4zMTM1NiAxLjg4ODEgNS42MDAxIDIuMjQxNTYgNS42MDAxSDQuOTYxNTZDNS4zMTUwMiA1LjYwMDEgNS42MDE1NiA1LjMxMzU2IDUuNjAxNTYgNC45NjAxVjIuMjQwMUM1LjYwMTU2IDEuODg2NjQgNS4zMTUwMiAxLjYwMDEgNC45NjE1NiAxLjYwMDFaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik00Ljk2MTU2IDEwLjM5OTlIMi4yNDE1NkMxLjg4ODEgMTAuMzk5OSAxLjYwMTU2IDEwLjY4NjQgMS42MDE1NiAxMS4wMzk5VjEzLjc1OTlDMS42MDE1NiAxNC4xMTM0IDEuODg4MSAxNC4zOTk5IDIuMjQxNTYgMTQuMzk5OUg0Ljk2MTU2QzUuMzE1MDIgMTQuMzk5OSA1LjYwMTU2IDE0LjExMzQgNS42MDE1NiAxMy43NTk5VjExLjAzOTlDNS42MDE1NiAxMC42ODY0IDUuMzE1MDIgMTAuMzk5OSA0Ljk2MTU2IDEwLjM5OTlaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik0xMy43NTg0IDEuNjAwMUgxMS4wMzg0QzEwLjY4NSAxLjYwMDEgMTAuMzk4NCAxLjg4NjY0IDEwLjM5ODQgMi4yNDAxVjQuOTYwMUMxMC4zOTg0IDUuMzEzNTYgMTAuNjg1IDUuNjAwMSAxMS4wMzg0IDUuNjAwMUgxMy43NTg0QzE0LjExMTkgNS42MDAxIDE0LjM5ODQgNS4zMTM1NiAxNC4zOTg0IDQuOTYwMVYyLjI0MDFDMTQuMzk4NCAxLjg4NjY0IDE0LjExMTkgMS42MDAxIDEzLjc1ODQgMS42MDAxWiIgZmlsbD0iI2ZmZiIvPgo8cGF0aCBkPSJNNCAxMkwxMiA0TDQgMTJaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik00IDEyTDEyIDQiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K&logoColor=ffffff)](https://zread.ai/NitroRCr/nyaai)
-
 ![](assets/ui.en.webp)
 
-English | [简体中文](README.zh-CN.md)
+English | [简体中文](README.zh-CN.md) | [SaaS](https://nyaai.cc) | [Docs](https://docs.nyaai.cc) | [Ask Zread](https://zread.ai/NitroRCr/nyaai)
 
 Nya AI combines AI chat client and collaboration platform, enabling you to chat with AI, search the web, take notes, write documents, communicate/collaborate with your team, manage files, and more within one unified workspace.
 
 ## First-class AI Chat
 
-Unlike the added AI features of other collaboration platforms, AI Chat is our core feature, designed to fully replace standalone AI chat clients.
+Unlike the added AI features of other collaboration platforms, AI Chat is our core feature, designed to fully replace standalone AI chat apps.
 
 - Message Branching: Switch between multiple branches
 - Document Input: Parse .docx, .pdf, .pptx, etc., into text input
@@ -27,26 +25,45 @@ The workspace has a file system-like storage structure, allowing you to create f
 
 The workspace is also a place for collaboration. You can create new workspaces, invite your team to join your workspace, manage roles of workspace members, and more. All members of the workspace can browse and edit the workspace content. All members of the workspace share the workspace's AI quota and storage space.
 
+## One-Stop Knowledge Base
+
+Supports full-text search across workspace content, including chat messages, channel messages, page content, translations, and file (document) content.
+
+Meanwhile, AI can also search this content via the "Workspace Search" plugin to enable workspace RAG.
+
 ## Access anytime, anywhere
 
 All content is stored in the cloud, allowing you to access everything from any device at any time. Thanks to [Zero](https://github.com/rocicorp/mono?tab=readme-ov-file#zero), we achieved this while enabling live queries and optimistic mutations, delivering an interaction experience close to local-first applications!
 
 Thanks to our responsive interface design, mobile devices can also access Nya AI directly. It's also a PWA; you can install it to your home screen for an experience close to native apps.
 
-## Interactions between different features
+## Pages
 
-Currently, we support:
+Notion-like collaborative pages with support for:
 
-- Opening chat within pages to allow AI browsing/editing the page
-- Automatically creating a chat when searching to generate an AI overview and facilitate follow-up conversations
-- Quickly searching and translating via the floating menu that appears when selecting a chat message
-- Using uploaded files anytime in chat, channels, and pages
+- **Comprehensive Markdown Support:** Input using Markdown syntax, paste Markdown content directly, or export as Markdown.
+- **Docx Support:** Import from or export to Docx files.
+- **Version Control:** Browse and revert to historical versions at any time.
+- **AI Integration:** Open an AI chat in the right side to ask questions or have the AI edit the page for you.
 
-We plan to add more cross-functional features in the future, such as calling the AI assistant directly within channels or enabling the AI to independently read workspace content.
+## Publishing Content
+
+Pages, chats, files, and more can all be published (**Right-click** an item in the right sidebar -> **Publish**). Once published, they are publicly accessible via the link (read-only). Sub-items of a published item will also be published automatically.
+
+## Files
+
+Nya AI can also be your cloud drive. Uploading files here brings the following benefits:
+
+- **Universal Access:** Access your files anytime from any device.
+- **Seamless Integration:** Use files within chats or pages at any time.
+- **Flexible Sharing:** Share publicly or via direct download links.
+- **Full-Text Search:** Search the contents of your files (for parseable file types).
+
+While this feature is primarily designed for documents, we do not restrict file types, provided they do not exceed the size limit.
 
 ## More
 
-Search, pages, channels, translation, files... Learn more features by [getting started](https://nyaai.cc)!
+Search, channels, translation... Learn more features by [getting started](https://nyaai.cc)!
 
 ## Documentation
 
@@ -54,7 +71,7 @@ We have not set up documentation yet, but you can ask the AI in [Zread](https://
 
 ## Self host
 
-Please refer to [docker-compose.example.yml](docker-compose.example.yml).
+Please refer to [Self-hosting](https://docs.nyaai.cc/self-host.html).
 
 ## Development
 
