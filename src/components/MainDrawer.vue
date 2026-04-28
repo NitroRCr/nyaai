@@ -135,7 +135,7 @@
               />
               <menu-item
                 icon="sym_o_book_2"
-                label="Docs"
+                :label="t('Docs')"
                 href="https://docs.nyaai.cc"
                 target="_blank"
               />
