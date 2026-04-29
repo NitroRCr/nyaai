@@ -97,12 +97,15 @@
       :entity-id="page.id"
     />
     <table-float-menu :editor />
-    <div of-y-auto>
+    <div
+      grow
+      of-y-auto
+    >
       <editor-content
         :editor
         class="md-editor-preview vuepress-theme"
         p-0
-        grow
+        h-full
         flex="~ col"
         max-w="1000px"
         mx-a

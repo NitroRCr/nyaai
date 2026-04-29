@@ -139,6 +139,12 @@
                 href="https://docs.nyaai.cc"
                 target="_blank"
               />
+              <menu-item
+                icon="sym_o_history"
+                :label="t('Changelog')"
+                href="https://github.com/NitroRCr/nyaai/releases"
+                target="_blank"
+              />
             </q-list>
           </q-menu>
         </q-btn>

@@ -419,8 +419,8 @@ watch(lockingBottom, val => {
 function stream(params: {
   model: FullModel
   config: CompletionConfig
-}) {
-  lockingBottom.value = perfsStore.perfs.streamingLockBottom
+}, preventLockBottom = false) {
+  lockingBottom.value = perfsStore.perfs.streamingLockBottom && !preventLockBottom
   const task = streamChat({
     id: chain.value.at(-2)!,
     title: t('Chat Completion: {0}', entityName(entity.value)),
@@ -437,7 +437,7 @@ function stream(params: {
 watch(() => props.chat.id, async () => {
   if (route.params.type === 'search' && !streamingTask.value && !messageMap.value[chain.value.at(-2)!].text) {
     const params = await getStreamParams()
-    params && stream(params)
+    params && stream(params, true)
   }
 }, { immediate: true })
 
