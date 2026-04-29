@@ -67,7 +67,7 @@ Nya AI 也可以是你的网盘。将文件上传至这里有以下好处：
 
 ## 自部署
 
-请参考 [自部署](https://docs.nyaai.cc/zh/self-host.html)。
+请参考 [自部署](https://docs.nyaai.cc/zh/self-host)。
 
 ## 开发
 

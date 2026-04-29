@@ -65,13 +65,9 @@ While this feature is primarily designed for documents, we do not restrict file 
 
 Search, channels, translation... Learn more features by [getting started](https://nyaai.cc)!
 
-## Documentation
-
-We have not set up documentation yet, but you can ask the AI in [Zread](https://zread.ai/NitroRCr/nyaai) to learn more details about this project.
-
 ## Self host
 
-Please refer to [Self-hosting](https://docs.nyaai.cc/self-host.html).
+Please refer to [Self-hosting](https://docs.nyaai.cc/self-host).
 
 ## Development
 
