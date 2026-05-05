@@ -50,7 +50,7 @@ export async function streamMessage(entityId: string, id: string, ...params: Par
       upload(itemId, blob, name, wait)
     } else if (part.type === 'error') {
       mutate(mutators.updateAssistantMessage({ id, error: String(part.error) }))
-      if ((part.error as any).responseBody.includes('Quota exceeded')) {
+      if ((part.error as any).responseBody?.includes('Quota exceeded')) {
         Notify.create({
           message: t('AI quota exceeded. Please upgrade your plan or switch to free/custom models.'),
           color: 'err-c',

@@ -73,10 +73,20 @@
           </template>
           <template v-if="!inputing">
             <copy-btn
+              v-if="message.text"
+              :value="message.text"
               round
               flat
               size="sm"
-              :value="message.text"
+            />
+            <q-btn
+              v-if="actions.deleteAndRegenerate"
+              icon="sym_o_sync_problem"
+              round
+              flat
+              size="sm"
+              :title="t('Delete and Regenerate')"
+              @click="deleteAndRegenerate"
             />
             <q-btn
               v-if="actions.regenerate"
@@ -413,6 +423,7 @@ const name = computed(() =>
     : props.message.user && props.message.user.id !== user.id && props.message.user.name,
 )
 const actions = computed(() => ({
+  deleteAndRegenerate: !!props.message.error,
   regenerate: props.message.type.endsWith(':assistant'),
   edit: props.message.type === 'chat:user',
   directEdit: allowEditMessageText(props.message, user.id!),
@@ -499,6 +510,10 @@ function moreInfo() {
     component: MessageInfoDialog,
     componentProps: { message: props.message },
   })
+}
+function deleteAndRegenerate() {
+  emit('deleteBranch')
+  emit('regenerate')
 }
 
 const dynamicComponents = shallowReactive<{

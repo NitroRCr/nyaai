@@ -5,7 +5,7 @@ import type { ToolResultItem } from 'app/src-shared/utils/types'
 import { getBlob, getBufferOrURL } from './blob-cache'
 import { entityName } from './defaults'
 import { uint8ArrayToBase64 } from 'app/src-shared/utils/functions'
-import type { ToolResultOutput } from '@ai-sdk/provider-utils'
+import type { ToolResultOutput, ToolResultPart } from '@ai-sdk/provider-utils'
 import type { ModelInputTypes } from 'app/src-shared/utils/validators'
 import type { Row } from '@rocicorp/zero'
 import { z } from './zero-session'
@@ -56,6 +56,7 @@ export async function toModelMessages(messages: FullMessage[], inputTypes: Model
           }
         }
       }
+      const toolResults: ToolResultPart[] = []
       for (const t of m.toolCalls) {
         content.push({
           type: 'tool-call',
@@ -63,13 +64,13 @@ export async function toModelMessages(messages: FullMessage[], inputTypes: Model
           toolName: t.name,
           input: t.input,
         })
-        t.result && content.push({
+        t.result && toolResults.push({
           type: 'tool-result',
           toolCallId: t.id,
           toolName: t.name,
           output: await toToolResultOutput(t.result, inputTypes),
         })
-        t.error && content.push({
+        t.error && toolResults.push({
           type: 'tool-result',
           toolCallId: t.id,
           toolName: t.name,
@@ -80,6 +81,7 @@ export async function toModelMessages(messages: FullMessage[], inputTypes: Model
         })
       }
       res.push({ role: 'assistant', content })
+      if (toolResults.length) res.push({ role: 'tool', content: toolResults })
     } else {
       const content: UserContent = [{ type: 'text', text: m.text }]
       for (const entity of m.entities) {
