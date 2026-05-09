@@ -6,7 +6,7 @@ export const greadPlugin: McpPluginManifest = {
   type: 'mcp',
   name: t('GitHub Repos'),
   avatar: { type: 'svg', name: 'github' },
-  description: t('Give your AI access to the source code of all public GitHub repos. Powered by gread.dev.'),
+  description: t('Give AI access to the source code of all public GitHub repos. Powered by gread.dev.'),
   transport: {
     type: 'http',
     url: 'https://api.gread.dev/mcp',
