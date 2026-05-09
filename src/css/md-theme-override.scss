@@ -70,6 +70,10 @@ body {
         margin-right: 8px !important;
       }
     }
+
+    .md-editor-code .md-editor-code-head {
+      z-index: 5000;
+    }
   }
 
   .md-editor-catalog-indicator {
