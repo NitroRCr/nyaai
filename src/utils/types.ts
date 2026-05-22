@@ -23,6 +23,7 @@ type NumberSchema = {
 } & MetaProps
 type BooleanSchema = {
   type: 'boolean'
+  default?: boolean
 } & MetaProps
 type EnumSchema = {
   type: 'enum'

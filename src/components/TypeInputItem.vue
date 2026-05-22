@@ -1,5 +1,5 @@
 <template>
-  <q-item>
+  <q-item py-1>
     <q-item-section>
       <q-item-label>
         {{ schema.title }}
@@ -35,9 +35,8 @@
       />
       <q-toggle
         v-else-if="schema.type === 'boolean'"
-        :model-value="modelValue"
+        :model-value="modelValue ?? schema.default"
         @update:model-value="update"
-        dense
         :filled
       />
       <q-select

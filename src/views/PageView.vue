@@ -283,6 +283,36 @@ const editor = useEditor({
           },
         },
         {
+          title: 'Math Inline',
+          icon: 'sym_o_function',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).run()
+            Dialog.create({
+              component: EditLatexDialog,
+              componentProps: {
+                value: '',
+              },
+            }).onOk(latex => {
+              editor.chain().focus().insertContent({ type: 'inlineMath', attrs: { latex } }).run()
+            })
+          },
+        },
+        {
+          title: 'Math Block',
+          icon: 'sym_o_functions',
+          command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).run()
+            Dialog.create({
+              component: EditLatexDialog,
+              componentProps: {
+                value: '',
+              },
+            }).onOk(latex => {
+              editor.chain().focus().insertContent({ type: 'blockMath', attrs: { latex } }).run()
+            })
+          },
+        },
+        {
           title: 'Bulleted List',
           icon: 'sym_o_format_list_bulleted',
           shortcut: '-',

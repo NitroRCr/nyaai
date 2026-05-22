@@ -24,7 +24,7 @@
       :model-value="modelValue.maxSteps"
       @update:model-value="$emit('update:modelValue', { ...modelValue, maxSteps: parseNumber($event) })"
       type="number"
-      placeholder="5"
+      placeholder="20"
     />
   </common-item>
   <common-item :label="t('Tool Choice')">

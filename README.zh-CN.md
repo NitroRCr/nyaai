@@ -2,7 +2,7 @@
 
 ![](assets/ui.zh.webp)
 
-[English](README.md) | 简体中文 | [SaaS](https://nyaai.cc) | [文档](https://docs.nyaai.cc) | [Ask Zread](https://zread.ai/NitroRCr/nyaai)
+[English](README.md) | 简体中文 | [SaaS](https://nyaai.cc) | [文档](https://docs.nyaai.cc)
 
 Nya AI 结合了 AI 对话客户端和协作平台，让你能够在一个统一的工作空间中进行 AI 对话、网络搜索、记笔记、编写文档、与团队沟通/协作、管理文件等操作。
 

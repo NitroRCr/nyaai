@@ -90,6 +90,31 @@ const rules = [
   }),
   rule({
     match: ({ name, provider }) =>
+      provider?.type === 'openaiCompatible' &&
+      [
+        'glm-5.1', 'glm-5', 'glm-4.7', 'glm-4.6', 'glm-4.5', 'glm-4.5v',
+        'deepseek-v4-pro', 'deepseek-v4-flash',
+      ].includes(name),
+    options: {
+      enableThinking: {
+        title: t('Enable Thinking'),
+        type: 'boolean',
+        default: true,
+      },
+    },
+    exec: ({ enableThinking }) => {
+      return {
+        providerOptions: {
+          openaiCompatible: enableThinking != null
+            ? { thinking: { type: enableThinking ? 'enabled' : 'disabled' } }
+            : {},
+        },
+        tools: {},
+      }
+    },
+  }),
+  rule({
+    match: ({ name, provider }) =>
       (provider?.type === 'deepseek' || provider?.type === 'openaiCompatible') &&
       /^deepseek-v4/.test(name),
     options: {

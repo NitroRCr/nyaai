@@ -32,6 +32,7 @@ export const app = new Hono().basePath('/api')
 export default {
   fetch: app.fetch,
   maxRequestBodySize: sizeBytes('5G'),
+  idleTimeout: 0,
 }
 
 export type AppType = typeof app

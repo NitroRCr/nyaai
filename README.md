@@ -2,7 +2,7 @@
 
 ![](assets/ui.en.webp)
 
-English | [简体中文](README.zh-CN.md) | [SaaS](https://nyaai.cc) | [Docs](https://docs.nyaai.cc) | [Ask Zread](https://zread.ai/NitroRCr/nyaai)
+English | [简体中文](README.zh-CN.md) | [SaaS](https://nyaai.cc) | [Docs](https://docs.nyaai.cc)
 
 Nya AI combines AI chat client and collaboration platform, enabling you to chat with AI, search the web, take notes, write documents, communicate/collaborate with your team, manage files, and more within one unified workspace.
 

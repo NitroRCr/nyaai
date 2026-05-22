@@ -72,6 +72,7 @@ const prefixMap = {
   grok: ['grok', 'xai'],
   'kimi-c': ['kimi', 'moonshot'],
   'doubao-c': ['doubao', 'bytedance'],
+  zai: ['glm'],
 }
 
 export function modelAvatar(model: Row['model'] | null | undefined): Avatar {
