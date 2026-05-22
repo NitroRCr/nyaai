@@ -15,6 +15,7 @@ Unlike the added AI features of other collaboration platforms, AI Chat is our co
 - MCP: Connect to MCP servers to extend AI capabilities, supporting MCP Tools, Resources, and Prompts
 - Multimodal Input/Output: Support for models like Nano Banana
 - Web Search & Crawl: Built-in extensions for web search and web page crawling
+- GitHub Extension: Enabling AI to access the source code of any open-source project
 - BYOK: Add custom providers to use any custom models
 - Detailed configuration for model parameters and provider options
 - User input preview, message TOC, quick scrolling, keyboard shortcuts, and other detailed features
