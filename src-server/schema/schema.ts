@@ -43,6 +43,7 @@ export const member = pgTable('member', {
   role: text().notNull().$type<WorkspaceRole>(),
   leftDirId: id().references(() => entity.id, { onDelete: 'set null' }),
 }, t => [
+  unique().on(t.workspaceId, t.userId),
   index().on(t.workspaceId),
   index().on(t.userId),
 ])

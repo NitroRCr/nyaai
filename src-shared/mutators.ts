@@ -1364,6 +1364,8 @@ const joinWorkspace = defineMutator(
     )
     assert(invitation?.workspace, 'Invitation or workspace not found')
     const { workspaceId, role, workspace, remainingSeats, expiresAt } = invitation
+    const existingMember = workspace.members.find(m => m.userId === ctx.userId)
+    assert(!existingMember, 'Already a workspace member')
     assert(Date.now() < expiresAt, 'Invitation expired')
     assert(remainingSeats > 0, 'No remaining seats')
     assert(workspace.members.length < workspace.plan!.maxMembers, 'Workspace max members exceeded')
