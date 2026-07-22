@@ -1,13 +1,17 @@
 import { AwsClient } from 'aws4fetch'
-import { S3_ENDPOINT, S3_BUCKET, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY } from './config'
+import { S3_ENDPOINT, S3_PROTOCOL, S3_REGION, S3_TYPE, S3_BUCKET, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY } from './config'
 
 const aws = new AwsClient({
   accessKeyId: S3_ACCESS_KEY_ID,
   secretAccessKey: S3_SECRET_ACCESS_KEY,
+  service: 's3',
+  region: S3_REGION,
 })
 
 function objectUrl(key: string) {
-  return `https://${S3_BUCKET}.${S3_ENDPOINT}/${key}`
+  return S3_TYPE === 'path'
+    ? `${S3_PROTOCOL}://${S3_ENDPOINT}/${S3_BUCKET}/${key}`
+    : `${S3_PROTOCOL}://${S3_BUCKET}.${S3_ENDPOINT}/${key}`
 }
 
 export async function presignedGetObject(key: string, { expires, contentDisposition }: {
