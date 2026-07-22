@@ -29,8 +29,10 @@ services:
       S3_ACCESS_KEY_ID: update-this
       S3_SECRET_ACCESS_KEY: update-this
       S3_ENDPOINT: update-this
-      S3_REGION: update-this
       S3_BUCKET: update-this
+      S3_REGION: update-this
+      S3_PROTOCOL: https
+      S3_TYPE: virtual-hosted
       SEARXNG_URL: update-this
 
     depends_on:
@@ -49,7 +51,7 @@ services:
     environment:
       SERVER_URL: http://server:3000
       ZERO_CACHE_URL: http://zero-cache:4848
- 
+
   zero-cache:
     image: rocicorp/zero:0.26.1
     environment:
