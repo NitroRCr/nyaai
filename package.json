@@ -130,5 +130,8 @@
     "node": "^28 || ^26 || ^24 || ^22 || ^20 || ^18",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
-  }
+  },
+  "trustedDependencies": [
+    "@rocicorp/zero-sqlite3"
+  ]
 }
