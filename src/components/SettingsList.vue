@@ -408,11 +408,9 @@ import ShortcutKeyInput from './ShortcutKeyInput.vue'
 import CommonItem from './CommonItem.vue'
 import { localData } from 'src/utils/local-data'
 import { useWorkspaceStore } from 'src/stores/workspace'
-import { useTemplateRef } from 'vue'
-import { genId } from 'app/src-shared/utils/id'
-import { mutate } from 'src/utils/zero-session'
-import { mutators } from 'app/src-shared/mutators'
-import { importAiaw } from 'src/services/import-aiaw'
+import { onMounted, useTemplateRef } from 'vue'
+import { getActiveAiawImportJob, importAiaw, waitForAiawImportJob } from 'src/services/import-aiaw'
+import type { AiawImportJobSnapshot } from 'app/src-shared/aiaw-import'
 
 const props = defineProps<{
   state: PerfsState<Perfs>
@@ -446,11 +444,7 @@ const directoryConfigCaption = t('Some settings apply at the directory level and
 const workspaceStore = useWorkspaceStore()
 
 const fileInput = useTemplateRef('fileInput')
-async function importData({ target }) {
-  const files: File[] = Array.from(target.files)
-  if (!files.length) return
-  target.value = ''
-  const folderId = genId()
+async function showImportProgress(task: (update: (job: AiawImportJobSnapshot) => void) => Promise<AiawImportJobSnapshot>) {
   const notif = $q.notify({
     group: false,
     timeout: 0,
@@ -458,23 +452,26 @@ async function importData({ target }) {
     message: t('Importing...'),
     caption: '0%',
   })
-  await mutate(mutators.createFolder({
-    id: folderId,
-    parentId: workspaceStore.id!,
-    name: t('AIaW Import'),
-  })).client
-  await importAiaw(files[0], folderId, progress => {
+  await task(job => {
     notif({
-      caption: `${(progress * 100).toFixed(1)}%`,
+      caption: t(
+        '{0}% · {1}/{2} chats imported',
+        (job.progress * 100).toFixed(1),
+        job.counts.dialogs,
+        job.totals.dialogs || '?',
+      ),
     })
-  }).then(() => {
+  }).then(job => {
+    const skipped = job.warnings.skippedBinaryItems
     notif({
-      type: 'positive',
-      icon: 'sym_o_done',
+      type: skipped ? 'warning' : 'positive',
+      icon: skipped ? 'sym_o_warning' : 'sym_o_done',
       spinner: false,
-      message: t('Import successful'),
-      caption: t('Imported to the workspace root'),
-      timeout: 3000,
+      message: skipped ? t('Import completed with warnings') : t('Import successful'),
+      caption: skipped
+        ? t('Imported {0} chats and {1} messages; skipped {2} binary attachments', job.counts.dialogs, job.counts.messages, skipped)
+        : t('Imported {0} chats and {1} messages', job.counts.dialogs, job.counts.messages),
+      timeout: skipped ? 10000 : 3000,
     })
   }).catch(err => {
     console.error(err)
@@ -488,4 +485,20 @@ async function importData({ target }) {
     })
   })
 }
+
+async function importData({ target }) {
+  const files: File[] = Array.from(target.files)
+  if (!files.length) return
+  target.value = ''
+  await showImportProgress(update =>
+    importAiaw(files[0], workspaceStore.id!, t('AIaW Import'), update),
+  )
+}
+
+onMounted(async () => {
+  const activeJob = await getActiveAiawImportJob().catch(() => null)
+  if (activeJob) {
+    await showImportProgress(update => waitForAiawImportJob(activeJob, update))
+  }
+})
 </script>
