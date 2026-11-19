@@ -4,7 +4,7 @@ import { Hono } from 'hono'
 import type Stripe from 'stripe'
 import { db } from './utils/db'
 import { order, workspace } from './schema'
-import { eq, sql } from 'drizzle-orm'
+import { and, eq, isNull, sql } from 'drizzle-orm'
 import { DEFAULT_PLAN_ID } from 'app/src-shared/utils/config'
 import { addMonths, differenceInMonths, subMonths } from 'date-fns'
 import { genId } from 'app/src-shared/utils/id'
@@ -149,7 +149,13 @@ const app = new Hono()
       const ws = await tx.query.workspace.findFirst({ where: { id: od.workspaceId } })
       if (!ws) return c.json({ error: 'Workspace not found' }, 400)
 
+      // Claim the order before granting. A second callback that arrives at the same time waits
+      // here, then finds completedAt set and grants nothing.
       const date = new Date()
+      const claimed = await tx.update(order).set({
+        completedAt: date,
+      }).where(and(eq(order.id, orderId), isNull(order.completedAt))).returning({ id: order.id })
+      if (!claimed.length) return c.text('success')
       const months = intervalMonths[od.planInterval]
 
       if (ws.planId === od.planId) {
@@ -166,10 +172,6 @@ const app = new Hono()
           quotaUsed: 0,
         }).where(eq(workspace.id, ws.id))
       }
-      await tx.update(order).set({
-        completedAt: date,
-      }).where(eq(order.id, orderId))
-
       return c.text('success')
     })
   })

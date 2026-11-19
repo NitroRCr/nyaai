@@ -42,3 +42,6 @@ yarn-error.log*
 .sonda
 
 /tmp.ts
+
+# VibeRaven race output
+.viberaven/

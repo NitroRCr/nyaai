@@ -1,0 +1,21 @@
+{
+  "rule": "Two callbacks for one order add its months once",
+  "setup": "INSERT INTO workspace VALUES ('w1',0);\nINSERT INTO \"order\"(id,\"workspaceId\") VALUES ('o1','w1')",
+  "invariant": "SELECT \"remainingMonths\" <= 1 FROM workspace WHERE id='w1'",
+  "isolation": [
+    "read committed"
+  ],
+  "notes": "SQL transliteration of the webhook handler; covers bounded SQL orders only, not HTTP or Stripe.",
+  "requests": [
+    {
+      "statements": [
+        "WITH c AS (UPDATE \"order\" SET \"completedAt\"=now() WHERE id='o1' AND \"completedAt\" IS NULL RETURNING id) UPDATE workspace SET \"remainingMonths\"=\"remainingMonths\"+1 WHERE id='w1' AND EXISTS (SELECT 1 FROM c)"
+      ]
+    },
+    {
+      "statements": [
+        "WITH c AS (UPDATE \"order\" SET \"completedAt\"=now() WHERE id='o1' AND \"completedAt\" IS NULL RETURNING id) UPDATE workspace SET \"remainingMonths\"=\"remainingMonths\"+1 WHERE id='w1' AND EXISTS (SELECT 1 FROM c)"
+      ]
+    }
+  ]
+}
